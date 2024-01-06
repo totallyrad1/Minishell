@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/05 16:41:06 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/06 14:54:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	return (substr);
 }
 
-void	ft_newnode(s_cmd **cmd, char *value)
+void	ft_newnode(s_cmd **cmd, char *value, int type, int state)
 {
 	s_cmd	*new_node;
 	s_cmd	*curr;
@@ -81,6 +81,8 @@ void	ft_newnode(s_cmd **cmd, char *value)
 	curr = *cmd;
 	new_node->next = NULL;
 	new_node->content = value;
+	new_node->state = state;
+	new_node->type = type;
 	while (curr->next)
 		curr = curr->next;
 	curr->next = new_node;

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/05 16:53:27 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/06 15:03:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,14 @@ void handlenput(s_cmd **cmd, char *str)
 	while(curr)
 	{
 		if (curr->content)
-			printf("this ====>%s\n", curr->content);
+			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->content, curr->state, curr->type);
 		curr = curr->next;
 	}
 }
 
 void f()
 {
-			system("leaks minishell");
-	
+	system("leaks minishell");
 }
 
 int main()
@@ -45,9 +44,7 @@ int main()
 		cmd->content = NULL;
 		command = readline("Minishell~> ");
 		if (!command)
-		{
 			exit(0);
-		}
 		if(checksyntaxerror(command) == 1)
 			handlenput(&cmd, command);
 		ft_freeeverything(cmd);

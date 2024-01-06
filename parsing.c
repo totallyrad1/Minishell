@@ -6,92 +6,178 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/05 21:36:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/06 16:10:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int checkdelimiter(int c)
+void fill_node(int start, int len, char *command, s_cmd **cmd, int *tnp, int state, int type)
 {
-	if (c == ' ' || c == '\t')
-		return 0;
-	if (c == '"')
-		return 0;
-	if (c == '\'' || c == '<' || c == '>')
-		return 0;
-	if (c == '$' || c == '|')
-		return 0;
-	return 1;
+	if(*tnp == 1)
+	{
+		(*cmd)->content = ft_substr(command, start, len);
+		(*cmd)->type = type;
+		(*cmd)->state = state;
+		*tnp = 0;
+	}
+	else
+	 	ft_newnode(cmd, ft_substr(command, start, len), type, state);
 }
 
-void tokentypedef(char c, int flag, s_cmd **cmd)
+int getlimitertoken(char c, char f)
 {
-	s_cmd *curr;
-	// static int  0;
-
-	curr = *cmd;
-	while(curr->next)
-		curr = curr->next;
-	if(flag == IN_DQUOTE && c != '"')
-		curr->state = IN_DQUOTE;
-	if(flag == IN_DQUOTE && c == '"')
-		curr->state = IN_DQUOTE;
+	if (c == '"')
+		return TOKEN_D_Q;
+	if (c == '\'')
+		return TOKEN_S_Q;
+	if (c == '<')
+	{
+		if(f == '<')
+			return TOKEN_HEREDOC;
+		return TOKEN_REDIR_IN;
+	}
+	if (c == '>')
+	{
+		if(f == '>')
+			return TOKEN_REDIR_APPEND;
+		return TOKEN_REDIR_OUT;
+	}
+	if (c == '|')
+		return TOKEN_PIPE;
+	if (c == '$')
+		return TOKEN_DOLLAR;
+	return 10;
 }
 
 void tokenizer(s_cmd **cmd, char *command)
 {
-	int tpos;
-	int df;
-	int i;
-	int tnp;
-	int c;
-	int flag;
-
-	tpos = 0;
-	df = 0;
-	i = 0;
-	tnp = 1;
-	c = 0;
-	flag = 1;
+	int tpos = 0;
+	int df = 0;
+	int i = 0;;
+	int tnp = 1;
+	char save;
+	int wordfound = 0;
+	int type = 0;
+	int state = 0;
+	
 	while(command[i])
 	{
-		if(checkdelimiter(command[i]) == 0 || flag == 0)
+		tpos = i;
+		while(ft_isspace(command[i]) == 0 && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 &&command[i])
+		{	
+			wordfound = 1;
+			i++;
+			type = TOKEN_EXPR;
+			state = GENERAL;
+		}
+		df = i;
+		if(wordfound == 1)
+			fill_node(tpos, df - tpos, command, cmd, &tnp, state , type);
+		wordfound = 0;
+		tpos = i;
+		while(ft_isspace(command[i]) == 1 && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 &&command[i])
+		{	
+			wordfound = 1;
+			i++;
+			type = TOKEN_SPACE;
+			state = GENERAL;
+		}
+		df = i;
+		if(wordfound == 1)
+			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
+		wordfound = 0;
+		if(ft_isquote(command[i]) == 1)
 		{
-			if(flag == 1)
-				c = command[i];
 			tpos = i;
-			if((c == '"' || c == '\'') && flag == 1)
+			save = command[i++];
+			df = i;
+			if(save == '\'')
+			{
+				state = GENERAL;
+				type = TOKEN_S_Q;
+			}
+			else if(save == '"')
+			{
+				state = GENERAL;
+				type = TOKEN_D_Q;
+			}
+			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
+			tpos = i;
+			while(command[i] != save && command[i])
 			{
 				i++;
-				flag = 0;
-			}
-			else if(flag == 0)
-			{
-				while(command[i] != c && command[i])
-					i++;
-				flag = 1;
-			}
-			else if (flag == 1)
-			{
-				while(command[i] == c && command[i])
-					i++;
+				wordfound = 1;
+				if(save == '\'')
+				{
+					state = IN_QUOTE;
+					type = TOKEN_EXPR;
+				}
+				else if(save == '"')
+				{
+					state = IN_DQUOTE;
+					type = TOKEN_EXPR;
+				}
 			}
 			df = i;
-		}
-		else if(checkdelimiter(command[i]) == 1 && flag == 1)
-		{
+			if(wordfound == 1)
+				fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
+			wordfound = 0;
 			tpos = i;
-			while(checkdelimiter(command[i]) == 1 && command[i])
-				i++;
+			i++;
 			df = i;
+			if(save == '\'')
+			{
+				state = GENERAL;
+				type = TOKEN_S_Q;
+			}
+			else if(save == '"')
+			{
+				state = GENERAL;
+				type = TOKEN_D_Q;
+			}
+			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
 		}
-		if(tnp == 1)
-		{
-			(*cmd)->content = ft_substr(command, tpos, df - tpos);
-			tnp = 0;
+		tpos = i;
+		while(ft_isspace(command[i]) == 0 && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 &&command[i])
+		{	
+			if(wordfound == 1 && save != command[i])
+				break;
+			wordfound = 1;
+			if (command[i] == '<')
+			{
+				if(command[i + 1] == '<')
+				{
+					type =  TOKEN_HEREDOC;
+					i+= 2;
+					break;
+				}
+				else		
+					type = TOKEN_REDIR_IN;
+				state = GENERAL;
+			}
+			if (command[i] == '>')
+			{
+				if(command[i + 1] == '>')
+				{
+					type = TOKEN_REDIR_APPEND;
+					i += 2;
+					break;
+				}
+				else
+					type = TOKEN_REDIR_OUT;
+				state = GENERAL;
+			}
+			else {
+				type = getlimitertoken(command[i], command[i + 1]);
+			}
+			save = command[i];
+			state = GENERAL;
+			i++;
 		}
-		else if(command[tpos])
-			ft_newnode(cmd, ft_substr(command, tpos, df - tpos));
+		df = i;
+		if(wordfound == 1)
+			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
+		wordfound = 0;
 	}
 }

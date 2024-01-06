@@ -1,5 +1,5 @@
 NAME= minishell
-SOURCES= minishell.c syntaxerror.c parsing.c tools.c
+SOURCES= minishell.c syntaxerror.c parsing.c tools.c tools1.c
 OBJECT= $(SOURCES:.c=.o)
 CC = cc 
 COMPFLAGS = -Wall -Wextra -Werror

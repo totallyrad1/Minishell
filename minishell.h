@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/05 20:28:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/06 15:01:02 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,14 @@ int checkdelimiter(int c);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 size_t	ft_strlen(char *s);
-void	ft_newnode(s_cmd **cmd, char *value);
+void	ft_newnode(s_cmd **cmd, char *value, int type, int state);
 void	ft_freeeverything(s_cmd *lst);
 //parsing.c
 void tokenizer(s_cmd **cmd, char *command);
+void fill_node(int start, int len, char *command, s_cmd **cmd, int *tnp, int state, int type);
+//tools1.c
+int ft_isspace(char c);
+int ft_isquote(char c);
+int islimiter(int c);
 
 #endif
