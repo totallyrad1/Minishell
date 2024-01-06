@@ -5,22 +5,20 @@ CC = cc
 COMPFLAGS = -Wall -Wextra -Werror
 LINKREADLINELIB = -lreadline
 
+all: ${NAME}
 
+${NAME}: ${OBJECT}
+	$(CC) $(COMPFLAGS) -o $@ $^ $(LINKREADLINELIB)
 
-all : ${NAME}
+%.o: %.c minishell.h
+	$(CC) $(COMPFLAGS) -c $< -o $@
 
-${NAME} : ${OBJECT}
-	$(CC) $(LINKREADLINELIB) $(COMPFLAGS) -o $@ $^
-
-%.o : %.c minitalk.h
-	$(CC) $(COMPFLAGS) $(LINKREADLINELIB) -c $< -o  $@
-
-clean :
+clean:
 	rm -f ${OBJECT}
 
-fclean : clean
+fclean: clean
 	rm -f ${NAME}
 
-re : fclean all
+re: fclean all
 
-.PHONY : make clean fclean re 
+.PHONY: all clean fclean re
