@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/05 20:14:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/07 18:15:22 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,12 @@ int checksyntaxerror(char *prompt)
 	}
 	return 1;
 }
+
+// int checkpipesyntax(char *prompt)
+// {
+// 	int i = 0;
+// 	while(prompt[i])
+// 	{
+		
+// 	}
+// }

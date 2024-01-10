@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/06 15:03:13 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:47:42 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,26 +29,26 @@ void f()
 	system("leaks minishell");
 }
 
-int main()
-{
-	s_cmd	*cmd;
-	char	*command;
+// int main()
+// {
+// 	s_cmd	*cmd;
+// 	char	*command;
 
-	atexit(f);
-    while (0 == 0)
-	{
-		cmd = malloc(sizeof(s_cmd));
-		if(!cmd)
-			exit(2);
-		cmd->next = NULL;
-		cmd->content = NULL;
-		command = readline("Minishell~> ");
-		if (!command)
-			exit(0);
-		if(checksyntaxerror(command) == 1)
-			handlenput(&cmd, command);
-		ft_freeeverything(cmd);
-		add_history(command);
-		free(command);
-    }
-}
+// 	atexit(f);
+//     while (0 == 0)
+// 	{
+// 		cmd = malloc(sizeof(s_cmd));
+// 		if(!cmd)
+// 			exit(2);
+// 		cmd->next = NULL;
+// 		cmd->content = NULL;
+// 		command = readline("Minishell~> ");
+// 		if (!command)
+// 			exit(0);
+// 		if(checksyntaxerror(command) == 1)
+// 			handlenput(&cmd, command);
+// 		ft_freeeverything(cmd);
+// 		add_history(command);
+// 		free(command);
+//     }
+// }
