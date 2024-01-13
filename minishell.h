@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/10 17:58:03 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/13 13:08:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 
 typedef struct	t_cmd
 {
-	char *content;
+	char *cmd;
+	char **args;
 	int type;
 	int state;
 	struct t_cmd	*next;
@@ -60,11 +61,14 @@ int checkdelimiter(int c);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(s_cmd **cmd, char *value, int type, int state);
+void	ft_newnode(s_cmd **cmd, char *value);
 void	ft_freeeverything(s_cmd *lst);
 //parsing.c
 void tokenizer(s_cmd **cmd, char *command);
-void fill_node(int start, int len, char *command, s_cmd **cmd, int *tnp, int state, int type);
+void fill_node(int start, int len, char *command, s_cmd **cmd, int *tnp);
+int ft_char(s_cmd **cmd, char *command, int flag, int i);
+int ft_separator(s_cmd **cmd, char *command, int flag, int i);
+int ft_space(s_cmd **cmd, char *command, int flag, int i);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);

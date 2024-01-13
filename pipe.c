@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/10 19:48:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/13 13:31:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
 		execve(commandwithpath, commandargs1, envp);
 	}
 	wait(NULL);
-	int res = pipefd[0];
+	int res = dup(pipefd[0]);
 	commandwithpath = getworkingpath(envp, command2);
 	child_pid = fork();
 	if(child_pid == 0)
@@ -75,4 +75,11 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
 	}
 	// wait(NULL);
 	return ;
+}
+
+int main(int ac, char **av, char **env)
+{
+	char *c1[] = {"ls", "-la", NULL};
+	char *c2[] = {"grep", "12", NULL};
+	ft_pipe(av, env, "ls", "grep", c1, c2);
 }

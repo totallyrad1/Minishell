@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/10 17:52:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/13 13:30:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,23 @@ char	*ft_substr(char *s, size_t start, size_t len)
 	return (substr);
 }
 
-void	ft_newnode(s_cmd **cmd, char *value, int type, int state)
-{
-	s_cmd	*new_node;
-	s_cmd	*curr;
+// void	ft_newnode(s_cmd **cmd, char *value, int type, int state)
+// {
+// 	s_cmd	*new_node;
+// 	s_cmd	*curr;
 
-	new_node = malloc(sizeof(s_cmd));
-	if (!new_node)
-		exit(0);
-	curr = *cmd;
-	new_node->next = NULL;
-	new_node->content = value;
-	new_node->state = state;
-	new_node->type = type;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = new_node;
-}
+// 	new_node = malloc(sizeof(s_cmd));
+// 	if (!new_node)
+// 		exit(0);
+// 	curr = *cmd;
+// 	new_node->next = NULL;
+// 	new_node->cmd = value;
+// 	new_node->state = state;
+// 	new_node->type = type;
+// 	while (curr->next)
+// 		curr = curr->next;
+// 	curr->next = new_node;
+// }
 
 void	ft_freeeverything(s_cmd *lst)
 {
@@ -103,7 +103,7 @@ void	ft_freeeverything(s_cmd *lst)
 			curr = curr->next;
 		else
 		 	break;
-		free(lastnode->content);
+		free(lastnode->cmd);
 		free(lastnode);
 	}
 }
