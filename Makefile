@@ -1,25 +1,18 @@
 NAME= minishell
-SOURCES= minishell.c syntaxerror.c pipe.c \
-		utils/free_array.c utils/ft_is.c utils/ft_split.c utils/ft_strdup.c utils/ft_strjoin.c utils/ft_strlcpy.c \
-		utils/ft_strlen.c utils/ft_strncmp.c utils/ft_strtrim.c utils/ft_substr.c utils/tools.c \
-		signals/handle_signals.c \
-		parsing/parsing.c \
-		builtins/enc.v builtins/pwd.c builtins/unset.c
+SOURCES= ./builtins/cd.c ./builtins/echo.c ./builtins/env.c ./builtins/export.c ./builtins/get_home_dir.c ./builtins/pwd.c ./builtins/unset.c ./minishell.c ./parsing/parsing.c ./pipe.c ./signals/handle_signals.c ./syntaxerror.c ./utils/free_array.c ./utils/ft_is.c ./utils/ft_split.c ./utils/ft_strdup.c ./utils/ft_strjoin.c ./utils/ft_strlcpy.c ./utils/ft_strlen.c ./utils/ft_strncmp.c ./utils/ft_strtrim.c ./utils/ft_substr.c ./utils/tools.c
 OBJECT= $(SOURCES:.c=.o)
 CC = cc 
 # COMPFLAGS = -Wall -Wextra -Werror
-LINKREADLINELIB = -l[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
-LINKREADLINELIB1 = -L[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
-LINKREADLINELIB = -i[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
-LINKREADLINELIB = -I[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
+LINKREADLINELIB = $(shell brew --prefix readline)/lib
+LINKREADLINELIB1 = $(shell brew --prefix readline)/include
 
 all: ${NAME}
 
 ${NAME}: ${OBJECT}
-	$(CC) -o $@ $^ $(LINKREADLINELIB)
+	$(CC) -o $@ $^ -L $(LINKREADLINELIB) -lreadline
 
 %.o: %.c minishell.h
-	$(CC) -c $< -o $@
+	$(CC) -c -I $(LINKREADLINELIB1) $< -o $@ 
 
 clean:
 	rm -f ${OBJECT}

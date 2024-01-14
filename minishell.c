@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 18:11:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/14 22:55:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 void f()
 {
-	system("leaks a.out");
+	system("leaks minishell");
 }
 
 static t_cmd	*init_cmd()
@@ -52,7 +52,7 @@ char	*get_string_to_print(char **env)
 	pwd = get_pwd(env);
 	home_dir = get_home_dir(env);
 	len_home_dir = ft_strlen(home_dir);
-	string_to_print = ft_strdup("Minishell ~");
+	string_to_print = ft_strdup("");
 	pwd_without_home_dir = ft_substr(pwd, len_home_dir, ft_strlen(pwd + len_home_dir));
 	string_to_print = ft_strjoin(string_to_print, pwd_without_home_dir);
 	string_to_print = ft_strjoin(string_to_print, " ");
@@ -83,7 +83,7 @@ int main(int ac, char **av, char **env)
 	// t_cmd	*cmd;
 	char				*command;
 	char				*pwd;
-	char				*string_to_print;
+	// char				*string_to_print;
 	struct sigaction	sa;
 
 	sa.sa_handler = signal_handler;
@@ -97,9 +97,9 @@ int main(int ac, char **av, char **env)
 	{
 		if (sigaction(SIGINT, &sa, NULL) == -1)
 			exit(1);
-		string_to_print = get_string_to_print(env);
-		printf("%s\n", string_to_print);
-		rl_on_new_line();
+		// string_to_print = get_string_to_print(env);
+		// printf("%s\n", string_to_print);
+		// rl_on_new_line();
 		// cmd = init_cmd();
 		// write(1, string_to_print, ft_strlen(string_to_print));
 		// string_to_print = get_string_to_print(env);
@@ -120,7 +120,7 @@ int main(int ac, char **av, char **env)
 		// 	handle_input(&cmd, command);
 		// ft_free_cmd(cmd);
 		add_history(command);
-		free(string_to_print);
+		// free(string_to_print);
 		free(command);
 	}
 }

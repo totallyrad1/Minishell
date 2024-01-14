@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:21:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/14 22:50:15 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <signal.h>
-# include "readline/readline.h"
+// # include "readline/readline.h"
+// # include "readline/history.h>
 
 typedef struct	s_cmd
 {
