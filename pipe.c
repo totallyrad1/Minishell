@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 13:31:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/13 17:49:46 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *getpathline(char **envp)
+static char *get_path_line(char **envp)
 {
 	int i;
 
@@ -20,16 +20,16 @@ char *getpathline(char **envp)
 	while(envp[i])
 	{
 		if(ft_strncmp("PATH", envp[i], 4) == 0)
-			return envp[i];
+			return (envp[i]);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
-char *getworkingpath(char **envp, char *command)
+static char *get_working_path(char **envp, char *command)
 {
 	int i = 0;
-	char *line = getpathline(envp);
+	char *line = get_path_line(envp);
 	char *tpl = ft_strtrim(line, "PATH=");
 	// free(line);
 	char **paths = ft_split(tpl, ':');
@@ -44,18 +44,18 @@ char *getworkingpath(char **envp, char *command)
 		if(access(acesscheck, X_OK) == 0)
 		{
 			// freemem(paths);
-			return acesscheck;
+			return (acesscheck);
 		}
 		// free(acesscheck);
 		i++;
 	}
-	return NULL;
+	return (NULL);
 }
 
 void ft_pipe(char **av, char **envp, char *command, char *command2, char **commandargs1, char **commandargs2) {
     int pipefd[2];
+	char *commandwithpath = get_working_path(envp, command);
     pipe(pipefd);
-	char *commandwithpath = getworkingpath(envp, command);
     pid_t child_pid = fork();
 	if(child_pid == 0)
 	{
@@ -66,7 +66,7 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
 	}
 	wait(NULL);
 	int res = dup(pipefd[0]);
-	commandwithpath = getworkingpath(envp, command2);
+	commandwithpath = get_working_path(envp, command2);
 	child_pid = fork();
 	if(child_pid == 0)
 	{
@@ -75,11 +75,4 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
 	}
 	// wait(NULL);
 	return ;
-}
-
-int main(int ac, char **av, char **env)
-{
-	char *c1[] = {"ls", "-la", NULL};
-	char *c2[] = {"grep", "12", NULL};
-	ft_pipe(av, env, "ls", "grep", c1, c2);
 }

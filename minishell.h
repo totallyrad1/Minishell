@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 13:08:48 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/13 18:13:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include <signal.h>
+# include "/goinfre/yzaazaa/.brew/Cellar/readline/8.2.7/include/readline/readline.h"
 
 typedef struct	t_cmd
 {
@@ -29,7 +31,7 @@ typedef struct	t_cmd
 	int type;
 	int state;
 	struct t_cmd	*next;
-}				s_cmd;
+}				t_cmd;
 
 enum e_type{
     TOKEN_EXPR,
@@ -52,23 +54,24 @@ enum e_state
 };
 
 //minishell.c
-void handlenput(s_cmd **cmd, char *str);
+void handle_input(t_cmd **cmd, char *str);
 //syntaxerror.c
-int checksyntaxerror(char *prompt);
+int check_syntax_error(char *prompt);
 //parsing.c
 int checkdelimiter(int c);
 //tools.c
+size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(s_cmd **cmd, char *value);
-void	ft_freeeverything(s_cmd *lst);
+void	ft_newnode(t_cmd **cmd, char *value);
+void	ft_free_cmd(t_cmd *lst);
 //parsing.c
-void tokenizer(s_cmd **cmd, char *command);
-void fill_node(int start, int len, char *command, s_cmd **cmd, int *tnp);
-int ft_char(s_cmd **cmd, char *command, int flag, int i);
-int ft_separator(s_cmd **cmd, char *command, int flag, int i);
-int ft_space(s_cmd **cmd, char *command, int flag, int i);
+void tokenizer(t_cmd **cmd, char *command);
+void fill_node(int start, int len, char *command, t_cmd **cmd, int *tnp);
+int ft_char(t_cmd **cmd, char *command, int flag, int i);
+int ft_separator(t_cmd **cmd, char *command, int flag, int i);
+int ft_space(t_cmd **cmd, char *command, int flag, int i);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);
@@ -81,6 +84,17 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 // ft_strtrim.c
 char	*ft_strtrim(char const *s1, char const *set);
-
+// free_array.c
+void	ft_free_array(char **array);
+// pwd.c
+char	*get_pwd(char **envp);
+// env.c
+void    print_env(char **env);
+// unset.c
+char	**unset(char **envp, char *var);
+// signal.c
+void	signal_handler(int signum);
+// get_home_dir.c
+char	*get_home_dir(char **envp);
 
 #endif
