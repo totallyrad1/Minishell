@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 17:50:29 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/14 22:20:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,138 +48,32 @@ int getlimitertoken(char c, char f)
 	return -1;
 }
 
-void tokenizer(t_cmd **cmd, char *command)
+int look_for_char(char *command, int i)
 {
-	int tpos = 0;
-	int df = 0;
-	int i = 0;;
-	int tnp = 1;
-	char save;
-	int wordfound = 0;
-	int type = 0;
-	int state = 0;
-	
-	while(command[i])
+	int flag = 0;
+	while(command[i] && command[i] != '|')
 	{
-		tpos = i;
-		while(ft_isspace(command[i]) == 0 && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 &&command[i])
-		{	
-			wordfound = 1;
-			i++;
-			type = TOKEN_EXPR;
-			state = GENERAL;
-		}
-		df = i;
-		if(wordfound == 1)
-			fill_node(tpos, df - tpos, command, cmd, &tnp, state , type);
-		wordfound = 0;
-		tpos = i;
-		while(ft_isspace(command[i]) == 1 && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 &&command[i])
-		{	
-			wordfound = 1;
-			i++;
-			type = TOKEN_SPACE;
-			state = GENERAL;
-		}
-		df = i;
-		if(wordfound == 1)
-			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
-		wordfound = 0;
-		if(ft_isquote(command[i]) == 1)
-		{
-			tpos = i;
-			save = command[i++];
-			df = i;
-			if(save == '\'')
-			{
-				state = GENERAL;
-				type = TOKEN_S_Q;
-			}
-			else if(save == '"')
-			{
-				state = GENERAL;
-				type = TOKEN_D_Q;
-			}
-			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
-			tpos = i;
-			while(command[i] != save && command[i])
-			{
-				i++;
-				wordfound = 1;
-				if(save == '\'')
-				{
-					state = IN_QUOTE;
-					type = TOKEN_EXPR;
-				}
-				else if(save == '"')
-				{
-					state = IN_DQUOTE;
-					type = TOKEN_EXPR;
-				}
-			}
-			df = i;
-			if(wordfound == 1)
-				fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
-			wordfound = 0;
-			tpos = i;
-			i++;
-			df = i;
-			if(save == '\'')
-			{
-				state = GENERAL;
-				type = TOKEN_S_Q;
-			}
-			else if(save == '"')
-			{
-				state = GENERAL;
-				type = TOKEN_D_Q;
-			}
-			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
-		}
-		tpos = i;
-		while(ft_isspace(command[i]) == 0 && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 &&command[i])
-		{	
-			if(wordfound == 1 && save != command[i])
-				break;
-			wordfound = 1;
-			if (command[i] == '<')
-			{
-				if(command[i + 1] == '<')
-				{
-					type =  TOKEN_HEREDOC;
-					i+= 2;
-					break;
-				}
-				else		
-					type = TOKEN_REDIR_IN;
-				state = GENERAL;
-			}
-			if (command[i] == '>')
-			{
-				if(command[i + 1] == '>')
-				{
-					type = TOKEN_REDIR_APPEND;
-					i += 2;
-					break;
-				}
-				else
-					type = TOKEN_REDIR_OUT;
-				state = GENERAL;
-			}
-			else {
-				type = getlimitertoken(command[i], command[i + 1]);
-			}
-			save = command[i];
-			state = GENERAL;
-			i++;
-		}
-		df = i;
-		if(wordfound == 1)
-			fill_node(tpos, df - tpos, command, cmd, &tnp, state, type);
-		wordfound = 0;
+		if(ft_isspace(command[i]) == 0)
+			flag = 1;
+		i++;
 	}
+	return flag;
 }
 
+void ft_switch(t_cmd **cmd, char *command, int flag, int i)
+{
+	if(command[i])
+	{
+		if(ft_isspace(command[i]) == 1)
+			ft_space(cmd, command, flag, i);
+		else if(ft_isquote(command[i]) == 1)
+			ft_quote(cmd, command, flag, i);
+		else if(islimiter(command[i]) == 1)
+			ft_separator(cmd, command, flag, i);
+		else
+		 	ft_char(cmd, command, flag, i);
+	}
+}
 
 int ft_char(t_cmd **cmd, char *command, int flag, int i)
 {
@@ -189,25 +83,26 @@ int ft_char(t_cmd **cmd, char *command, int flag, int i)
 	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0)
 		i++;
 	fill_node(tmp, i - tmp, command, cmd, &flag);
-	if(islimiter(command[i]) == 1)
-		ft_separator(cmd, command, flag, i);
-	if(ft_isspace(command[i]) == 1)
-		ft_space(cmd, command, flag, i);
+	ft_switch(cmd, command, flag, i);
 	return 0;
 }
 
 int ft_separator(t_cmd **cmd, char *command, int flag, int i)
 {
-	int tmp;
+	int	tmp;
+	int	x;
 
 	tmp = i;
-	while(command[i] && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0)
+	x = 0;
+	while(command[i] && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0 && x++ < 2)
 		i++;
+	if(islimiter(command[i]) == 1 || look_for_char(command, i) == 0)
+	{
+		printf("syntax error\n");
+		return 0;
+	}
 	fill_node(tmp, i - tmp, command, cmd, &flag);
-	if(ft_isspace(command[i]) == 1)
-		ft_space(cmd, command, flag, i);
-	if(command[i])
-		ft_char(cmd, command, flag, i);
+	ft_switch(cmd, command, flag, i);
 	return 0;
 }
 
@@ -218,10 +113,29 @@ int ft_space(t_cmd **cmd, char *command, int flag, int i)
 	tmp = i;
 	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 1)
 		i++;
-	fill_node(tmp, i - tmp, command, cmd, &flag);
-	if(islimiter(command[i]) == 1)
-		ft_separator(cmd, command, flag, i);
-	if(command[i])
-		ft_char(cmd, command, flag, i);
+	// fill_node(tmp, i - tmp, command, cmd, &flag);
+	ft_switch(cmd, command, flag, i);
 	return 0;
 }
+
+int ft_quote(t_cmd **cmd, char *command, int flag, int i)
+{
+	int tmp;
+	char save;
+
+	tmp = i;
+	if(command[i] == '\'' || command[i] == '"')
+		save = command[i++];
+	while(command[i] && command[i] != save)
+		i++;
+	if(command[i] == '\'' || command[i] == '"')
+	{
+		fill_node(tmp, ++i - tmp, command, cmd, &flag);
+		ft_switch(cmd, command, flag, i);
+	}
+	else
+		printf("syntax error\n");
+	return 0;
+}
+
+

@@ -8,7 +8,10 @@ SOURCES= minishell.c syntaxerror.c pipe.c \
 OBJECT= $(SOURCES:.c=.o)
 CC = cc 
 # COMPFLAGS = -Wall -Wextra -Werror
-LINKREADLINELIB = -l[/goinfre/yzaazaa/.brew/Cellar/readline/8.2.7/include/readline]
+LINKREADLINELIB = -l[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
+LINKREADLINELIB1 = -L[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
+LINKREADLINELIB = -i[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
+LINKREADLINELIB = -I[/goinfre/asnaji/.brew/Cellar/readline/8.2.7/include/readline]
 
 all: ${NAME}
 

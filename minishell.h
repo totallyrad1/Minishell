@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 18:13:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/14 22:21:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <signal.h>
-# include "/goinfre/yzaazaa/.brew/Cellar/readline/8.2.7/include/readline/readline.h"
+# include "readline/readline.h"
 
-typedef struct	t_cmd
+typedef struct	s_cmd
 {
 	char *cmd;
 	char **args;
 	int type;
 	int state;
-	struct t_cmd	*next;
+	struct s_cmd	*next;
 }				t_cmd;
 
 enum e_type{
@@ -67,11 +67,12 @@ size_t	ft_strlen(const char *s);
 void	ft_newnode(t_cmd **cmd, char *value);
 void	ft_free_cmd(t_cmd *lst);
 //parsing.c
-void tokenizer(t_cmd **cmd, char *command);
 void fill_node(int start, int len, char *command, t_cmd **cmd, int *tnp);
 int ft_char(t_cmd **cmd, char *command, int flag, int i);
 int ft_separator(t_cmd **cmd, char *command, int flag, int i);
 int ft_space(t_cmd **cmd, char *command, int flag, int i);
+int ft_quote(t_cmd **cmd, char *command, int flag, int i);
+void ft_switch(t_cmd **cmd, char *command, int flag, int i);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);
