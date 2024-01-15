@@ -3,26 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:55:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:08:21 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void handle_input(t_cmd **cmd, char *str)
-// {
-// 	tokenizer(cmd, str);
-// 	t_cmd *curr = *cmd;
-// 	while(curr)
-// 	{
-// 		if (curr->cmd)
-// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-// 		curr = curr->next;
-// 	}
-// }
+void handle_input(t_cmd **cmd, char *str)
+{
+	int i;
+	if(str[0])
+	{
+		i = ft_switch(cmd, str, 1, 0);
+		if(i == 0)
+			give_state_and_type(cmd);
+	}
+	if(i == 0)
+	{
+		t_cmd *curr = *cmd;
+		while(curr)
+		{
+			if (curr->cmd)
+				printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+			curr = curr->next;
+		}
+		
+	}
+}
 
 void f()
 {
@@ -38,6 +48,7 @@ static t_cmd	*init_cmd()
 		exit(2);
 	cmd->next = NULL;
 	cmd->cmd = NULL;
+	cmd->prev = NULL;
 	return (cmd);
 }
 
@@ -80,7 +91,7 @@ static char	**get_env()
 
 int main(int ac, char **av, char **env)
 {
-	// t_cmd	*cmd;
+	t_cmd	*cmd;
 	char				*command;
 	char				*pwd;
 	// char				*string_to_print;
@@ -104,16 +115,22 @@ int main(int ac, char **av, char **env)
 		// string_to_print = get_string_to_print(env);
 		// printf("%s\n", string_to_print);
 		// rl_on_new_line();
-		// cmd = init_cmd();
+		cmd = init_cmd();
 		// write(1, string_to_print, ft_strlen(string_to_print));
 		// string_to_print = get_string_to_print(env);
 		command = readline("\033[1;34m>_ Turboshell$ \033[0m");
 		if (!command)
-			continue ;
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if (!ft_strncmp(command, "clear", 5))
 			write(1, "\033[H\033[J", 7);
 		if (!ft_strncmp(command, "exit", 5))
+		{
+			printf("exit\n");
 			exit(0);
+		}
 		if (!ft_strncmp(command, "pwd", 3))
 		{
 			pwd = get_pwd(env);
@@ -123,8 +140,8 @@ int main(int ac, char **av, char **env)
 		if (!ft_strncmp(command, "env", 3))
 			print_env(env);
 		// if(check_syntax_error(command) == 1)
-		// 	handle_input(&cmd, command);
-		// ft_free_cmd(cmd);
+		handle_input(&cmd, command);
+		ft_free_cmd(cmd);
 		add_history(command);
 		// free(string_to_print);
 		free(command);

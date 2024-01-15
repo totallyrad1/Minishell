@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/13 18:10:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/15 17:59:57 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void		signal_handler(int signum)
 {
-	if (waitpid(-1, NULL, WNOHANG) == 0)
-	{
-		printf("\n");
-		return ;
-	}
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
