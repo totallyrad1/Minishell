@@ -8,19 +8,18 @@ LINKREADLINELIB1 = $(shell brew --prefix readline)/include
 
 all: ${NAME}
 
-#Compile MacOS
-# ${NAME}: ${OBJECT}
-# 	$(CC) -o $@ $^ -L $(LINKREADLINELIB) -lreadline
-
-# %.o: %.c minishell.h
-# 	$(CC) -c -I $(LINKREADLINELIB1) $< -o $@ 
-
-#Compile Ubuntu
 ${NAME}: ${OBJECT}
 	$(CC) -o $@ $^ -L $(LINKREADLINELIB) -lreadline
 
 %.o: %.c minishell.h
-	$(CC) -c -I /usr/include $< -o $@
+	$(CC) -c -I $(LINKREADLINELIB1) $< -o $@ 
+
+# #Compile Ubuntu
+# ${NAME}: ${OBJECT}
+# 	$(CC) -o $@ $^ -L $(LINKREADLINELIB) -lreadline
+
+# %.o: %.c minishell.h
+# 	$(CC) -c -I /usr/include $< -o $@
 
 clean:
 	rm -f ${OBJECT}

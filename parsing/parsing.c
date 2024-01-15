@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:20:35 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 15:59:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,33 @@ int getlimitertoken(char c, char f)
 {
 	if (c == '"')
 		return TOKEN_D_Q;
-	if (c == '\'')
+	else if (c == '\'')
 		return TOKEN_S_Q;
-	if (c == '<')
+	else if (c == '<')
 	{
 		if(f == '<')
 			return TOKEN_HEREDOC;
 		return TOKEN_REDIR_IN;
 	}
-	if (c == '>')
+	else if (c == '>')
 	{
 		if(f == '>')
 			return TOKEN_REDIR_APPEND;
 		return TOKEN_REDIR_OUT;
 	}
-	if (c == '|')
+	else if (c == '|')
+	{
+		if(f == '|')
+			return TOKEN_OR;
 		return TOKEN_PIPE;
-	if (c == '$')
+	}
+	else if(c == '&' && f == '&')
+	{
+			return TOKEN_AND;
+	}
+	else if (c == '$')
 		return TOKEN_DOLLAR;
-	return -1;
+	return TOKEN_EXPR;
 }
 
 int look_for_char(char *command, int i)
@@ -139,3 +147,25 @@ int ft_quote(t_cmd **cmd, char *command, int flag, int i)
 }
 
 
+//this function gives state and type depending on the first and second character
+void give_state_and_type(t_cmd **cmd)
+{
+	t_cmd *curr;
+	
+	curr = *cmd;
+	while(curr)
+	{
+		curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
+		if(curr->cmd[0] == '"')
+		{
+			curr->state = IN_DQUOTE;
+		}
+		else if(curr->cmd[0] == '\'')`
+		{
+			curr->state = IN_QUOTE;
+		}
+		else
+			curr->state = GENERAL;
+		curr = curr->next;
+	}
+}

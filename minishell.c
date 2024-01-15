@@ -6,23 +6,27 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:55:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 11:35:05 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void handle_input(t_cmd **cmd, char *str)
-// {
-// 	tokenizer(cmd, str);
-// 	t_cmd *curr = *cmd;
-// 	while(curr)
-// 	{
-// 		if (curr->cmd)
-// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-// 		curr = curr->next;
-// 	}
-// }
+void handle_input(t_cmd **cmd, char *str)
+{
+	if(str[0])
+	{
+		ft_switch(cmd, str, 1, 0);
+		give_state_and_type(cmd);
+	}
+	t_cmd *curr = *cmd;
+	while(curr)
+	{
+		if (curr->cmd)
+			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+		curr = curr->next;
+	}
+}
 
 void f()
 {
@@ -80,7 +84,7 @@ static char	**get_env()
 
 int main(int ac, char **av, char **env)
 {
-	// t_cmd	*cmd;
+	t_cmd	*cmd;
 	char				*command;
 	char				*pwd;
 	// char				*string_to_print;
@@ -104,7 +108,7 @@ int main(int ac, char **av, char **env)
 		// string_to_print = get_string_to_print(env);
 		// printf("%s\n", string_to_print);
 		// rl_on_new_line();
-		// cmd = init_cmd();
+		cmd = init_cmd();
 		// write(1, string_to_print, ft_strlen(string_to_print));
 		// string_to_print = get_string_to_print(env);
 		command = readline("\033[1;34m>_ Turboshell$ \033[0m");
@@ -123,8 +127,8 @@ int main(int ac, char **av, char **env)
 		if (!ft_strncmp(command, "env", 3))
 			print_env(env);
 		// if(check_syntax_error(command) == 1)
-		// 	handle_input(&cmd, command);
-		// ft_free_cmd(cmd);
+		handle_input(&cmd, command);
+		ft_free_cmd(cmd);
 		add_history(command);
 		// free(string_to_print);
 		free(command);

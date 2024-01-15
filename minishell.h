@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:50:15 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 11:37:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ enum e_type{
     TOKEN_REDIR_APPEND,
     TOKEN_HEREDOC,
     TOKEN_PIPE,
+    TOKEN_AND,
+    TOKEN_OR,
     TOKEN_SPACE,
+    // TOKEN_BRKT_OPEN,
+    // TOKEN_BRKT_CLOSE,
     TOKEN_D_Q,
     TOKEN_S_Q,
     TOKEN_DOLLAR,
@@ -76,6 +80,7 @@ int ft_separator(t_cmd **cmd, char *command, int flag, int i);
 int ft_space(t_cmd **cmd, char *command, int flag, int i);
 int ft_quote(t_cmd **cmd, char *command, int flag, int i);
 void ft_switch(t_cmd **cmd, char *command, int flag, int i);
+void give_state_and_type(t_cmd **cmd);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);
