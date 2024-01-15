@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 15:59:51 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:16:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int getlimitertoken(char c, char f)
 int look_for_char(char *command, int i)
 {
 	int flag = 0;
-	while(command[i] && command[i] != '|')
+	while(command[i] && islimiter(command[i]) == 0)
 	{
 		if(ft_isspace(command[i]) == 0)
 			flag = 1;
@@ -68,19 +68,20 @@ int look_for_char(char *command, int i)
 	return flag;
 }
 
-void ft_switch(t_cmd **cmd, char *command, int flag, int i)
+int ft_switch(t_cmd **cmd, char *command, int flag, int i)
 {
 	if(command[i])
 	{
 		if(ft_isspace(command[i]) == 1)
-			ft_space(cmd, command, flag, i);
+			return ft_space(cmd, command, flag, i);
 		else if(ft_isquote(command[i]) == 1)
-			ft_quote(cmd, command, flag, i);
+			return ft_quote(cmd, command, flag, i);
 		else if(islimiter(command[i]) == 1)
-			ft_separator(cmd, command, flag, i);
+			return ft_separator(cmd, command, flag, i);
 		else
-		 	ft_char(cmd, command, flag, i);
+		 	return ft_char(cmd, command, flag, i);
 	}
+	return 0;
 }
 
 int ft_char(t_cmd **cmd, char *command, int flag, int i)
@@ -91,8 +92,7 @@ int ft_char(t_cmd **cmd, char *command, int flag, int i)
 	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0)
 		i++;
 	fill_node(tmp, i - tmp, command, cmd, &flag);
-	ft_switch(cmd, command, flag, i);
-	return 0;
+	return ft_switch(cmd, command, flag, i);
 }
 
 int ft_separator(t_cmd **cmd, char *command, int flag, int i)
@@ -104,14 +104,13 @@ int ft_separator(t_cmd **cmd, char *command, int flag, int i)
 	x = 0;
 	while(command[i] && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0 && x++ < 2)
 		i++;
-	if(islimiter(command[i]) == 1 || look_for_char(command, i) == 0)
+	if(islimiter(command[i]) == 1 || look_for_char(command, i) == 0 || (command[tmp] == '&' && command[tmp + 1] != '&'))
 	{
 		printf("syntax error\n");
-		return 0;
+		return 1;
 	}
 	fill_node(tmp, i - tmp, command, cmd, &flag);
-	ft_switch(cmd, command, flag, i);
-	return 0;
+	return ft_switch(cmd, command, flag, i);
 }
 
 int ft_space(t_cmd **cmd, char *command, int flag, int i)
@@ -122,8 +121,7 @@ int ft_space(t_cmd **cmd, char *command, int flag, int i)
 	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 1)
 		i++;
 	// fill_node(tmp, i - tmp, command, cmd, &flag);
-	ft_switch(cmd, command, flag, i);
-	return 0;
+	return ft_switch(cmd, command, flag, i);;
 }
 
 int ft_quote(t_cmd **cmd, char *command, int flag, int i)
@@ -139,10 +137,13 @@ int ft_quote(t_cmd **cmd, char *command, int flag, int i)
 	if(command[i] == '\'' || command[i] == '"')
 	{
 		fill_node(tmp, ++i - tmp, command, cmd, &flag);
-		ft_switch(cmd, command, flag, i);
+		return ft_switch(cmd, command, flag, i);
 	}
 	else
+	{
 		printf("syntax error\n");
+		return 1;
+	}
 	return 0;
 }
 

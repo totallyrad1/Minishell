@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 17:45:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:05:30 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,26 @@ typedef struct s_tree
 	void	*right;
 }			t_tree;
 
+typedef struct s_redirection_elem
+{
+	char						*arg;
+	enum e_type					type;
+	struct s_redirection_elem	*next;
+}				t_redirection_elem;
+
+typedef struct s_redirection_list
+{
+	t_redirection_elem	*head;
+	t_redirection_elem	*tail;
+	int					size;
+}				t_redirection_list;
+
 typedef struct s_cmd_toexec
 {
-	char	**cmd;
-	int		fd_in;
-	int		fd_out;
-	t_tree	*left;
-	t_tree	*right;
+	char	            **cmd;
+	int		            fd_in;
+	int		            fd_out;
+	t_redirection_list  *redirection_list;
 }	t_cmd_toexec;
 
 typedef struct s_pipe
@@ -92,20 +105,6 @@ typedef struct s_or_op
 	t_tree *right;
 } t_or_op;
 
-typedef struct s_redirection_elem
-{
-	char						*arg;
-	enum e_type					type;
-	struct s_redirection_elem	*next;
-}				t_redirection_elem;
-
-typedef struct s_redirection_list
-{
-	t_redirection_elem	*head;
-	t_redirection_elem	*tail;
-	int					size;
-}				t_redirection_list;
-
 //minishell.c
 void handle_input(t_cmd **cmd, char *str);
 //syntaxerror.c
@@ -125,7 +124,7 @@ int ft_char(t_cmd **cmd, char *command, int flag, int i);
 int ft_separator(t_cmd **cmd, char *command, int flag, int i);
 int ft_space(t_cmd **cmd, char *command, int flag, int i);
 int ft_quote(t_cmd **cmd, char *command, int flag, int i);
-void ft_switch(t_cmd **cmd, char *command, int flag, int i);
+int ft_switch(t_cmd **cmd, char *command, int flag, int i);
 void give_state_and_type(t_cmd **cmd);
 //tools1.c
 int ft_isspace(char c);

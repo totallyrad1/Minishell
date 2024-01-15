@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 16:33:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 18:08:21 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 void handle_input(t_cmd **cmd, char *str)
 {
+	int i;
 	if(str[0])
 	{
-		ft_switch(cmd, str, 1, 0);
-		give_state_and_type(cmd);
+		i = ft_switch(cmd, str, 1, 0);
+		if(i == 0)
+			give_state_and_type(cmd);
 	}
-	t_cmd *curr = *cmd;
-	while(curr)
+	if(i == 0)
 	{
-		if (curr->cmd)
-			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-		curr = curr->next;
+		t_cmd *curr = *cmd;
+		while(curr)
+		{
+			if (curr->cmd)
+				printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+			curr = curr->next;
+		}
 	}
 }
 
@@ -42,7 +47,7 @@ static t_cmd	*init_cmd()
 		exit(2);
 	cmd->next = NULL;
 	cmd->cmd = NULL;
-	cmd->prev =NULL;
+	cmd->prev = NULL;
 	return (cmd);
 }
 
@@ -114,11 +119,17 @@ int main(int ac, char **av, char **env)
 		// string_to_print = get_string_to_print(env);
 		command = readline("\033[1;34m>_ Turboshell$ \033[0m");
 		if (!command)
-			continue ;
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if (!ft_strncmp(command, "clear", 5))
 			write(1, "\033[H\033[J", 7);
 		if (!ft_strncmp(command, "exit", 5))
+		{
+			printf("exit\n");
 			exit(0);
+		}
 		if (!ft_strncmp(command, "pwd", 3))
 		{
 			pwd = get_pwd(env);
