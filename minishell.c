@@ -30,7 +30,6 @@ void handle_input(t_cmd **cmd, char *str)
 				printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
 			curr = curr->next;
 		}
-		
 	}
 }
 
