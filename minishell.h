@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 18:05:30 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/16 00:45:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ enum e_type{
     TOKEN_D_Q,
     TOKEN_S_Q,
     TOKEN_DOLLAR,
+	TOKEN_OPEN_BRACKET,
+	TOKEN_CLOSED_BRACKET,
 } ;
 
 enum e_state
@@ -49,11 +51,20 @@ enum e_state
 	IN_QUOTE,
 };
 
+enum e_tree_type
+{
+	AND,
+	OR,
+	PIPE,
+	CMD,	
+};
+
 typedef struct	s_cmd
 {
 	char *cmd;
 	int type;
 	int state;
+	int	visited;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }				t_cmd;
@@ -61,8 +72,9 @@ typedef struct	s_cmd
 typedef struct s_tree
 {
 	void	*data;
-	void	*left;
-	void	*right;
+	struct s_tree	*left;
+	struct s_tree	*right;
+	enum e_tree_type	tree_type;
 }			t_tree;
 
 typedef struct s_redirection_elem
@@ -87,30 +99,15 @@ typedef struct s_cmd_toexec
 	t_redirection_list  *redirection_list;
 }	t_cmd_toexec;
 
-typedef struct s_pipe
-{
-	t_tree *left;
-	t_tree *right;
-} t_pipe;
-
-typedef struct s_and_op
-{
-	t_tree *left;
-	t_tree *right;
-} t_and_op;
-
-typedef struct s_or_op
-{
-	t_tree *left;
-	t_tree *right;
-} t_or_op;
-
 //minishell.c
 void handle_input(t_cmd **cmd, char *str);
 //syntaxerror.c
 int check_syntax_error(char *prompt);
+int brackets_check(char *command);
+int all_brackets(char *command, int count, int position);
 //parsing.c
 int checkdelimiter(int c);
+int ft_bracket(t_cmd **cmd, char *command, int flag, int i);
 //tools.c
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
@@ -126,6 +123,10 @@ int ft_space(t_cmd **cmd, char *command, int flag, int i);
 int ft_quote(t_cmd **cmd, char *command, int flag, int i);
 int ft_switch(t_cmd **cmd, char *command, int flag, int i);
 void give_state_and_type(t_cmd **cmd);
+//tree.c
+void	make_tree_right(t_tree **tree, t_cmd *cmd);
+void	make_tree_left(t_tree **tree, t_cmd *cmd);
+t_tree	*make_tree(t_cmd *cmd);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);
@@ -153,5 +154,5 @@ char	*get_home_dir(char **envp);
 // start_message.c
 void    print_start_message(void);
 
-
+void print2D(t_tree* root);
 #endif
