@@ -22,6 +22,8 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 // # include "readline/readline.h"
 // # include "readline/history.h>
 
@@ -98,5 +100,8 @@ char	**unset(char **envp, char *var);
 void	signal_handler(int signum);
 // get_home_dir.c
 char	*get_home_dir(char **envp);
+// start_message.c
+void    print_start_message(void);
+
 
 #endif

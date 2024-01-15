@@ -86,16 +86,20 @@ int main(int ac, char **av, char **env)
 	// char				*string_to_print;
 	struct sigaction	sa;
 
+	print_start_message();
 	sa.sa_handler = signal_handler;
 	atexit(f);
 	if (!(*env))
 		env = get_env();
 	(void)ac;
 	(void)av;
+	rl_catch_signals = 0;
 	// atexit(f);
 	while (420)
 	{
 		if (sigaction(SIGINT, &sa, NULL) == -1)
+			exit(1);
+		if (sigaction(SIGQUIT, &sa, NULL) == -1)
 			exit(1);
 		// string_to_print = get_string_to_print(env);
 		// printf("%s\n", string_to_print);
@@ -103,9 +107,11 @@ int main(int ac, char **av, char **env)
 		// cmd = init_cmd();
 		// write(1, string_to_print, ft_strlen(string_to_print));
 		// string_to_print = get_string_to_print(env);
-		command = readline(">_ Minishell$ ");
+		command = readline("\033[1;34m>_ Turboshell$ \033[0m");
 		if (!command)
 			continue ;
+		if (!ft_strncmp(command, "clear", 5))
+			write(1, "\033[H\033[J", 7);
 		if (!ft_strncmp(command, "exit", 5))
 			exit(0);
 		if (!ft_strncmp(command, "pwd", 3))
