@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 15:59:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 15:59:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void give_state_and_type(t_cmd **cmd)
 		{
 			curr->state = IN_DQUOTE;
 		}
-		else if(curr->cmd[0] == '\'')`
+		else if(curr->cmd[0] == '\'')
 		{
 			curr->state = IN_QUOTE;
 		}
