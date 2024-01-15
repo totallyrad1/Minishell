@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 11:35:05 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:33:56 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static t_cmd	*init_cmd()
 		exit(2);
 	cmd->next = NULL;
 	cmd->cmd = NULL;
+	cmd->prev =NULL;
 	return (cmd);
 }
 

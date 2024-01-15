@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 11:37:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 17:45:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,6 @@
 // # include "readline/readline.h"
 // # include "readline/history.h>
 
-typedef struct	s_cmd
-{
-	char *cmd;
-	char **args;
-	int type;
-	int state;
-	struct s_cmd	*next;
-}				t_cmd;
-
 enum e_type{
     TOKEN_EXPR,
     TOKEN_REDIR_IN,
@@ -46,8 +37,6 @@ enum e_type{
     TOKEN_AND,
     TOKEN_OR,
     TOKEN_SPACE,
-    // TOKEN_BRKT_OPEN,
-    // TOKEN_BRKT_CLOSE,
     TOKEN_D_Q,
     TOKEN_S_Q,
     TOKEN_DOLLAR,
@@ -59,6 +48,63 @@ enum e_state
 	IN_DQUOTE,
 	IN_QUOTE,
 };
+
+typedef struct	s_cmd
+{
+	char *cmd;
+	int type;
+	int state;
+	struct s_cmd	*prev;
+	struct s_cmd	*next;
+}				t_cmd;
+
+typedef struct s_tree
+{
+	void	*data;
+	void	*left;
+	void	*right;
+}			t_tree;
+
+typedef struct s_cmd_toexec
+{
+	char	**cmd;
+	int		fd_in;
+	int		fd_out;
+	t_tree	*left;
+	t_tree	*right;
+}	t_cmd_toexec;
+
+typedef struct s_pipe
+{
+	t_tree *left;
+	t_tree *right;
+} t_pipe;
+
+typedef struct s_and_op
+{
+	t_tree *left;
+	t_tree *right;
+} t_and_op;
+
+typedef struct s_or_op
+{
+	t_tree *left;
+	t_tree *right;
+} t_or_op;
+
+typedef struct s_redirection_elem
+{
+	char						*arg;
+	enum e_type					type;
+	struct s_redirection_elem	*next;
+}				t_redirection_elem;
+
+typedef struct s_redirection_list
+{
+	t_redirection_elem	*head;
+	t_redirection_elem	*tail;
+	int					size;
+}				t_redirection_list;
 
 //minishell.c
 void handle_input(t_cmd **cmd, char *str);

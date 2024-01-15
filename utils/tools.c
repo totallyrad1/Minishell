@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/14 22:46:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:34:31 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_newnode(t_cmd **cmd, char *value)
 	while (curr->next)
 		curr = curr->next;
 	curr->next = new_node;
+	new_node->prev = curr;
 }
 
 void	ft_free_cmd(t_cmd *lst)
