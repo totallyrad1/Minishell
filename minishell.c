@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 18:08:21 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/16 00:44:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,19 @@
 
 void handle_input(t_cmd **cmd, char *str)
 {
+	t_tree	*tree;
 	int i;
 	if(str[0])
-	{
-		i = ft_switch(cmd, str, 1, 0);
-		if(i == 0)
-			give_state_and_type(cmd);
-	}
+    {
+        if(brackets_check(str) == 1)
+        {
+            i = ft_switch(cmd, str, 1, 0);
+            if(i == 0)
+                give_state_and_type(cmd);
+        }
+        else
+            return;
+    }
 	if(i == 0)
 	{
 		t_cmd *curr = *cmd;
@@ -31,6 +37,8 @@ void handle_input(t_cmd **cmd, char *str)
 			curr = curr->next;
 		}
 	}
+	tree = make_tree(*cmd);
+	print2D(tree);
 }
 
 void f()
@@ -88,6 +96,36 @@ static char	**get_env()
 	return (env);
 }
 
+void print2DUtil(t_tree* root, int space)
+{
+    // Base case
+    if (root == NULL)
+        return;
+ 
+    // Increase distance between levels
+    space += 10;
+ 
+    // Process right child first
+    print2DUtil(root->right, space);
+ 
+    // Print current node after space
+    // count
+    printf("\n");
+    for (int i = 10; i < space; i++)
+        printf(" ");
+    printf("%d\n", root->tree_type);
+ 
+    // Process left child
+    print2DUtil(root->left, space);
+}
+ 
+// Wrapper over print2DUtil()
+void print2D(t_tree* root)
+{
+    // Pass initial space count as 0
+    print2DUtil(root, 0);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_cmd	*cmd;
@@ -96,7 +134,7 @@ int main(int ac, char **av, char **env)
 	// char				*string_to_print;
 	struct sigaction	sa;
 
-	print_start_message();
+	// print_start_message();
 	sa.sa_handler = signal_handler;
 	atexit(f);
 	if (!(*env))
@@ -117,7 +155,8 @@ int main(int ac, char **av, char **env)
 		cmd = init_cmd();
 		// write(1, string_to_print, ft_strlen(string_to_print));
 		// string_to_print = get_string_to_print(env);
-		command = readline("\033[1;34m>_ Turboshell$ \033[0m");
+		command = readline(">_ Turboshell$ ");
+		printf("%s\n", command);
 		if (!command)
 		{
 			printf("exit\n");

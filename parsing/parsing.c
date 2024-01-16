@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 18:16:16 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/16 00:44:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int getlimitertoken(char c, char f)
 	}
 	else if (c == '$')
 		return TOKEN_DOLLAR;
+	else if(c == '(')
+		return TOKEN_OPEN_BRACKET;
+	else if(c == ')')
+		return TOKEN_CLOSED_BRACKET;
 	return TOKEN_EXPR;
 }
 
@@ -78,6 +82,8 @@ int ft_switch(t_cmd **cmd, char *command, int flag, int i)
 			return ft_quote(cmd, command, flag, i);
 		else if(islimiter(command[i]) == 1)
 			return ft_separator(cmd, command, flag, i);
+		else if(command[i] == '(' || command[i] == ')')
+			return ft_bracket(cmd, command, flag, i);
 		else
 		 	return ft_char(cmd, command, flag, i);
 	}
@@ -99,10 +105,12 @@ int ft_separator(t_cmd **cmd, char *command, int flag, int i)
 {
 	int	tmp;
 	int	x;
+	char	save;
 
 	tmp = i;
 	x = 0;
-	while(command[i] && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0 && x++ < 2)
+	save = command[i];
+	while(command[i] && islimiter(command[i]) == 1 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0 && x++ < 2 && save == command[i])
 		i++;
 	if(islimiter(command[i]) == 1 || look_for_char(command, i) == 0 || (command[tmp] == '&' && command[tmp + 1] != '&'))
 	{
@@ -122,6 +130,17 @@ int ft_space(t_cmd **cmd, char *command, int flag, int i)
 		i++;
 	// fill_node(tmp, i - tmp, command, cmd, &flag);
 	return ft_switch(cmd, command, flag, i);;
+}
+
+int ft_bracket(t_cmd **cmd, char *command, int flag, int i)
+{
+	int tmp;
+
+	tmp = i;
+	if(command[i] == '(' || command[i] == ')')
+		i++;
+	fill_node(tmp, i - tmp, command, cmd, &flag);
+	return ft_switch(cmd, command, flag, i);
 }
 
 int ft_quote(t_cmd **cmd, char *command, int flag, int i)

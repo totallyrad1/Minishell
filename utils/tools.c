@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 18:04:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/15 23:24:08 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_newnode(t_cmd **cmd, char *value)
 	if (!new_node)
 		exit(0);
 	curr = *cmd;
+	new_node->visited = 0;
 	new_node->next = NULL;
 	new_node->cmd = value;
 	while (curr->next)
