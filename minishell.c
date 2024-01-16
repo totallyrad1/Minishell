@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/16 00:44:49 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/16 22:33:42 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void printTree(t_tree *root, int level)
+{
+    int i;
+
+    if (root == NULL)
+        return;
+
+    printTree(root->left, level + 1);
+
+    for (i = 0; i < level; i++)
+        printf("    ");
+   // printLinkedList(root->commands);
+   // printLinkedList(root->redirection);
+
+    printTree(root->right, level + 1);
+} 
 
 void handle_input(t_cmd **cmd, char *str)
 {
@@ -37,8 +54,13 @@ void handle_input(t_cmd **cmd, char *str)
 			curr = curr->next;
 		}
 	}
-	tree = make_tree(*cmd);
-	print2D(tree);
+	// tree = make_tree(*cmd);
+	// print2D(tree);
+	t_tree *root;
+	while((*cmd)->next)
+		(*cmd) =  (*cmd)->next;
+	root = andor(*cmd);
+	// printTree(root, 0);
 }
 
 void f()
@@ -50,7 +72,7 @@ static t_cmd	*init_cmd()
 {
 	t_cmd	*cmd;
 	
-	cmd = malloc(sizeof(t_cmd));
+	cmd = malloc(sizeof(t_cmd)); 
 	if (!cmd)
 		exit(2);
 	cmd->next = NULL;
@@ -106,7 +128,8 @@ void print2DUtil(t_tree* root, int space)
     space += 10;
  
     // Process right child first
-    print2DUtil(root->right, space);
+	if(root && root->right)
+    	print2DUtil(root->right, space);
  
     // Print current node after space
     // count
@@ -116,13 +139,13 @@ void print2DUtil(t_tree* root, int space)
     printf("%d\n", root->tree_type);
  
     // Process left child
-    print2DUtil(root->left, space);
+	if(root && root->left)
+		print2DUtil(root->left, space);
 }
  
 // Wrapper over print2DUtil()
 void print2D(t_tree* root)
 {
-    // Pass initial space count as 0
     print2DUtil(root, 0);
 }
 
