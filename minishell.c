@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/16 22:33:42 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/18 18:22:59 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,22 @@ void printTree(t_tree *root, int level)
     printTree(root->right, level + 1);
 } 
 
+void	free_tree(t_tree **root)
+{
+	t_tree	*tmp;
+
+	tmp = *root;
+	if (!tmp)
+		return ;
+	free(tmp->data);
+	if (tmp->left)
+		free_tree(&tmp->left);
+	if (tmp->right)
+		free_tree(&tmp->right);
+	free(tmp);
+	*root = NULL;
+}
+
 void handle_input(t_cmd **cmd, char *str)
 {
 	t_tree	*tree;
@@ -44,23 +60,25 @@ void handle_input(t_cmd **cmd, char *str)
         else
             return;
     }
-	if(i == 0)
-	{
-		t_cmd *curr = *cmd;
-		while(curr)
-		{
-			if (curr->cmd)
-				printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-			curr = curr->next;
-		}
-	}
+	// if(i == 0)
+	// {
+	// 	t_cmd *curr = *cmd;
+	// 	while(curr)
+	// 	{
+	// 		if (curr->cmd)
+	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+	// 		curr = curr->next;
+	// 	}
+	// }
 	// tree = make_tree(*cmd);
-	// print2D(tree);
 	t_tree *root;
+	t_cmd *save = *cmd;
 	while((*cmd)->next)
 		(*cmd) =  (*cmd)->next;
 	root = andor(*cmd);
-	// printTree(root, 0);
+	print2D(root);
+	free_tree(&root);
+	*cmd = save;
 }
 
 void f()
@@ -136,7 +154,7 @@ void print2DUtil(t_tree* root, int space)
     printf("\n");
     for (int i = 10; i < space; i++)
         printf(" ");
-    printf("%d\n", root->tree_type);
+    printf("%s\n", root->data);
  
     // Process left child
 	if(root && root->left)
@@ -182,14 +200,16 @@ int main(int ac, char **av, char **env)
 		printf("%s\n", command);
 		if (!command)
 		{
-			printf("exit\n");
+			// printf("exit\n");
 			exit(0);
 		}
 		if (!ft_strncmp(command, "clear", 5))
 			write(1, "\033[H\033[J", 7);
 		if (!ft_strncmp(command, "exit", 5))
 		{
-			printf("exit\n");
+			// printf("exit\n");
+			ft_free_cmd(cmd);
+			free(command);
 			exit(0);
 		}
 		if (!ft_strncmp(command, "pwd", 3))
