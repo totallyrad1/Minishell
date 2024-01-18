@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/16 00:45:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/18 18:11:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ enum e_tree_type
 	AND,
 	OR,
 	PIPE,
-	CMD,	
+	CMD,
+	REDIR_IN,
+	REDIR_OUT,
+	HEREDOC,
+	REDIR_APPEND,
 };
 
 typedef struct	s_cmd
@@ -71,33 +75,33 @@ typedef struct	s_cmd
 
 typedef struct s_tree
 {
-	void	*data;
+	char	*data;
 	struct s_tree	*left;
 	struct s_tree	*right;
 	enum e_tree_type	tree_type;
 }			t_tree;
 
-typedef struct s_redirection_elem
-{
-	char						*arg;
-	enum e_type					type;
-	struct s_redirection_elem	*next;
-}				t_redirection_elem;
+// typedef struct s_redirection_elem
+// {
+// 	char						*arg;
+// 	enum e_type					type;
+// 	struct s_redirection_elem	*next;
+// }				t_redirection_elem;
 
-typedef struct s_redirection_list
-{
-	t_redirection_elem	*head;
-	t_redirection_elem	*tail;
-	int					size;
-}				t_redirection_list;
+// typedef struct s_redirection_list
+// {
+// 	t_redirection_elem	*head;
+// 	t_redirection_elem	*tail;
+// 	int					size;
+// }				t_redirection_list;
 
-typedef struct s_cmd_toexec
-{
-	char	            **cmd;
-	int		            fd_in;
-	int		            fd_out;
-	t_redirection_list  *redirection_list;
-}	t_cmd_toexec;
+// typedef struct s_cmd_toexec
+// {
+// 	char	            **cmd;
+// 	int		            fd_in;
+// 	int		            fd_out;
+// 	t_redirection_list  *redirection_list;
+// }	t_cmd_toexec;
 
 //minishell.c
 void handle_input(t_cmd **cmd, char *str);
@@ -124,9 +128,10 @@ int ft_quote(t_cmd **cmd, char *command, int flag, int i);
 int ft_switch(t_cmd **cmd, char *command, int flag, int i);
 void give_state_and_type(t_cmd **cmd);
 //tree.c
-void	make_tree_right(t_tree **tree, t_cmd *cmd);
-void	make_tree_left(t_tree **tree, t_cmd *cmd);
-t_tree	*make_tree(t_cmd *cmd);
+t_tree *make_node(t_cmd **cmd, int flag);
+t_tree *command(t_cmd *token);
+t_tree *pipeew(t_cmd *token);
+t_tree *andor(t_cmd *token);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);
