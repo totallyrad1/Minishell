@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxerror.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/16 00:43:21 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 20:06:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,69 @@ int all_brackets(char *command, int count, int position)
 	return 0;
 }
 
+int empty_bracke(char *command, int pos)
+{
+	int flag = 1;
+	pos++;
+	while(command[pos] && command[pos] != ')' && islimiter(command[pos]) == 0)
+	{
+		if(ft_isspace(command[pos]) == 0)
+			flag = 0;
+		pos++;
+	}
+	return flag;
+}
+
+int limiterafter(char *command)
+{
+	int i = 0;
+	while(command[i])
+		i++;
+	i--;
+	while(command[i] != ')' && command[i])
+		i--;
+	while(command[i])
+	{
+		if(islimiter(command[i]) == 1)
+			return 1;
+		i++;
+	}
+	return 0;
+}
+
+int char_after_last_bracket(char *command)
+{
+	int i = 0;
+	int flag = 0;
+	while(command[i])
+		i++;
+	i--;
+	while(command[i] != ')' && command[i])
+		i--;
+	if(command[i++] == ')')
+		flag = 1;
+	while(command[i] && islimiter(command[i]) == 0 && flag == 1)
+	{
+		if(ft_isspace(command[i]) == 0)
+			return 1;
+		i++;
+	}
+	return 0;
+}
+
 int brackets_check(char *command)
 {
 	int i = 0;
 	int opencount = 0;
 	int closedcount = 0;
-	while(command[i])
+	int flag = 0;
+	while(command[i] && flag == 0)
 	{
 		if(command[i] == '(')
+		{
 			opencount++;
+			flag = empty_bracke(command, i);
+		}
 		else if(command[i] == ')')
 		{
 			if(all_brackets(command, closedcount, i) == 0)
@@ -84,10 +138,15 @@ int brackets_check(char *command)
 		}
 		i++;
 	}
-	if(opencount - closedcount != 0)
+	if(char_after_last_bracket(command) == 1)
+	{
+		if(limiterafter(command) == 0)
+			flag = 1;
+	}
+	if(opencount - closedcount != 0 || flag != 0)
 	{
 		printf("syntax error\n");
-		return 0;
+		return (0);
 	}
 	return 1;
 }

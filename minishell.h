@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/19 17:17:41 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 20:07:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ void	signal_handler(int signum);
 char	*get_home_dir(char **envp);
 // start_message.c
 void    print_start_message(void);
+//clone_env.c
+char **ft_clone_env(char **env);
 
 void print2D(t_tree* root);
 #endif
