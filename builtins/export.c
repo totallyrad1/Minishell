@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/13 18:08:20 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 15:55:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char **create_new_env(char *value, char *var_name, char **env)
 	new_var = ft_strjoin(new_var, value);
 	new_env[i++] = new_var;
 	new_env[i] = NULL; 
+	free(value);
 	return new_env;
 }
 
@@ -71,9 +72,10 @@ char **append_new_env_var_value(char *value, char *var_name, char **env)
 	while(env[i] && ft_strncmp(var_name, env[i], ft_strlen(var_name)))
 		i++;
 	new_var = ft_strjoin(var_name, "=");
-	new_var = ft_strjoin(new_var, value);
-	free(env[i]);
+	if(value)
+		new_var = ft_strjoin(new_var, value);
 	env[i] = new_var;
+	free(value);
 	return env;
 }
 
