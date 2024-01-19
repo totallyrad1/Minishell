@@ -3,27 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:27:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/13 17:55:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 15:54:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_pwd(char **envp)
+char *get_pwd(char **envp)
 {
-	int		i;
-	char	*line_pwd;
-
-	i = 0;
-	while(envp[i])
-	{
-		if(!ft_strncmp("PWD", envp[i], 3))
-			break ;
-		i++;
-	}
-	line_pwd = ft_substr(envp[i], 4, ft_strlen(envp[i] + 4));
-	return (line_pwd);
+    char *pwd1;
+	
+	pwd1 = (char *)malloc(5000);
+    if (getcwd(pwd1, 5000) == NULL)
+    {
+        perror("getcwd");
+        free(pwd1);
+        return (NULL);
+    }
+    return (pwd1);
 }

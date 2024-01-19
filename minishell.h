@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/18 18:11:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 15:53:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,10 @@ char	*get_pwd(char **envp);
 void    print_env(char **env);
 // unset.c
 char	**unset(char **envp, char *var);
+//export.c
+char **ft_export(char **env, char *variable, int flag);
+//cd.c 
+char **ft_cd(char *dir, char **env);
 // signal.c
 void	signal_handler(int signum);
 // get_home_dir.c
