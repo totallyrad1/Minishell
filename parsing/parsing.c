@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/16 00:44:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 18:22:31 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int ft_char(t_cmd **cmd, char *command, int flag, int i)
 	int	tmp;
 	
 	tmp = i;
-	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0)
+	while(command[i] && islimiter(command[i]) == 0 && ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0 && (command[i] != ')' && command[i] != '('))
 		i++;
 	fill_node(tmp, i - tmp, command, cmd, &flag);
 	return ft_switch(cmd, command, flag, i);

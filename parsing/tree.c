@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/18 18:26:51 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 18:34:36 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,21 @@ void	add_right_child(t_tree **node, t_cmd **token, int flag)
 	(*node)->right = new_node;
 }
 
-t_tree *command(t_cmd *token)
+static void	skip_brackets(t_cmd **token)
+{
+	if ((*token)->type == TOKEN_CLOSED_BRACKET)
+	{
+		while ((*token)->next && (*token)->next->type != TOKEN_OPEN_BRACKET)
+			(*token) = (*token)->prev;
+	}
+	if ((*token)->type == TOKEN_OPEN_BRACKET)
+	{
+		while ((*token)->prev && (*token)->prev->type != TOKEN_CLOSED_BRACKET)
+			(*token) = (*token)->next;
+	}
+}
+
+t_tree *make_command(t_cmd *token)
 {
 	t_tree	*root;
 	t_tree	*node;
@@ -107,31 +121,50 @@ t_tree *command(t_cmd *token)
 	return (root);
 }
 
-t_tree *pipeew(t_cmd *token)
+t_tree *search_pipe(t_cmd *token)
 {
 	t_cmd *save;
 	t_tree *node;
-
+	int		is_brackets;
 
 	node = NULL;
 	if(!token)
 		return node;
+	is_brackets = 0;
 	while(token && token->visited != 1)
 	{
+		if (token->type == TOKEN_OPEN_BRACKET)
+		{
+			token->visited = 1;
+			is_brackets = 1;
+			while (token && token->type != TOKEN_CLOSED_BRACKET)
+				token = token->next;
+		}
 		save = token;
-		if(token->type == TOKEN_PIPE)
+		if (token && token->visited != 1 && token->type == TOKEN_CLOSED_BRACKET)
+		{
+			token->visited = 1;
+			token = token->next;
+		}
+		if(token && token->visited != 1 && token->type == TOKEN_PIPE)
 		{
 			node = make_node(&token, 1);
-			node->left = command(token->prev);
-			node->right = pipeew(token->next);
+			if (is_brackets)
+				node->left = search_logical_operator(token->prev->prev);
+			else
+				node->left = make_command(token->prev);
+			node->right = search_pipe(token->next);
 			return (node);
 		}
-		token = token->next;	
+		if (token)
+			token = token->next;	
 	}
-	return command(save);
+	if (is_brackets)
+		return (search_logical_operator(save->prev));
+	return (make_command(save));
 }
 
-t_tree *andor(t_cmd *token)
+t_tree *search_logical_operator(t_cmd *token)
 {
 	t_cmd *save;
 	t_tree *node;
@@ -139,15 +172,25 @@ t_tree *andor(t_cmd *token)
 	node = NULL;
 	while(token && token->visited != 1)
 	{
+		if (token->type == TOKEN_CLOSED_BRACKET)
+		{
+			while (token && token->visited != 1
+				&& token->type != TOKEN_OPEN_BRACKET)
+				token = token->prev;
+		}
 		save = token;
-		if(token->type == TOKEN_AND || token->type == TOKEN_OR)
+		if (token && token->visited != 1 && token->type == TOKEN_OPEN_BRACKET)
+			token = token->prev;
+		if(token && token->visited != 1
+			&& (token->type == TOKEN_AND || token->type == TOKEN_OR))
 		{
 			node = make_node(&token, 1);
-			node->right = pipeew(token->next);
-			node->left = andor(token->prev);
+			node->right = search_pipe(token->next);
+			node->left = search_logical_operator(token->prev);
 			return (node);
 		}
-		token = token->prev;
+		if (token)
+			token = token->prev;
 	}
-	return pipeew(save);
+	return (search_pipe(save));
 }

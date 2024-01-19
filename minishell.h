@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/19 15:53:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:17:41 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ int ft_switch(t_cmd **cmd, char *command, int flag, int i);
 void give_state_and_type(t_cmd **cmd);
 //tree.c
 t_tree *make_node(t_cmd **cmd, int flag);
-t_tree *command(t_cmd *token);
-t_tree *pipeew(t_cmd *token);
-t_tree *andor(t_cmd *token);
+t_tree *make_command(t_cmd *token);
+t_tree *search_pipe(t_cmd *token);
+t_tree *search_logical_operator(t_cmd *token);
 //tools1.c
 int ft_isspace(char c);
 int ft_isquote(char c);

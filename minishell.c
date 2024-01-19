@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/18 18:22:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/19 18:21:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ void handle_input(t_cmd **cmd, char *str)
         else
             return;
     }
-	// if(i == 0)
-	// {
-	// 	t_cmd *curr = *cmd;
-	// 	while(curr)
-	// 	{
-	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-	// 		curr = curr->next;
-	// 	}
-	// }
+	if(i == 0)
+	{
+		t_cmd *curr = *cmd;
+		while(curr)
+		{
+			if (curr->cmd)
+				printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+			curr = curr->next;
+		}
+	}
 	// tree = make_tree(*cmd);
 	t_tree *root;
 	t_cmd *save = *cmd;
 	while((*cmd)->next)
-		(*cmd) =  (*cmd)->next;
-	root = andor(*cmd);
+		(*cmd) = (*cmd)->next;
+	root = search_logical_operator(*cmd);
 	print2D(root);
 	free_tree(&root);
 	*cmd = save;
