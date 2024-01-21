@@ -9,10 +9,12 @@ LINKREADLINELIB1 = $(shell brew --prefix readline)/include
 all: ${NAME}
 
 ${NAME}: ${OBJECT}
-	$(CC) -g -o $@ $^ -L $(LINKREADLINELIB) -lreadline
+	@echo "Compiling minishell ..."
+	@$(CC) -g -o $@ $^ -L $(LINKREADLINELIB) -lreadline
 
 %.o: %.c minishell.h
-	$(CC) -g -c -I  $(LINKREADLINELIB1) $< -o $@ 
+	@echo "Compiling $< ..."
+	@$(CC) -g -c -I  $(LINKREADLINELIB1) $< -o $@ 
 
 # #Compile Ubuntu
 # ${NAME}: ${OBJECT}
@@ -22,10 +24,12 @@ ${NAME}: ${OBJECT}
 # 	$(CC) -c -I /usr/include $< -o $@
 
 clean:
-	rm -f ${OBJECT}
+	@echo "Deleting object files ..."
+	@rm -f ${OBJECT}
 
-fclean: clean
-	rm -f ${NAME}
+fclean:
+	@echo "Deleting all ..."
+	@rm -f ${NAME} ${OBJECT}
 
 re: fclean all
 
