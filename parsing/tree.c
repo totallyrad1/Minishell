@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/19 18:34:36 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/21 22:14:40 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,10 @@ t_tree *make_command(t_cmd *token)
 
 t_tree *search_pipe(t_cmd *token)
 {
-	t_cmd *save;
-	t_tree *node;
+	t_cmd	*save;
+	t_tree	*node;
 	int		is_brackets;
+	int		nb_brackets;
 
 	node = NULL;
 	if(!token)
@@ -135,17 +136,24 @@ t_tree *search_pipe(t_cmd *token)
 	{
 		if (token->type == TOKEN_OPEN_BRACKET)
 		{
+			nb_brackets = 1;
 			token->visited = 1;
 			is_brackets = 1;
-			while (token && token->type != TOKEN_CLOSED_BRACKET)
+			token = token->next;
+			while (token && token->visited != 1 && nb_brackets)
+			{
+				if (token->type == TOKEN_OPEN_BRACKET)
+					nb_brackets++;
+				else if (token->type == TOKEN_CLOSED_BRACKET)
+					nb_brackets--;
+				if (!nb_brackets)
+					break ;
 				token = token->next;
+			}
 		}
 		save = token;
 		if (token && token->visited != 1 && token->type == TOKEN_CLOSED_BRACKET)
-		{
 			token->visited = 1;
-			token = token->next;
-		}
 		if(token && token->visited != 1 && token->type == TOKEN_PIPE)
 		{
 			node = make_node(&token, 1);
@@ -168,15 +176,25 @@ t_tree *search_logical_operator(t_cmd *token)
 {
 	t_cmd *save;
 	t_tree *node;
+	int		nb_brackets;
 
 	node = NULL;
 	while(token && token->visited != 1)
 	{
 		if (token->type == TOKEN_CLOSED_BRACKET)
 		{
-			while (token && token->visited != 1
-				&& token->type != TOKEN_OPEN_BRACKET)
+			nb_brackets = 1;
+			token = token->prev;
+			while (token && token->visited != 1 && nb_brackets)
+			{
+				if (token->type == TOKEN_OPEN_BRACKET)
+					nb_brackets--;
+				else if (token->type == TOKEN_CLOSED_BRACKET)
+					nb_brackets++;
+				if (!nb_brackets)
+					break ;
 				token = token->prev;
+			}
 		}
 		save = token;
 		if (token && token->visited != 1 && token->type == TOKEN_OPEN_BRACKET)
