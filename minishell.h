@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/21 23:06:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/21 23:10:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,10 @@ t_tree	*make_node(t_cmd **cmd, int flag);
 t_tree	*make_command(t_cmd *token);
 t_tree	*search_pipe(t_cmd *token);
 t_tree	*search_logical_operator(t_cmd *token);
-//skip_brackets.c
+//tree_utils2.c
 t_cmd	*skip_brackets_next(t_cmd *token, int *is_brackets);
 t_cmd	*skip_brackets_prev(t_cmd *token);
+void	free_tree(t_tree **root);
 //tree_utils.c
 void	add_right_child(t_tree **node, t_cmd **token, int flag);
 t_tree	*make_node(t_cmd **cmd, int flag);

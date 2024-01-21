@@ -3,53 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/19 20:21:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/21 23:18:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void printTree(t_tree *root, int level)
-{
-    int i;
-
-    if (root == NULL)
-        return;
-
-    printTree(root->left, level + 1);
-
-    for (i = 0; i < level; i++)
-        printf("    ");
-   // printLinkedList(root->commands);
-   // printLinkedList(root->redirection);
-
-    printTree(root->right, level + 1);
-} 
-
-void	free_tree(t_tree **root)
-{
-	t_tree	*tmp;
-
-	tmp = *root;
-	if (!tmp)
-		return ;
-	free(tmp->data);
-	if (tmp->left)
-		free_tree(&tmp->left);
-	if (tmp->right)
-		free_tree(&tmp->right);
-	free(tmp);
-	*root = NULL;
-}
-
 void handle_input(t_cmd **cmd, char *str)
 {
 	t_tree	*tree;
-	t_cmd *curr = *cmd;
-	int i;
+	t_tree	*root;
+	t_cmd	*curr;
+	int		i;
+	t_cmd *save;
+	
+	curr = *cmd;
 	if(str[0])
     {
         if(brackets_check(str) == 1)
@@ -61,34 +32,12 @@ void handle_input(t_cmd **cmd, char *str)
         else
             return;
     }
-	// if(i == 0)
-	// {
-	// 	while(curr)
-	// 	{
-	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
-	// 		curr = curr->next;
-	// 	}
-	// }
-	// tree = make_tree(*cmd);
-	t_tree *root;
-	t_cmd *save = *cmd;
+	save = *cmd;
 	while((*cmd)->next)
 		(*cmd) = (*cmd)->next;
 	root = search_logical_operator(*cmd);
 	print2D(root);
 	free_tree(&root);
-	// curr = save;
-	// if(i == 0)
-	// {
-	// 	// t_cmd *curr = *cmd;
-	// 	while(curr)
-	// 	{
-	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,visited|%d|\n", curr->cmd, curr->visited);
-	// 		curr = curr->next;
-	// 	}
-	// }
 	*cmd = save;
 }
 
@@ -108,27 +57,6 @@ static t_cmd	*init_cmd()
 	cmd->cmd = NULL;
 	cmd->prev = NULL;
 	return (cmd);
-}
-
-char	*get_string_to_print(char **env)
-{
-	char	*string_to_print;
-	char	*pwd;
-	char	*pwd_without_home_dir;
-	int		len_home_dir;
-	char	*home_dir;
-
-	pwd = get_pwd(env);
-	home_dir = get_home_dir(env);
-	len_home_dir = ft_strlen(home_dir);
-	string_to_print = ft_strdup("");
-	pwd_without_home_dir = ft_substr(pwd, len_home_dir, ft_strlen(pwd + len_home_dir));
-	string_to_print = ft_strjoin(string_to_print, pwd_without_home_dir);
-	string_to_print = ft_strjoin(string_to_print, " ");
-	free(pwd);
-	free(home_dir);
-	free(pwd_without_home_dir);
-	return (string_to_print);
 }
 
 static char	**get_env()
@@ -183,42 +111,33 @@ int main(int ac, char **av, char **env)
 	t_cmd	*cmd;
 	char				*command;
 	char				*pwd;
-	// char				*string_to_print;
 	struct sigaction	sa;
 
-	// print_start_message();
-	sa.sa_handler = signal_handler;
 	atexit(f);
-	if (!(*env))
-		env = get_env();
 	(void)ac;
 	(void)av;
+	if (!(*env))
+		env = get_env();
 	rl_catch_signals = 0;
-	// atexit(f);
+	sa.sa_handler = signal_handler;
 	while (420)
 	{
 		if (sigaction(SIGINT, &sa, NULL) == -1)
 			exit(1);
 		if (sigaction(SIGQUIT, &sa, NULL) == -1)
 			exit(1);
-		// string_to_print = get_string_to_print(env);
-		// printf("%s\n", string_to_print);
-		// rl_on_new_line();
 		cmd = init_cmd();
-		// write(1, string_to_print, ft_strlen(string_to_print));
-		// string_to_print = get_string_to_print(env);
 		command = readline(">_ Turboshell$ ");
-		printf("%s\n", command);
 		if (!command)
 		{
-			// printf("exit\n");
+			printf("exit\n");
 			exit(0);
 		}
 		if (!ft_strncmp(command, "clear", 5))
 			write(1, "\033[H\033[J", 7);
 		if (!ft_strncmp(command, "exit", 5))
 		{
-			// printf("exit\n");
+			printf("exit\n");
 			ft_free_cmd(cmd);
 			free(command);
 			exit(0);
@@ -235,7 +154,6 @@ int main(int ac, char **av, char **env)
 		handle_input(&cmd, command);
 		ft_free_cmd(cmd);
 		add_history(command);
-		// free(string_to_print);
 		free(command);
 	}
 }

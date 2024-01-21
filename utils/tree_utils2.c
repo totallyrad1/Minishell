@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:42:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/21 22:59:41 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/21 23:09:57 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,20 @@ t_cmd	*skip_brackets_prev(t_cmd *token)
 		}
 	}
 	return (token);
+}
+
+void	free_tree(t_tree **root)
+{
+	t_tree	*tmp;
+
+	tmp = *root;
+	if (!tmp)
+		return ;
+	free(tmp->data);
+	if (tmp->left)
+		free_tree(&tmp->left);
+	if (tmp->right)
+		free_tree(&tmp->right);
+	free(tmp);
+	*root = NULL;
 }
