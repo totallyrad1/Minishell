@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:59:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/15 18:12:33 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 12:21:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_isspace(char c)
+int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\t')
 		return (1);
@@ -21,14 +21,14 @@ int ft_isspace(char c)
 	return (0);
 }
 
-int ft_isquote(char c)
+int	ft_isquote(char c)
 {
 	if (c == '"' || c == '\'')
 		return (1);
 	return (0);
 }
 
-int islimiter(int c)
+int	islimiter(int c)
 {
 	if (c == '<' || c == '>')
 		return (1);

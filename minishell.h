@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/21 23:10:33 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 12:38:09 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,17 @@ size_t	ft_strlen(const char *s);
 void	ft_newnode(t_cmd **cmd, char *value);
 void	ft_free_cmd(t_cmd *lst);
 //parsing.c
-void	fill_node(int start, int len, char *command, t_cmd **cmd, int *tnp);
 int		ft_char(t_cmd **cmd, char *command, int flag, int i);
+void	give_state_and_type(t_cmd **cmd);
+//recursive_parsing1.c
+int	getlimitertoken(char c, char f);
+int	getlimitertoken1(char c, char f);
+int	look_for_char(char *command, int i);
+//recursive_parsing.c
 int		ft_separator(t_cmd **cmd, char *command, int flag, int i);
 int		ft_space(t_cmd **cmd, char *command, int flag, int i);
 int		ft_quote(t_cmd **cmd, char *command, int flag, int i);
 int		ft_switch(t_cmd **cmd, char *command, int flag, int i);
-void	give_state_and_type(t_cmd **cmd);
 //tree.c
 int		is_redirection(t_cmd *token);
 t_tree	*make_node(t_cmd **cmd, int flag);

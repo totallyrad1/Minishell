@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_home_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:47:11 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/13 17:55:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 12:01:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ char	*get_home_dir(char **envp)
 	char	*line_home;
 
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
-		if(!ft_strncmp("HOME", envp[i], 4))
+		if (!ft_strncmp("HOME", envp[i], 4))
 			break ;
 		i++;
 	}

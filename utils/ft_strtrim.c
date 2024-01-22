@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:52:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 17:51:22 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 12:24:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static size_t	ft_trimend(const char *s1, const char *set)
 		i--;
 	return (i);
 }
-
 
 char	*ft_strtrim(char const *s1, char const *set)
 {

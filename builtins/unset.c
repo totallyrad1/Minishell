@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:27:25 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/13 18:02:45 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 12:03:37 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ char	**unset(char **envp, char *var)
 
 	size_envp = 0;
 	index_line_var = 0;
-	while(envp[size_envp])
+	while (envp[size_envp])
 	{
-		if(!ft_strncmp(var, envp[size_envp], ft_strlen(var)))
+		if (!ft_strncmp(var, envp[size_envp], ft_strlen(var)))
 			index_line_var = size_envp;
 		size_envp++;
 	}
@@ -38,6 +38,5 @@ char	**unset(char **envp, char *var)
 		i++;
 	}
 	new_env[i] = NULL;
-	ft_free_array(envp);
-	return (new_env);
+	return (ft_free_array(envp), new_env);
 }

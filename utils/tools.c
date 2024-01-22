@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/18 15:33:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/22 11:10:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_free_cmd(t_cmd *lst)
 	t_cmd	*curr;
 	t_cmd	*lastnode;
 
-	if(!lst)
+	if (!lst)
 		return ;
 	curr = lst;
 	while (curr)
@@ -44,7 +44,7 @@ void	ft_free_cmd(t_cmd *lst)
 		if (curr)
 			curr = curr->next;
 		else
-		 	break;
+			break ;
 		free(lastnode->cmd);
 		free(lastnode);
 	}
