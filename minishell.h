@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 20:24:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/23 23:26:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 
@@ -75,6 +76,7 @@ typedef struct s_cmd
 typedef struct s_tree
 {
 	char				*data;
+	int					fd[2];
 	struct s_tree		*left;
 	struct s_tree		*right;
 	enum e_tree_type	tree_type;

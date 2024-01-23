@@ -6,11 +6,10 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 23:29:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/23 23:56:30 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/23 23:59:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
 #include <sys/fcntl.h>
 
 void redirappend(int fd, char *filetoappendto)
