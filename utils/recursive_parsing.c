@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:30:25 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:44:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	ft_quote(t_cmd **cmd, char *command, int flag, int i)
 		i++;
 	if (command[i] == '\'' || command[i] == '"')
 	{
+		printf("here\n");
 		if (flag == 1)
 		{
 			(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
@@ -104,7 +105,7 @@ int	ft_quote(t_cmd **cmd, char *command, int flag, int i)
 		}
 		else
 			ft_newnode(cmd, ft_substr(command, tmp, i - tmp));
-		return (ft_switch(cmd, command, flag, i));
+		return (ft_switch(cmd, command, flag, ++i));
 	}
 	else
 		return (printf("syntax error\n"), 1);

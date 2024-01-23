@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/21 23:18:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/23 18:41:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ void handle_input(t_cmd **cmd, char *str)
         else
             return;
     }
+	// if(i == 0)
+	// {
+	// 	curr = *cmd;
+	// 	while(curr)
+	// 	{
+	// 		if (curr->cmd)
+	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+	// 		curr = curr->next;
+	// 	}
+	// }
+	// return ;
 	save = *cmd;
 	while((*cmd)->next)
 		(*cmd) = (*cmd)->next;
@@ -53,6 +64,7 @@ static t_cmd	*init_cmd()
 	cmd = malloc(sizeof(t_cmd)); 
 	if (!cmd)
 		exit(2);
+	cmd->visited = 0;
 	cmd->next = NULL;
 	cmd->cmd = NULL;
 	cmd->prev = NULL;

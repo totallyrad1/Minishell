@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:38:09 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/22 20:24:37 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ typedef struct s_tree
 	enum e_tree_type	tree_type;
 }				t_tree;
 
+typedef struct s_vars
+{
+	int i;
+	int j;
+	int x;
+	int y;
+}				t_vars;
+
 //minishell.c
 void	handle_input(t_cmd **cmd, char *str);
 //syntaxerror.c
@@ -100,9 +108,9 @@ void	ft_free_cmd(t_cmd *lst);
 int		ft_char(t_cmd **cmd, char *command, int flag, int i);
 void	give_state_and_type(t_cmd **cmd);
 //recursive_parsing1.c
-int	getlimitertoken(char c, char f);
-int	getlimitertoken1(char c, char f);
-int	look_for_char(char *command, int i);
+int		getlimitertoken(char c, char f);
+int		getlimitertoken1(char c, char f);
+int		look_for_char(char *command, int i);
 //recursive_parsing.c
 int		ft_separator(t_cmd **cmd, char *command, int flag, int i);
 int		ft_space(t_cmd **cmd, char *command, int flag, int i);
