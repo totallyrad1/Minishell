@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/21 23:17:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/23 23:55:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ t_tree	*make_command(t_cmd *token)
 	flag = 0;
 	node = check_token(&token, &flag);
 	root = node;
-	while (token && token->visited != 1)
+	while (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))))
 	{
 		if (flag)
 		{
+			if (token->type == TOKEN_OPEN_BRACKET)
+				token = token->next;
 			add_right_child(&node, &token, 0);
 			node = node->right;
 			token = token->next;
 		}
 		join_data(node, &token);
-		if (token && token->visited != 1 && is_redirection(token))
+		if (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))) && is_redirection(token))
 		{
 			add_right_child(&node, &token, 0);
 			flag = 1;

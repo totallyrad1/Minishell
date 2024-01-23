@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:25:29 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/21 23:00:27 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/23 23:53:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_tree	*check_token(t_cmd **token, int *flag)
 	t_tree	*node;
 
 	node = NULL;
-	while ((*token)->prev && (*token)->prev->visited != 1)
+	while ((*token)->prev && ((*token)->prev->visited != 1 || (((*token)->prev->visited == 1 && ((*token)->prev->type == TOKEN_CLOSED_BRACKET || (*token)->prev->type == TOKEN_OPEN_BRACKET)))))
 		*token = (*token)->prev;
 	if (*token && is_redirection(*token))
 	{
@@ -81,10 +81,15 @@ t_tree	*check_token(t_cmd **token, int *flag)
 
 void	join_data(t_tree *node, t_cmd **token)
 {
-	while (*token && (*token)->visited != 1 && (*token)->type == TOKEN_EXPR)
+	while (*token && (((*token)->visited != 1 && (*token)->type == TOKEN_EXPR) || ((*token)->visited == 1 && ((*token)->type == TOKEN_CLOSED_BRACKET || (*token)->type == TOKEN_OPEN_BRACKET))))
 	{
-		node->data = ft_strjoin(node->data, " ");
-		node->data = ft_strjoin(node->data, (*token)->cmd);
-		*token = (*token)->next;
+		if ((*token)->type == TOKEN_CLOSED_BRACKET || (*token)->type == TOKEN_OPEN_BRACKET)
+			*token = (*token)->next;
+		if (*token)
+		{
+			node->data = ft_strjoin(node->data, " ");
+			node->data = ft_strjoin(node->data, (*token)->cmd);
+			*token = (*token)->next;
+		}
 	}
 }
