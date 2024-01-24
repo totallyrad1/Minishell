@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/23 23:55:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/24 05:41:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_redirection(t_cmd *token)
+int	is_redirection(t_token *token)
 {
 	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
 		|| token->type == TOKEN_HEREDOC || token->type == TOKEN_REDIR_APPEND)
@@ -20,38 +20,36 @@ int	is_redirection(t_cmd *token)
 	return (0);
 }
 
-t_tree	*make_command(t_cmd *token)
+t_tree	*make_command(t_token *token)
 {
 	t_tree	*root;
-	t_tree	*node;
+	t_cmd	*head_cmd;
 	int		flag;
 
 	flag = 0;
-	node = check_token(&token, &flag);
-	root = node;
+	root = check_token(&token, &flag);
+	head_cmd = root->next;
 	while (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))))
 	{
 		if (flag)
 		{
 			if (token->type == TOKEN_OPEN_BRACKET)
 				token = token->next;
-			add_right_child(&node, &token, 0);
-			node = node->right;
+			add_cmd(&head_cmd, token);
 			token = token->next;
 		}
-		join_data(node, &token);
+		join_data(head_cmd, &token);
 		if (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))) && is_redirection(token))
 		{
-			add_right_child(&node, &token, 0);
+			add_cmd(&head_cmd, token);
 			flag = 1;
-			node = node->right;
 			token = token->next;
 		}
 	}
 	return (root);
 }
 
-static t_tree	*choose_function(t_tree *node, t_cmd *token, int is_brackets)
+static t_tree	*choose_function(t_tree *node, t_token *token, int is_brackets)
 {
 	node = make_node(&token, 1);
 	if (is_brackets)
@@ -62,9 +60,9 @@ static t_tree	*choose_function(t_tree *node, t_cmd *token, int is_brackets)
 	return (node);
 }
 
-t_tree	*search_pipe(t_cmd *token)
+t_tree	*search_pipe(t_token *token)
 {
-	t_cmd	*save;
+	t_token	*save;
 	t_tree	*node;
 	int		is_brackets;
 	int		nb_brackets;
@@ -89,9 +87,9 @@ t_tree	*search_pipe(t_cmd *token)
 	return (make_command(save));
 }
 
-t_tree	*search_logical_operator(t_cmd *token)
+t_tree	*search_logical_operator(t_token *token)
 {
-	t_cmd	*save;
+	t_token	*save;
 	t_tree	*node;
 	int		nb_brackets;
 

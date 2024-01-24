@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 11:10:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 05:23:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_newnode(t_cmd **cmd, char *value)
+void	ft_newnode(t_token **cmd, char *value)
 {
-	t_cmd	*new_node;
-	t_cmd	*curr;
+	t_token	*new_node;
+	t_token	*curr;
 
-	new_node = malloc(sizeof(t_cmd));
+	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		exit(0);
 	curr = *cmd;
@@ -30,10 +30,10 @@ void	ft_newnode(t_cmd **cmd, char *value)
 	new_node->prev = curr;
 }
 
-void	ft_free_cmd(t_cmd *lst)
+void	ft_free_cmd(t_token *lst)
 {
-	t_cmd	*curr;
-	t_cmd	*lastnode;
+	t_token	*curr;
+	t_token	*lastnode;
 
 	if (!lst)
 		return ;

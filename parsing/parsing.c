@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:19:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 05:23:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_switch(t_cmd **cmd, char *command, int flag, int i)
+int	ft_switch(t_token **cmd, char *command, int flag, int i)
 {
 	if (command[i])
 	{
@@ -30,9 +30,9 @@ int	ft_switch(t_cmd **cmd, char *command, int flag, int i)
 	return (0);
 }
 
-void	give_state_and_type(t_cmd **cmd)
+void	give_state_and_type(t_token **cmd)
 {
-	t_cmd	*curr;
+	t_token	*curr;
 
 	curr = *cmd;
 	while (curr)

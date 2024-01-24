@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/23 11:44:48 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 05:23:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_char(t_cmd **cmd, char *command, int flag, int i)
+int	ft_char(t_token **cmd, char *command, int flag, int i)
 {
 	int	tmp;
 
@@ -31,7 +31,7 @@ int	ft_char(t_cmd **cmd, char *command, int flag, int i)
 	return (ft_switch(cmd, command, flag, i));
 }
 
-int	ft_separator(t_cmd **cmd, char *command, int flag, int i)
+int	ft_separator(t_token **cmd, char *command, int flag, int i)
 {
 	int		tmp;
 	int		x;
@@ -57,7 +57,7 @@ int	ft_separator(t_cmd **cmd, char *command, int flag, int i)
 	return (ft_switch(cmd, command, flag, i));
 }
 
-int	ft_space(t_cmd **cmd, char *command, int flag, int i)
+int	ft_space(t_token **cmd, char *command, int flag, int i)
 {
 	int	tmp;
 
@@ -68,7 +68,7 @@ int	ft_space(t_cmd **cmd, char *command, int flag, int i)
 	return (ft_switch(cmd, command, flag, i));
 }
 
-int	ft_bracket(t_cmd **cmd, char *command, int flag, int i)
+int	ft_bracket(t_token **cmd, char *command, int flag, int i)
 {
 	int	tmp;
 
@@ -85,7 +85,7 @@ int	ft_bracket(t_cmd **cmd, char *command, int flag, int i)
 	return (ft_switch(cmd, command, flag, i));
 }
 
-int	ft_quote(t_cmd **cmd, char *command, int flag, int i)
+int	ft_quote(t_token **cmd, char *command, int flag, int i)
 {
 	int		tmp;
 	char	save;

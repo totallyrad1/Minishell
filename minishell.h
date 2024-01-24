@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/23 23:26:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 05:41:36 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,20 @@ enum e_tree_type
 	REDIR_APPEND,
 };
 
-typedef struct s_cmd
+typedef struct s_token
 {
 	char			*cmd;
 	int				type;
 	int				state;
 	int				visited;
-	struct s_cmd	*prev;
+	struct s_token	*prev;
+	struct s_token	*next;
+}				t_token;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	int				fd[2];
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -77,6 +84,7 @@ typedef struct s_tree
 {
 	char				*data;
 	int					fd[2];
+	t_cmd				*next;
 	struct s_tree		*left;
 	struct s_tree		*right;
 	enum e_tree_type	tree_type;
@@ -91,48 +99,51 @@ typedef struct s_vars
 }				t_vars;
 
 //minishell.c
-void	handle_input(t_cmd **cmd, char *str);
+void	handle_input(t_token **cmd, char *str);
 //syntaxerror.c
 int		check_syntax_error(char *prompt);
 int		brackets_check(char *command);
 int		all_brackets(char *command, int count, int position);
 //parsing.c
 int		checkdelimiter(int c);
-int		ft_bracket(t_cmd **cmd, char *command, int flag, int i);
+int		ft_bracket(t_token **cmd, char *command, int flag, int i);
 //tools.c
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(t_cmd **cmd, char *value);
-void	ft_free_cmd(t_cmd *lst);
+void	ft_newnode(t_token **cmd, char *value);
+void	ft_free_cmd(t_token *lst);
 //parsing.c
-int		ft_char(t_cmd **cmd, char *command, int flag, int i);
-void	give_state_and_type(t_cmd **cmd);
+int		ft_char(t_token **cmd, char *command, int flag, int i);
+void	give_state_and_type(t_token **cmd);
 //recursive_parsing1.c
 int		getlimitertoken(char c, char f);
 int		getlimitertoken1(char c, char f);
 int		look_for_char(char *command, int i);
 //recursive_parsing.c
-int		ft_separator(t_cmd **cmd, char *command, int flag, int i);
-int		ft_space(t_cmd **cmd, char *command, int flag, int i);
-int		ft_quote(t_cmd **cmd, char *command, int flag, int i);
-int		ft_switch(t_cmd **cmd, char *command, int flag, int i);
+int		ft_separator(t_token **cmd, char *command, int flag, int i);
+int		ft_space(t_token **cmd, char *command, int flag, int i);
+int		ft_quote(t_token **cmd, char *command, int flag, int i);
+int		ft_switch(t_token **cmd, char *command, int flag, int i);
 //tree.c
-int		is_redirection(t_cmd *token);
-t_tree	*make_node(t_cmd **cmd, int flag);
-t_tree	*make_command(t_cmd *token);
-t_tree	*search_pipe(t_cmd *token);
-t_tree	*search_logical_operator(t_cmd *token);
+int		is_redirection(t_token *token);
+t_tree	*make_node(t_token **cmd, int flag);
+t_tree	*make_command(t_token *token);
+t_tree	*search_pipe(t_token *token);
+t_tree	*search_logical_operator(t_token *token);
 //tree_utils2.c
-t_cmd	*skip_brackets_next(t_cmd *token, int *is_brackets);
-t_cmd	*skip_brackets_prev(t_cmd *token);
+t_token	*skip_brackets_next(t_token *token, int *is_brackets);
+t_token	*skip_brackets_prev(t_token *token);
 void	free_tree(t_tree **root);
 //tree_utils.c
-void	add_right_child(t_tree **node, t_cmd **token, int flag);
-t_tree	*make_node(t_cmd **cmd, int flag);
-t_tree	*check_token(t_cmd **token, int *flag);
-void	join_data(t_tree *node, t_cmd **token);
+void	add_right_child(t_tree **node, t_token **token, int flag);
+t_tree	*make_node(t_token **cmd, int flag);
+t_tree	*check_token(t_token **token, int *flag);
+void	join_data(t_cmd *cmd, t_token **token);
+//cmd_utils.c
+t_cmd	*make_cmd(t_token *token);
+void	add_cmd(t_cmd **cmd, t_token *token);
 //tools1.c
 int		ft_isspace(char c);
 int		ft_isquote(char c);

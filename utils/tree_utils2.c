@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:42:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/22 11:09:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 06:01:36 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*skip_brackets_next(t_cmd *token, int *is_brackets)
+t_token	*skip_brackets_next(t_token *token, int *is_brackets)
 {
 	int	nb_brackets;
 
@@ -36,7 +36,7 @@ t_cmd	*skip_brackets_next(t_cmd *token, int *is_brackets)
 	return (token);
 }
 
-t_cmd	*skip_brackets_prev(t_cmd *token)
+t_token	*skip_brackets_prev(t_token *token)
 {
 	int	nb_brackets;
 
@@ -58,11 +58,33 @@ t_cmd	*skip_brackets_prev(t_cmd *token)
 	return (token);
 }
 
+static void	free_cmd(t_cmd **cmd)
+{
+	t_cmd	*tmp;
+
+	if (!cmd)
+		return ;
+	if (!*cmd)
+	{
+		free(*cmd);
+		return ;
+	}
+	while (*cmd)
+	{
+		tmp = *cmd;
+		*cmd = (*cmd)->next;
+		free(tmp->cmd);
+		free(tmp);
+	}
+}
+
 void	free_tree(t_tree **root)
 {
 	t_tree	*tmp;
 
 	tmp = *root;
+	if (tmp->next)
+		free_cmd(&tmp->next);
 	if (!tmp)
 		return ;
 	free(tmp->data);

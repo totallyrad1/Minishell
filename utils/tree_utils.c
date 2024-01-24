@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:25:29 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/23 23:53:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/24 06:03:22 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ static enum e_tree_type	assing_tree_type(enum e_type token_type)
 		return (CMD);
 }
 
-t_tree	*make_node(t_cmd **cmd, int flag)
+t_tree	*make_node(t_token **cmd, int flag)
 {
 	t_tree	*newnode;
 
 	newnode = malloc(sizeof(t_tree));
 	if (!newnode)
 		return (NULL);
+	newnode->next = NULL;
 	newnode->left = NULL;
 	newnode->right = NULL;
 	newnode->data = ft_strdup((*cmd)->cmd);
@@ -48,7 +49,7 @@ t_tree	*make_node(t_cmd **cmd, int flag)
 	return (newnode);
 }
 
-void	add_right_child(t_tree **node, t_cmd **token, int flag)
+void	add_right_child(t_tree **node, t_token **token, int flag)
 {
 	t_tree	*new_node;
 
@@ -58,7 +59,7 @@ void	add_right_child(t_tree **node, t_cmd **token, int flag)
 	(*node)->right = new_node;
 }
 
-t_tree	*check_token(t_cmd **token, int *flag)
+t_tree	*check_token(t_token **token, int *flag)
 {
 	t_tree	*node;
 
@@ -68,27 +69,31 @@ t_tree	*check_token(t_cmd **token, int *flag)
 	if (*token && is_redirection(*token))
 	{
 		node = make_node(token, 0);
+		node->next = make_cmd(*token);
 		*flag = 1;
 	}
 	else if (*token && (*token)->type == TOKEN_EXPR)
 	{
 		node = make_node(token, 0);
+		node->next = make_cmd(*token);
 		*flag = 0;
 	}
 	*token = (*token)->next;
 	return (node);
 }
 
-void	join_data(t_tree *node, t_cmd **token)
+void	join_data(t_cmd *cmd, t_token **token)
 {
+	while (cmd->next)
+		cmd = cmd->next;
 	while (*token && (((*token)->visited != 1 && (*token)->type == TOKEN_EXPR) || ((*token)->visited == 1 && ((*token)->type == TOKEN_CLOSED_BRACKET || (*token)->type == TOKEN_OPEN_BRACKET))))
 	{
 		if ((*token)->type == TOKEN_CLOSED_BRACKET || (*token)->type == TOKEN_OPEN_BRACKET)
 			*token = (*token)->next;
 		if (*token)
 		{
-			node->data = ft_strjoin(node->data, " ");
-			node->data = ft_strjoin(node->data, (*token)->cmd);
+			cmd->cmd = ft_strjoin(cmd->cmd, " ");
+			cmd->cmd = ft_strjoin(cmd->cmd, (*token)->cmd);
 			*token = (*token)->next;
 		}
 	}

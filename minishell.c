@@ -3,22 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/23 18:41:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/24 06:10:59 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void handle_input(t_cmd **cmd, char *str)
+void	print_cmd(t_tree *root)
+{
+	t_cmd	*tmp;
+	while (root->left)
+		root = root->left;
+	tmp = root->next;
+	while (tmp)
+	{
+		printf("%s\n", tmp->cmd);
+		tmp = tmp->next;
+	}
+}
+
+void handle_input(t_token **cmd, char *str)
 {
 	t_tree	*tree;
 	t_tree	*root;
-	t_cmd	*curr;
+	t_token	*curr;
 	int		i;
-	t_cmd *save;
+	t_token *save;
 	
 	curr = *cmd;
 	if(str[0])
@@ -48,6 +61,7 @@ void handle_input(t_cmd **cmd, char *str)
 		(*cmd) = (*cmd)->next;
 	root = search_logical_operator(*cmd);
 	print2D(root);
+	printf("\n");
 	free_tree(&root);
 	*cmd = save;
 }
@@ -57,11 +71,11 @@ void f()
 	system("leaks minishell");
 }
 
-static t_cmd	*init_cmd()
+static t_token	*init_token()
 {
-	t_cmd	*cmd;
+	t_token	*cmd;
 	
-	cmd = malloc(sizeof(t_cmd)); 
+	cmd = malloc(sizeof(t_token)); 
 	if (!cmd)
 		exit(2);
 	cmd->visited = 0;
@@ -89,23 +103,37 @@ static char	**get_env()
 
 void print2DUtil(t_tree* root, int space)
 {
+	t_cmd	*tmp;
     // Base case
     if (root == NULL)
         return;
  
     // Increase distance between levels
     space += 10;
- 
+	if (root->next)
+	{
+		tmp = root->next;
+		for (int i = 10; i < space; i++)
+			printf(" ");
+		while (tmp)
+		{
+			printf("  ==>  %s", tmp->cmd);
+			tmp = tmp->next;
+		}
+	}
     // Process right child first
 	if(root && root->right)
     	print2DUtil(root->right, space);
  
     // Print current node after space
     // count
-    printf("\n");
-    for (int i = 10; i < space; i++)
-        printf(" ");
-    printf("%s\n", root->data);
+	if (!root->next)
+    {
+		printf("\n");
+		for (int i = 10; i < space; i++)
+			printf(" ");
+		printf("%s\n", root->data);
+	}
  
     // Process left child
 	if(root && root->left)
@@ -120,7 +148,7 @@ void print2D(t_tree* root)
 
 int main(int ac, char **av, char **env)
 {
-	t_cmd	*cmd;
+	t_token	*cmd;
 	char				*command;
 	char				*pwd;
 	struct sigaction	sa;
@@ -138,7 +166,7 @@ int main(int ac, char **av, char **env)
 			exit(1);
 		if (sigaction(SIGQUIT, &sa, NULL) == -1)
 			exit(1);
-		cmd = init_cmd();
+		cmd = init_token();
 		command = readline(">_ Turboshell$ ");
 		if (!command)
 		{
