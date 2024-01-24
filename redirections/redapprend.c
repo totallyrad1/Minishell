@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redapprend.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 23:29:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/23 23:59:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/24 11:54:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/fcntl.h>
+#include "../minishell.h"
 
 void redirappend(int fd, char *filetoappendto)
 {
@@ -24,7 +24,7 @@ void redirappend(int fd, char *filetoappendto)
 		return ;
 	while(bread > 0)
 	{
-		bread = read(fd, buffer, 100);
+		bread = read(fd, buffer, 99);
 		if(bread == -1)
 		{
 			free(buffer);
@@ -33,18 +33,7 @@ void redirappend(int fd, char *filetoappendto)
 		buffer[bread] = '\0';
 		wholefile = ft_strjoin(wholefile, buffer);
 	}
-	fd1 = open(filetoappendto, O_CREAT | O_RDWR, 0777);
-	bread = 1;
-	while(bread > 0)
-	{
-		bread = read(fd, buffer, 100);
-		if(bread == -1)
-		{
-			free(buffer);
-			return ;
-		}
-		buffer[bread] = '\0';
-	}
 	free(buffer);
+	fd1 = open(filetoappendto, O_CREAT | O_RDWR | O_APPEND, 0700);
 	write(fd1, &wholefile, ft_strlen(wholefile));
 }

@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirout.c                                         :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 23:14:28 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/24 11:54:09 by asnaji           ###   ########.fr       */
+/*   Created: 2024/01/24 11:51:12 by asnaji            #+#    #+#             */
+/*   Updated: 2024/01/24 12:09:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void redirout(int fd, char *filetowrite)
+int heredoc(char *str)
 {
-	int bread;
-	char *wholefile;
-	char *buffer;
-	int fd1;
+	int fd;
+	char *text;
+	char *lktaba;
 
-	bread = 1;
-	buffer = malloc(100);
-	if(!buffer)
-		return ;
-	while(bread > 0)
+	fd = open("hidden123456789", O_CREAT | O_RDWR, 0700);
+	lktaba = ft_strjoin(lktaba, str);
+	while(ft_strncmp(text, str, 4) != 0)
 	{
-		bread = read(fd, buffer, 99);
-		if(bread == -1)
-		{
-			free(buffer);
-			return ;
-		}
-		buffer[bread] = '\0';
-		wholefile = ft_strjoin(wholefile, buffer);
+		text = readline(">");
+		if(ft_strncmp(text, str, 4) != 0)
+			lktaba = ft_strjoin(lktaba, text);
+		free(text);
 	}
-	free(buffer);
-	fd1 = open(filetowrite, O_CREAT | O_RDWR, 0700);
-	write(fd1, &wholefile, ft_strlen(wholefile));
+	write(fd, lktaba, ft_strlen(lktaba));
+	free(lktaba);
+	return (fd);
 }
