@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:42:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/24 06:01:36 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/24 23:35:01 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_token	*skip_brackets_next(t_token *token, int *is_brackets)
 	{
 		nb_brackets = 1;
 		token->visited = 1;
-		*is_brackets = 1;
+		if (is_brackets)
+			*is_brackets = 1;
 		token = token->next;
 		while (token && token->visited != 1 && nb_brackets)
 		{

@@ -6,47 +6,44 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/24 05:41:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/26 05:22:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_redirection(t_token *token)
+// If we want to skip the heredoc and its limiter
+
+static void	skip_heredoc(t_token **token)
 {
-	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_REDIR_OUT
-		|| token->type == TOKEN_HEREDOC || token->type == TOKEN_REDIR_APPEND)
-		return (1);
-	return (0);
+	while ((*token) && (*token)->type == TOKEN_HEREDOC)
+		(*token) = (*token)->next->next;
 }
 
 t_tree	*make_command(t_token *token)
 {
-	t_tree	*root;
-	t_cmd	*head_cmd;
-	int		flag;
+	t_tree	*node;
+	t_cmd	*cmd;
 
-	flag = 0;
-	root = check_token(&token, &flag);
-	head_cmd = root->next;
-	while (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))))
+	while (token->prev && token->prev->visited != 1)
+		token = token->prev;
+	skip_heredoc(&token);
+	if (!token)
+		return (NULL);
+	node = make_node(&token, 0);
+	node->next = make_cmd(token);
+	cmd = node->next;
+	token = token->next;
+	while (token && token->visited != 1)
 	{
-		if (flag)
+		skip_heredoc(&token);
+		if (token)
 		{
-			if (token->type == TOKEN_OPEN_BRACKET)
-				token = token->next;
-			add_cmd(&head_cmd, token);
-			token = token->next;
-		}
-		join_data(head_cmd, &token);
-		if (token && (token->visited != 1 || ((token->visited == 1 && (token->type == TOKEN_CLOSED_BRACKET || token->type == TOKEN_OPEN_BRACKET)))) && is_redirection(token))
-		{
-			add_cmd(&head_cmd, token);
-			flag = 1;
+			add_cmd(&cmd, token);
 			token = token->next;
 		}
 	}
-	return (root);
+	return (node);
 }
 
 static t_tree	*choose_function(t_tree *node, t_token *token, int is_brackets)
@@ -65,7 +62,6 @@ t_tree	*search_pipe(t_token *token)
 	t_token	*save;
 	t_tree	*node;
 	int		is_brackets;
-	int		nb_brackets;
 
 	node = NULL;
 	if (!token)
@@ -91,7 +87,6 @@ t_tree	*search_logical_operator(t_token *token)
 {
 	t_token	*save;
 	t_tree	*node;
-	int		nb_brackets;
 
 	node = NULL;
 	while (token && token->visited != 1)

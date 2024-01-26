@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/24 05:41:36 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/26 05:22:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int		ft_space(t_token **cmd, char *command, int flag, int i);
 int		ft_quote(t_token **cmd, char *command, int flag, int i);
 int		ft_switch(t_token **cmd, char *command, int flag, int i);
 //tree.c
-int		is_redirection(t_token *token);
 t_tree	*make_node(t_token **cmd, int flag);
 t_tree	*make_command(t_token *token);
 t_tree	*search_pipe(t_token *token);
@@ -137,7 +136,6 @@ t_token	*skip_brackets_next(t_token *token, int *is_brackets);
 t_token	*skip_brackets_prev(t_token *token);
 void	free_tree(t_tree **root);
 //tree_utils.c
-void	add_right_child(t_tree **node, t_token **token, int flag);
 t_tree	*make_node(t_token **cmd, int flag);
 t_tree	*check_token(t_token **token, int *flag);
 void	join_data(t_cmd *cmd, t_token **token);
