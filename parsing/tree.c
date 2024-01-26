@@ -6,13 +6,16 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/26 05:22:49 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/26 05:25:47 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// If we want to skip the heredoc and its limiter
+
+// Because the HEREDOC gets executed first even before syntax error
+// I think we should execute it first when tokenizing the input
+// Then we would want to skip it in the next part of parsing which is making the tree
 
 static void	skip_heredoc(t_token **token)
 {
