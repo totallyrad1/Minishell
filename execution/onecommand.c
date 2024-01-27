@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 20:13:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 21:44:36 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,17 @@ void one_command_execution(t_tree *node, char **envp)
 void findnodetoexecute(t_tree *root , char **env)
 {
 	if(root->tree_type == PIPE)
+	{
 		pipeexecution(root, env);
+			return;
+	}
 	if(root->tree_type == CMD)
+	{
 		one_command_execution(root, env);
-	// if(root->left)
-	// 	findnodetoexecute(root->left, env);
-	// if(root->right)
-	// 	findnodetoexecute(root->right, env);
+		return ;
+	}
+	if(root->left)
+		findnodetoexecute(root->left, env);
+	if(root->right)
+		findnodetoexecute(root->right, env);
 }
