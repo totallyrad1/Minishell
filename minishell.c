@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 14:22:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 15:22:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ void handle_input(t_token **cmd, char *str, char **env)
 	while((*cmd)->next)
 		(*cmd) = (*cmd)->next;
 	root = search_logical_operator(*cmd);
-	print2D(root);
-	printf("\n");
+	// print2D(root);
+	// printf("\n");
 	findnodetoexecute(root, env);
 	free_tree(&root);
 	*cmd = save;
@@ -155,7 +155,7 @@ int main(int ac, char **av, char **env)
 	char				*pwd;
 	struct sigaction	sa;
 
-	atexit(f);
+	// atexit(f);
 	(void)ac;
 	(void)av;
 	if (!(*env))

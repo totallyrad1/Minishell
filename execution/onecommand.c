@@ -6,12 +6,14 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 14:44:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 15:22:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <readline/history.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 char **join_args(t_tree *root)
@@ -50,11 +52,15 @@ void one_command_execution(t_tree *node, char **envp)
 
 	args = join_args(node);
 	absolutepath = get_working_path(envp, node->data);
-	printf("%s\n", args[0]);
 	id = fork();
 	if(id == 0)
-		execve(absolutepath, args, envp);
+	{
+		if(execve(absolutepath, args, envp) != 0)
+			printf("invalid command\n");
+	}
 	wait(NULL);
+	free(absolutepath);
+	ft_free_array(args);
 }
 void findnodetoexecute(t_tree *root , char **env)
 {
