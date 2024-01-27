@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/24 06:10:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 03:37:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ void handle_input(t_token **cmd, char *str)
 	t_tree	*tree;
 	t_tree	*root;
 	t_token	*curr;
-	int		i;
 	t_token *save;
+	int		i;
 	
 	curr = *cmd;
 	if(str[0])
     {
+		exec_heredoc(str);
         if(brackets_check(str) == 1)
         {
             i = ft_switch(cmd, str, 1, 0);
@@ -59,10 +60,10 @@ void handle_input(t_token **cmd, char *str)
 	save = *cmd;
 	while((*cmd)->next)
 		(*cmd) = (*cmd)->next;
-	root = search_logical_operator(*cmd);
-	print2D(root);
-	printf("\n");
-	free_tree(&root);
+	// root = search_logical_operator(*cmd);
+	// print2D(root);
+	// printf("\n");
+	// free_tree(&root);
 	*cmd = save;
 }
 

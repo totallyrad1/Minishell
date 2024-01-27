@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/26 05:22:45 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 03:26:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int		ft_bracket(t_token **cmd, char *command, int flag, int i);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
+char	*ft_strdup_len(char *s1, int len);
 size_t	ft_strlen(const char *s);
 void	ft_newnode(t_token **cmd, char *value);
 void	ft_free_cmd(t_token *lst);
@@ -150,10 +151,14 @@ int		islimiter(int c);
 char	**ft_split(char const *s, char c);
 //pipetools.c
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
 // ft_strtrim.c
 char	*ft_strtrim(char const *s1, char const *set);
+// ft_strncmp.c
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
+// ft_strchr.c
+char	*ft_strchr(const char *str, int c);
 // free_array.c
 void	ft_free_array(char **array);
 // pwd.c
@@ -172,8 +177,11 @@ void	signal_handler(int signum);
 char	*get_home_dir(char **envp);
 // start_message.c
 void	print_start_message(void);
-//clone_env.c
+// clone_env.c
 char	**ft_clone_env(char **env);
+// heredoc.c
+int		heredoc(char *str);
+void	exec_heredoc(char *str);
 
 void	print2D(t_tree *root);
 #endif
