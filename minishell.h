@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 03:26:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 14:21:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_vars
 }				t_vars;
 
 //minishell.c
-void	handle_input(t_token **cmd, char *str);
+void handle_input(t_token **cmd, char *str, char **env);
 //syntaxerror.c
 int		check_syntax_error(char *prompt);
 int		brackets_check(char *command);
@@ -152,6 +152,10 @@ char	**ft_split(char const *s, char c);
 //pipetools.c
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
+//pipe.c
+char *get_working_path(char **envp, char *command);
+char *get_path_line(char **envp);
+void ft_pipe(char **av, char **envp, char *command, char *command2, char **commandargs1, char **commandargs2);
 // ft_strtrim.c
 char	*ft_strtrim(char const *s1, char const *set);
 // ft_strncmp.c
@@ -182,6 +186,8 @@ char	**ft_clone_env(char **env);
 // heredoc.c
 int		heredoc(char *str);
 void	exec_heredoc(char *str);
+//execution.c
+void findnodetoexecute(t_tree *root, char **env);
 
 void	print2D(t_tree *root);
 #endif

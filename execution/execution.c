@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_array.c                                       :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 17:23:12 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/27 14:37:12 by asnaji           ###   ########.fr       */
+/*   Created: 2024/01/27 10:16:10 by asnaji            #+#    #+#             */
+/*   Updated: 2024/01/27 10:35:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_free_array(char **array)
-{
-	int	i;
 
-	i = 0;
-	if(array)
-	{
-		while (array[i])
-		{
-			free(array[i]);
-			i++;
-		}
-		free(array);
-	}
+
+void execution(t_tree *root, char *cmd)
+{
+	printf("%s\n", cmd);
 }

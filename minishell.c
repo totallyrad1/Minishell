@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 03:45:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 14:22:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_cmd(t_tree *root)
 	}
 }
 
-void handle_input(t_token **cmd, char *str)
+void handle_input(t_token **cmd, char *str, char **env)
 {
 	t_tree	*tree;
 	t_tree	*root;
@@ -63,6 +63,7 @@ void handle_input(t_token **cmd, char *str)
 	root = search_logical_operator(*cmd);
 	print2D(root);
 	printf("\n");
+	findnodetoexecute(root, env);
 	free_tree(&root);
 	*cmd = save;
 }
@@ -192,7 +193,7 @@ int main(int ac, char **av, char **env)
 		if (!ft_strncmp(command, "env", 3))
 			print_env(env);
 		// if(check_syntax_error(command) == 1)
-		handle_input(&cmd, command);
+		handle_input(&cmd, command, env);
 		ft_free_cmd(cmd);
 		add_history(command);
 		free(command);

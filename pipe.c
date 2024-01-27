@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/13 17:49:46 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 14:39:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *get_path_line(char **envp)
+char *get_path_line(char **envp)
 {
 	int i;
 
@@ -26,27 +26,24 @@ static char *get_path_line(char **envp)
 	return (NULL);
 }
 
-static char *get_working_path(char **envp, char *command)
+char *get_working_path(char **envp, char *command)
 {
 	int i = 0;
 	char *line = get_path_line(envp);
 	char *tpl = ft_strtrim(line, "PATH=");
-	// free(line);
 	char **paths = ft_split(tpl, ':');
-	// int j = 0;
-	// free(tpl);
+	free(tpl);
 	char *acesscheck;
 	while(paths[i])
 	{
 		acesscheck = ft_strjoin(paths[i], "/");
 		acesscheck = ft_strjoin(acesscheck, command);
-		// printf("%s\n", acesscheck);
 		if(access(acesscheck, X_OK) == 0)
 		{
-			// freemem(paths);
+			// ft_free_array(paths);
 			return (acesscheck);
 		}
-		// free(acesscheck);
+		free(acesscheck);
 		i++;
 	}
 	return (NULL);

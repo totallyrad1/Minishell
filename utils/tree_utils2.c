@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:42:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/24 23:35:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 10:08:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ void	free_tree(t_tree **root)
 	t_tree	*tmp;
 
 	tmp = *root;
-	if (tmp->next)
-		free_cmd(&tmp->next);
 	if (!tmp)
 		return ;
+	if (tmp->next)
+		free_cmd(&tmp->next);
 	free(tmp->data);
 	if (tmp->left)
 		free_tree(&tmp->left);
