@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/26 05:25:47 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 03:46:19 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_tree	*make_command(t_token *token)
 	while (token && token->visited != 1)
 	{
 		skip_heredoc(&token);
-		if (token)
+		if (token && token->visited != 1)
 		{
 			add_cmd(&cmd, token);
 			token = token->next;

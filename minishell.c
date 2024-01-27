@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 03:37:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 03:45:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void handle_input(t_token **cmd, char *str)
 	save = *cmd;
 	while((*cmd)->next)
 		(*cmd) = (*cmd)->next;
-	// root = search_logical_operator(*cmd);
-	// print2D(root);
-	// printf("\n");
-	// free_tree(&root);
+	root = search_logical_operator(*cmd);
+	print2D(root);
+	printf("\n");
+	free_tree(&root);
 	*cmd = save;
 }
 
