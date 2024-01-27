@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/24 05:23:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 19:29:50 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	ft_quote(t_token **cmd, char *command, int flag, int i)
 		i++;
 	if (command[i] == '\'' || command[i] == '"')
 	{
-		printf("here\n");
 		if (flag == 1)
 		{
 			(*cmd)->cmd = ft_substr(command, tmp, i - tmp);

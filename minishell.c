@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 15:22:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 19:35:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ void handle_input(t_token **cmd, char *str, char **env)
 	// 	}
 	// }
 	// return ;
-	save = *cmd;
-	while((*cmd)->next)
-		(*cmd) = (*cmd)->next;
-	root = search_logical_operator(*cmd);
-	// print2D(root);
-	// printf("\n");
-	findnodetoexecute(root, env);
-	free_tree(&root);
-	*cmd = save;
+	if(i == 0)
+	{
+		save = *cmd;
+		while((*cmd)->next)
+			(*cmd) = (*cmd)->next;
+		root = search_logical_operator(*cmd);
+		// print2D(root);
+		// printf("\n");
+		findnodetoexecute(root, env);
+		free_tree(&root);
+		*cmd = save;
+	}
 }
 
 void f()

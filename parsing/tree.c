@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/27 03:46:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 16:31:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_tree	*make_command(t_token *token)
 	t_tree	*node;
 	t_cmd	*cmd;
 
+	if (!token)
+		return (NULL);
 	while (token->prev && token->prev->visited != 1)
 		token = token->prev;
 	skip_heredoc(&token);

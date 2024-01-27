@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 15:25:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 20:13:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ char **join_args(t_tree *root)
 	args = malloc((args_size + 1) * sizeof(char *));
 	if(!args)
 		return NULL;
-	temp = root->next;	while(temp && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	temp = root->next;
+	while(temp && temp->cmd[0] != '<' && temp->cmd[0] != '>')
 	{	
 		args[i] = ft_strdup(temp->cmd);
 		i++;
@@ -53,6 +54,8 @@ void one_command_execution(t_tree *node, char **envp)
 	args = join_args(node);
 	absolutepath = get_working_path(envp, node->data);
 	id = fork();
+	if(id == -1)
+		return;
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)
@@ -65,10 +68,12 @@ void one_command_execution(t_tree *node, char **envp)
 }
 void findnodetoexecute(t_tree *root , char **env)
 {
+	if(root->tree_type == PIPE)
+		pipeexecution(root, env);
 	if(root->tree_type == CMD)
 		one_command_execution(root, env);
-	if(root->left)
-		findnodetoexecute(root->left, env);
-	if(root->right)
-		findnodetoexecute(root->right, env);
+	// if(root->left)
+	// 	findnodetoexecute(root->left, env);
+	// if(root->right)
+	// 	findnodetoexecute(root->right, env);
 }

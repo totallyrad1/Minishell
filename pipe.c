@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 14:39:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/27 19:21:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
     pid_t child_pid = fork();
 	if(child_pid == 0)
 	{
+		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		close(pipefd[0]);
 		execve(commandwithpath, commandargs1, envp);
 	}
 	wait(NULL);
