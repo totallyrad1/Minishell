@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/22 12:00:48 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 15:47:25 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	**create_new_env(char *value, char *var_name, char **env)
 	while (env[env_size])
 		env_size++;
 	new_env = malloc((env_size + 2) * (sizeof(char *)));
+	if(!new_env)
+		return NULL;
 	while (env[i])
 	{
 		new_env[i] = env[i];

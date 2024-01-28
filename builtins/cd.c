@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/22 11:56:11 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 15:47:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ char	**ft_cd(char *dir, char **env)
 	char	*new_var1;
 
 	old_path = (char *)malloc(5000);
+	if(!old_path)
+		return NULL;
 	new_pwd = (char *)malloc(5000);
+	if(!new_pwd)
+		return NULL;
 	if (getcwd(old_path, 5000) == NULL)
 		return (perror("getcwd"), free(old_path), env);
 	if (chdir(dir) != 0)

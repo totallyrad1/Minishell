@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 22:10:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 16:00:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ static char	**get_env()
 
 	pwd = getcwd(NULL, 0);
 	env = malloc(sizeof(char *) * 3);
+	if(!env)
+		return NULL;
 	env[0] = ft_strjoin(ft_strdup("PWD="), pwd);
 	underscore = ft_strdup("/usr/bin/env");
 	env[1] = ft_strjoin(ft_strdup("_="), underscore);

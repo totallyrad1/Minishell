@@ -6,15 +6,11 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 21:44:36 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 15:58:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <readline/history.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 char **join_args(t_tree *root)
 {

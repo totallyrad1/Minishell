@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 16:51:50 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 15:49:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 char	*ft_strdup_len(char *s1, int len);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(t_token **cmd, char *value);
+void	ft_newnode(t_token **cmd, char *value, int state);
 void	ft_free_cmd(t_token *lst);
 //parsing.c
 int		ft_char(t_token **cmd, char *command, int flag, int i);

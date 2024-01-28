@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 19:29:50 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/28 15:55:55 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ int	ft_char(t_token **cmd, char *command, int flag, int i)
 	if (flag == 1)
 	{
 		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->state = GENERAL;
 		flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp));
+		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL);
 	return (ft_switch(cmd, command, flag, i));
 }
 
@@ -50,10 +51,11 @@ int	ft_separator(t_token **cmd, char *command, int flag, int i)
 	if (flag == 1)
 	{
 		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->state = GENERAL;
 		flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp));
+		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL);
 	return (ft_switch(cmd, command, flag, i));
 }
 
@@ -78,10 +80,11 @@ int	ft_bracket(t_token **cmd, char *command, int flag, int i)
 	if (flag == 1)
 	{
 		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->state = GENERAL;
 		flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp));
+		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL);
 	return (ft_switch(cmd, command, flag, i));
 }
 
@@ -90,7 +93,7 @@ int	ft_quote(t_token **cmd, char *command, int flag, int i)
 	int		tmp;
 	char	save;
 
-	tmp = i;
+	tmp = i + 1;
 	if (command[i] == '\'' || command[i] == '"')
 		save = command[i++];
 	while (command[i] && command[i] != save)
@@ -100,10 +103,19 @@ int	ft_quote(t_token **cmd, char *command, int flag, int i)
 		if (flag == 1)
 		{
 			(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+			if(save == '"')
+				(*cmd)->state = IN_DQUOTE;
+			else
+			 	(*cmd)->state = IN_QUOTE;;
 			flag = 0;
 		}
 		else
-			ft_newnode(cmd, ft_substr(command, tmp, i - tmp));
+		{
+			if(save == '"')
+				ft_newnode(cmd, ft_substr(command, tmp, i - tmp), IN_DQUOTE);
+			else
+			 	ft_newnode(cmd, ft_substr(command, tmp, i - tmp), IN_QUOTE);;
+		}
 		return (ft_switch(cmd, command, flag, ++i));
 	}
 	else

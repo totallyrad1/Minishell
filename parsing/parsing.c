@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/24 05:23:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/28 16:00:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ void	give_state_and_type(t_token **cmd)
 	while (curr)
 	{
 		curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
-		if (curr->cmd[0] == '"')
-			curr->state = IN_DQUOTE;
-		else if (curr->cmd[0] == '\'')
-			curr->state = IN_QUOTE;
-		else
-			curr->state = GENERAL;
+		// if (curr->cmd[0] == '"')
+		// 	curr->state = IN_DQUOTE;
+		// else if (curr->cmd[0] == '\'')
+		// 	curr->state = IN_QUOTE;
+		// else
+		// 	curr->state = GENERAL;
 		curr = curr->next;
 	}
 }
