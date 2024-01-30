@@ -1,59 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:11:19 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:39:57 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/13 17:51:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(char *s1)
+char	*ft_substr(char *s, size_t start, size_t len)
 {
-	char	*cpy;
-	int		i;
-	int		j;
+	char	*substr;
+	size_t	i;
+	size_t	end;
 
-	if (!s1)
-		return (NULL);
+	end = start + len;
 	i = 0;
-	j = 0;
-	while (s1[i])
-		i++;
-	cpy = malloc(i + 1);
-	if (!cpy)
+	if (!s)
 		return (NULL);
-	while (j < i)
+	if (start > ft_strlen(s))
+		return (NULL);
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	substr = (char *)malloc((len + 1) * sizeof(char));
+	if (substr == NULL)
+		return (0);
+	while (i < len && s[start + i])
 	{
-		cpy[j] = s1[j];
-		j++;
-	}
-	cpy[j] = '\0';
-	return (cpy);
-}
-
-char	*ft_strdup_len(char *s1, int len)
-{
-	char	*cpy;
-	int		i;
-	int		j;
-
-	if (!s1)
-		return (NULL);
-	i = 0;
-	j = 0;
-	cpy = malloc(len + 1);
-	if (!cpy)
-		return (NULL);
-	while (i < len)
-	{
-		cpy[i] = s1[i];
+		substr[i] = s[start + i];
 		i++;
 	}
-	cpy[i] = '\0';
-	return (cpy);
+	substr[i] = '\0';
+	return (substr);
 }

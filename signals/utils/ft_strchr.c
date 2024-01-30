@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/22 11:56:47 by asnaji           ###   ########.fr       */
+/*   Created: 2024/01/27 03:05:05 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/27 03:12:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	line_has_value(char *line)
+char	*ft_strchr(const char *str, int c)
 {
 	int	i;
 
 	i = 0;
-	while (line[i] && line[i] != '=')
+	while (str[i] && str[i] != (char)c)
 		i++;
-	if (line[i] == '=')
-		return (1);
-	return (0);
-}
-
-void	print_env(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env[i])
-	{
-		if (line_has_value(env[i]))
-			printf("%s\n", env[i]);
-		i++;
-	}
+	if (str[i] == (char)c)
+		return ((char *)str + i);
+	else
+		return (NULL);
 }

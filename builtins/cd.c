@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/28 15:47:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 20:37:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../minishell.h"
 
 #include "../minishell.h"
 
@@ -19,17 +21,13 @@ char	**ft_cd(char *dir, char **env)
 	char	*new_var;
 	char	*new_var1;
 
-	old_path = (char *)malloc(5000);
+	old_path = getcwd(NULL, 0);
 	if(!old_path)
-		return NULL;
-	new_pwd = (char *)malloc(5000);
-	if(!new_pwd)
-		return NULL;
-	if (getcwd(old_path, 5000) == NULL)
 		return (perror("getcwd"), free(old_path), env);
 	if (chdir(dir) != 0)
 		return (perror("chdir"), free(old_path), env);
-	if (getcwd(new_pwd, 5000) == NULL)
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
 		return (perror("getcwd"), free(old_path), free(new_pwd), env);
 	new_var = ft_strjoin(ft_strdup(""), "OLDPWD");
 	new_var = ft_strjoin(new_var, "=");
@@ -40,7 +38,6 @@ char	**ft_cd(char *dir, char **env)
 	new_var1 = ft_strjoin(ft_strdup(""), "PWD");
 	new_var1 = ft_strjoin(new_var1, "=");
 	new_var1 = ft_strjoin(new_var1, new_pwd);
-	printf("%s\n", new_var1);
 	env = ft_export(env, new_var1, 1);
 	return (free(new_var1), free(new_pwd), free(old_path), env);
 }

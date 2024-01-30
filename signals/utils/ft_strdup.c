@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:11:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/27 03:35:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*ft_strdup(char *s1)
 	j = 0;
 	while (s1[i])
 		i++;
-	cpy = malloc(i + 1);
-	if (!cpy)
+	cpy = (char *)malloc((i + 1) * sizeof(char));
+	if (cpy == NULL)
 		return (NULL);
 	while (j < i)
 	{
@@ -46,8 +46,8 @@ char	*ft_strdup_len(char *s1, int len)
 		return (NULL);
 	i = 0;
 	j = 0;
-	cpy = malloc(len + 1);
-	if (!cpy)
+	cpy = (char *)malloc((len + 1) * sizeof(char));
+	if (cpy == NULL)
 		return (NULL);
 	while (i < len)
 	{

@@ -1,59 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:11:19 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/19 16:49:37 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(char *s1)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*cpy;
+	char	*newstring;
 	int		i;
 	int		j;
 
-	if (!s1)
-		return (NULL);
 	i = 0;
 	j = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (newstring = ft_strdup(s1), free(s1), newstring);
+	newstring = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (newstring == NULL)
+		return (free(s1), NULL);
 	while (s1[i])
-		i++;
-	cpy = malloc(i + 1);
-	if (!cpy)
-		return (NULL);
-	while (j < i)
 	{
-		cpy[j] = s1[j];
-		j++;
-	}
-	cpy[j] = '\0';
-	return (cpy);
-}
-
-char	*ft_strdup_len(char *s1, int len)
-{
-	char	*cpy;
-	int		i;
-	int		j;
-
-	if (!s1)
-		return (NULL);
-	i = 0;
-	j = 0;
-	cpy = malloc(len + 1);
-	if (!cpy)
-		return (NULL);
-	while (i < len)
-	{
-		cpy[i] = s1[i];
+		newstring[i] = s1[i];
 		i++;
 	}
-	cpy[i] = '\0';
-	return (cpy);
+	while (s2[j])
+		newstring[i++] = s2[j++];
+	newstring[i] = '\0';
+	return (free(s1), newstring);
 }

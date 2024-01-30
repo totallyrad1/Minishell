@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   free_array.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:27:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:38:03 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:23:12 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/27 14:37:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_pwd(char **envp)
+void	ft_free_array(char **array)
 {
-	char	*pwd1;
+	int	i;
 
-	pwd1 = getcwd(NULL, 0);
-	if (!pwd1)
+	i = 0;
+	if(array)
 	{
-		perror("getcwd");
-		free(pwd1);
-		return (NULL);
+		while (array[i])
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
 	}
-	return (pwd1);
 }

@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:27:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:38:03 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:41:03 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/19 17:33:31 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_pwd(char **envp)
+size_t	ft_strlen(const char *s)
 {
-	char	*pwd1;
+	size_t	i;
 
-	pwd1 = getcwd(NULL, 0);
-	if (!pwd1)
-	{
-		perror("getcwd");
-		free(pwd1);
-		return (NULL);
-	}
-	return (pwd1);
+	i = 0;
+	while (s && s[i])
+		i++;
+	return (i);
 }

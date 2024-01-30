@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 14:21:20 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 16:43:24 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 17:07:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_token *join_args_ifspace(t_token *cmd)
 	{
 		wordsjoined = NULL;
 		i = 0;
-		if(curr->spaceafter == 1 && curr->next && curr->next->type == TOKEN_EXPR && curr->type == TOKEN_EXPR)
+		if(curr->spaceafter == 0 && curr->next && curr->next->type == TOKEN_EXPR && curr->type == TOKEN_EXPR)
 		{
-			while(curr && curr->next && curr->next->type == TOKEN_EXPR && curr->spaceafter == 1)
+			while(curr && curr->next && curr->next->type == TOKEN_EXPR && curr->spaceafter == 0)
 			{
 				if(i == 0)
 				{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 16:30:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 20:39:44 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,14 @@ typedef struct s_tree
 	enum e_tree_type	tree_type;
 }				t_tree;
 
+typedef struct s_env
+{
+	int				size;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}				t_env;
+
 typedef struct s_vars
 {
 	int i;
@@ -100,8 +108,7 @@ typedef struct s_vars
 }				t_vars;
 
 //minishell.c
-void handle_input(t_token **cmd, char *str, char **env);
-t_token	*init_token();
+void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
 int		check_syntax_error(char *prompt);
 int		brackets_check(char *command);
@@ -117,6 +124,7 @@ char	*ft_strdup_len(char *s1, int len);
 size_t	ft_strlen(const char *s);
 void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter);
 void	ft_free_cmd(t_token *lst);
+t_token	*init_token();
 //parsing.c
 int		ft_char(t_token **cmd, char *command, int flag, int i);
 void	give_state_and_type(t_token **cmd);
@@ -171,8 +179,14 @@ char	*ft_strchr(const char *str, int c);
 void	ft_free_array(char **array);
 // pwd.c
 char	*get_pwd(char **envp);
+// print_env.c
+void	print_env(t_env *env);
 // env.c
-void	print_env(char **env);
+t_env	*arr_to_env(char **env);
+void	add_env(t_env **env, char *key, char *value);
+char	**env_to_arr(t_env *env);
+// expand.c
+char	*expand(t_env *env, char *key);
 // unset.c
 char	**unset(char **envp, char *var);
 //export.c
@@ -191,10 +205,10 @@ char	**ft_clone_env(char **env);
 int		heredoc(char *str);
 void	exec_heredoc(char *str);
 //onecommand.c
-void findnodetoexecute(t_tree *root, char **env);
-void one_command_execution(t_tree *node, char **envp);
+void	find_node_to_execute(t_tree *root, t_env *env);
+void	one_command_execution(t_tree *node, t_env *env);
 //pipeexecution.c
-void pipeexecution(t_tree *node, char **env);
+void	pipe_execution(t_tree *node, t_env *env);
 
 void	print2D(t_tree *root);
 #endif

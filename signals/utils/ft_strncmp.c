@@ -1,59 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:11:19 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:42:18 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/27 03:03:38 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strdup(char *s1)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char	*cpy;
-	int		i;
-	int		j;
+	size_t	i;
 
-	if (!s1)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (s1[i])
-		i++;
-	cpy = malloc(i + 1);
-	if (!cpy)
-		return (NULL);
-	while (j < i)
+	while (i < n && (s2[i] || s1[i]))
 	{
-		cpy[j] = s1[j];
-		j++;
+		if ((unsigned char)s1[i] == (unsigned char)s2[i])
+			i++;
+		else
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
-	cpy[j] = '\0';
-	return (cpy);
+	return (0);
 }
 
-char	*ft_strdup_len(char *s1, int len)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*cpy;
-	int		i;
-	int		j;
+	int	i;
 
-	if (!s1)
-		return (NULL);
 	i = 0;
-	j = 0;
-	cpy = malloc(len + 1);
-	if (!cpy)
-		return (NULL);
-	while (i < len)
+	while (s2[i] && s1[i])
 	{
-		cpy[i] = s1[i];
-		i++;
+		if ((unsigned char)s1[i] == (unsigned char)s2[i])
+			i++;
+		else
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 	}
-	cpy[i] = '\0';
-	return (cpy);
+	return (0);
 }

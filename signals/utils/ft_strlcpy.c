@@ -1,27 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:27:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:38:03 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 17:42:43 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/13 17:51:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_pwd(char **envp)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	*pwd1;
+	size_t	srclen;
+	size_t	i;
 
-	pwd1 = getcwd(NULL, 0);
-	if (!pwd1)
+	srclen = ft_strlen(src);
+	i = 0;
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	if (dstsize > srclen)
 	{
-		perror("getcwd");
-		free(pwd1);
-		return (NULL);
+		while (src[i])
+		{
+			dst[i] = src[i];
+			i++;
+		}
 	}
-	return (pwd1);
+	else
+	{
+		while (i < dstsize - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+	}
+	dst[i] = '\0';
+	return (srclen);
 }

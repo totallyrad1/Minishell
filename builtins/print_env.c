@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:27:22 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:38:03 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/01/30 20:37:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_pwd(char **envp)
+void	print_env(t_env *env)
 {
-	char	*pwd1;
-
-	pwd1 = getcwd(NULL, 0);
-	if (!pwd1)
+	while (env)
 	{
-		perror("getcwd");
-		free(pwd1);
-		return (NULL);
+		printf("%s=%s\n", env->key, env->value);
+		env = env->next;
 	}
-	return (pwd1);
 }

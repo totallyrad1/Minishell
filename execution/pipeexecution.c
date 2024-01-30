@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 21:54:11 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 20:36:42 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <unistd.h>
 
-void pipeexecution1(t_tree *node, t_tree *save, char **env)
+void pipeexecution1(t_tree *node, t_tree *save, t_env *env)
 {
 	pid_t id;
 
@@ -73,7 +73,7 @@ void pipeexecution1(t_tree *node, t_tree *save, char **env)
 	}
 }
 
-void pipeexecution(t_tree *node, char **env)
+void pipe_execution(t_tree *node, t_env *env)
 {
 	t_tree *save;
 	pid_t id;

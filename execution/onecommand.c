@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 19:27:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 20:41:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,19 @@ char **join_args(t_tree *root)
 	return (args);
 }
 
-void one_command_execution(t_tree *node, char **envp)
+void one_command_execution(t_tree *node, t_env *env)
 {
-	char *absolutepath;
-	char **args;
-	int id;
+	char 	*absolutepath;
+	char 	**args;
+	int 	id;
+	char	**envp;
 
+	envp = env_to_arr(env);
 	args = join_args(node);
 	if(access(node->data, X_OK) != 0)
 		absolutepath = get_working_path(envp, node->data);
 	else
-	 	absolutepath = node->data;
+		absolutepath = node->data;
 	id = fork();
 	if(id == -1)
 		return;
@@ -66,11 +68,11 @@ void one_command_execution(t_tree *node, char **envp)
 	// free(absolutepath);
 	ft_free_array(args);
 }
-void findnodetoexecute(t_tree *root , char **env)
+void find_node_to_execute(t_tree *root , t_env *env)
 {
 	if(root->tree_type == PIPE)
 	{
-		pipeexecution(root, env);
+		pipe_execution(root, env);
 			return;
 	}
 	if(root->tree_type == CMD)
@@ -79,7 +81,7 @@ void findnodetoexecute(t_tree *root , char **env)
 		return ;
 	}
 	if(root->left)
-		findnodetoexecute(root->left, env);
+		find_node_to_execute(root->left, env);
 	if(root->right)
-		findnodetoexecute(root->right, env);
+		find_node_to_execute(root->right, env);
 }
