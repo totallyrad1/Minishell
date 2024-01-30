@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/28 16:00:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:17:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_switch(t_token **cmd, char *command, int flag, int i)
 void	give_state_and_type(t_token **cmd)
 {
 	t_token	*curr;
-
+	
 	curr = *cmd;
 	while (curr)
 	{

@@ -6,13 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/28 15:59:22 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:18:38 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_newnode(t_token **cmd, char *value, int state)
+void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter)
 {
 	t_token	*new_node;
 	t_token	*curr;
@@ -22,6 +22,7 @@ void	ft_newnode(t_token **cmd, char *value, int state)
 		exit(0);
 	curr = *cmd;
 	new_node->visited = 0;
+	new_node->spaceafter = spaceafter;
 	new_node->next = NULL;
 	new_node->cmd = value;
 	new_node->state = state;

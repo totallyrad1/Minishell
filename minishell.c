@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/28 16:00:51 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:44:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void handle_input(t_token **cmd, char *str, char **env)
 	t_tree	*root;
 	t_token	*curr;
 	t_token *save;
+	t_token *new_cmd;
 	int		i;
 	
 	curr = *cmd;
@@ -41,14 +42,18 @@ void handle_input(t_token **cmd, char *str, char **env)
         {
             i = ft_switch(cmd, str, 1, 0);
             if(i == 0)
-                give_state_and_type(cmd);
+			{
+				give_state_and_type(cmd);
+				new_cmd = join_args_ifspace(*cmd);
+				give_state_and_type(&new_cmd);
+			}
         }
         else
             return;
     }
 	// if(i == 0)
 	// {
-	// 	curr = *cmd;
+	// 	curr = new_cmd;
 	// 	while(curr)
 	// 	{
 	// 		if (curr->cmd)
@@ -60,9 +65,9 @@ void handle_input(t_token **cmd, char *str, char **env)
 	if(i == 0)
 	{
 		save = *cmd;
-		while((*cmd)->next)
-			(*cmd) = (*cmd)->next;
-		root = search_logical_operator(*cmd);
+		while(new_cmd->next)
+			new_cmd = new_cmd->next;
+		root = search_logical_operator(new_cmd);
 		// print2D(root);
 		// printf("\n");
 		findnodetoexecute(root, env);
@@ -76,7 +81,7 @@ void f()
 	system("leaks minishell");
 }
 
-static t_token	*init_token()
+t_token	*init_token()
 {
 	t_token	*cmd;
 	
@@ -84,6 +89,7 @@ static t_token	*init_token()
 	if (!cmd)
 		exit(2);
 	cmd->visited = 0;
+	cmd->spaceafter = 0;
 	cmd->next = NULL;
 	cmd->cmd = NULL;
 	cmd->prev = NULL;
@@ -199,7 +205,7 @@ int main(int ac, char **av, char **env)
 			print_env(env);
 		// if(check_syntax_error(command) == 1)
 		handle_input(&cmd, command, env);
-		ft_free_cmd(cmd);
+		// ft_free_cmd(cmd);
 		add_history(command);
 		free(command);
 	}

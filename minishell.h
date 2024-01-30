@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/28 15:49:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:30:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_token
 	int				type;
 	int				state;
 	int				visited;
+	int				spaceafter;
 	struct s_token	*prev;
 	struct s_token	*next;
 }				t_token;
@@ -100,6 +101,7 @@ typedef struct s_vars
 
 //minishell.c
 void handle_input(t_token **cmd, char *str, char **env);
+t_token	*init_token();
 //syntaxerror.c
 int		check_syntax_error(char *prompt);
 int		brackets_check(char *command);
@@ -113,7 +115,7 @@ char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 char	*ft_strdup_len(char *s1, int len);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(t_token **cmd, char *value, int state);
+void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter);
 void	ft_free_cmd(t_token *lst);
 //parsing.c
 int		ft_char(t_token **cmd, char *command, int flag, int i);
@@ -122,6 +124,8 @@ void	give_state_and_type(t_token **cmd);
 int		getlimitertoken(char c, char f);
 int		getlimitertoken1(char c, char f);
 int		look_for_char(char *command, int i);
+//recursive_parsing3.c
+t_token *join_args_ifspace(t_token *cmd);
 //recursive_parsing.c
 int		ft_separator(t_token **cmd, char *command, int flag, int i);
 int		ft_space(t_token **cmd, char *command, int flag, int i);
