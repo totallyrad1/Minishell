@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 15:59:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 19:27:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void one_command_execution(t_tree *node, char **envp)
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)
-			printf("invalid command\n");
+			printf("invalid command : [%s]\n", args[0]);
 		exit(EXIT_FAILURE);
 	}
 	wait(NULL);

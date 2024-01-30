@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 16:44:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/30 19:24:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,16 @@ void handle_input(t_token **cmd, char *str, char **env)
             if(i == 0)
 			{
 				give_state_and_type(cmd);
-				new_cmd = join_args_ifspace(*cmd);
-				give_state_and_type(&new_cmd);
+				// curr = *cmd;
+				// while(curr)
+				// {
+				// 	if (curr->cmd)
+				// 		printf("token====>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
+				// 	curr = curr->next;
+				// }
 			}
+			new_cmd = join_args_ifspace(*cmd);
+			give_state_and_type(&new_cmd);
         }
         else
             return;
