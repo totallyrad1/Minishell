@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/31 17:25:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/31 17:46:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	**env_to_arr(t_env *env)
 	i = 0;
 	while (i < env->size && curr)
 	{
-		// env_arr[i] = malloc(ft_strlen(curr->key) + ft_strlen(curr->value) + 2);
 		if (!env_arr)
 			ft_free_array(env_arr);
 		tmp = ft_strjoin(ft_strdup(curr->key), "=");

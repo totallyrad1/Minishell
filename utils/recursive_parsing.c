@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 15:11:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/31 21:52:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int hasspaceafter(char *str, int i)
 {
-	if(str[i + 1] == 32)
+	if(str[i] == 32)
 		return 1;
 	return 0;
 }
@@ -57,11 +57,11 @@ int	ft_separator(t_token **cmd, t_vars *vars)
 	{
 		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i + 1);
 		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i + 1));
 	return (ft_switch(cmd, vars));
 }
 
@@ -83,11 +83,11 @@ int	ft_bracket(t_token **cmd, t_vars *vars)
 	{
 		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i + 1);
 		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i + 1));
 	return (ft_switch(cmd, vars));
 }
 
@@ -105,7 +105,7 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 		if (vars->flag == 1)
 		{
 			(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
-			(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+			(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i + 1);
 			if(save == '"')
 				(*cmd)->state = IN_DQUOTE;
 			else
@@ -115,10 +115,11 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 		else
 		{
 			if(save == '"')
-				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_DQUOTE, hasspaceafter(vars->cmd, vars->i));
+				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_DQUOTE, hasspaceafter(vars->cmd, vars->i + 1));
 			else
-			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i));
+			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i + 1));
 		}
+		vars->i++;
 		return (ft_switch(cmd, vars));
 	}
 	else
