@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:37:43 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/31 17:05:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ char	**ft_cd(char *dir, char **env)
 	new_var = ft_strjoin(ft_strdup(""), "OLDPWD");
 	new_var = ft_strjoin(new_var, "=");
 	new_var = ft_strjoin(new_var, old_path);
-	printf("%s\n", new_var);
 	env = ft_export(env, new_var, 1);
 	free(new_var);
 	new_var1 = ft_strjoin(ft_strdup(""), "PWD");

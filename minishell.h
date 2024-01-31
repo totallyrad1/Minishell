@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 20:39:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/31 15:15:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ enum e_tree_type
 	REDIR_APPEND,
 };
 
+
 typedef struct s_token
 {
 	char			*cmd;
@@ -101,10 +102,11 @@ typedef struct s_env
 
 typedef struct s_vars
 {
-	int i;
-	int j;
-	int x;
-	int y;
+	char			*cmd;
+	int				flag;
+	int				tmp;
+	int				i;
+	t_env			*env;
 }				t_vars;
 
 //minishell.c
@@ -115,7 +117,8 @@ int		brackets_check(char *command);
 int		all_brackets(char *command, int count, int position);
 //parsing.c
 int		checkdelimiter(int c);
-int		ft_bracket(t_token **cmd, char *command, int flag, int i);
+int		ft_bracket(t_token **cmd, t_vars *vars);
+int		ft_dollarsign(t_token **cmd, t_vars *vars);
 //tools.c
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
@@ -126,7 +129,7 @@ void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter);
 void	ft_free_cmd(t_token *lst);
 t_token	*init_token();
 //parsing.c
-int		ft_char(t_token **cmd, char *command, int flag, int i);
+int		ft_char(t_token **cmd, t_vars *vars);
 void	give_state_and_type(t_token **cmd);
 //recursive_parsing1.c
 int		getlimitertoken(char c, char f);
@@ -135,10 +138,11 @@ int		look_for_char(char *command, int i);
 //recursive_parsing3.c
 t_token *join_args_ifspace(t_token *cmd);
 //recursive_parsing.c
-int		ft_separator(t_token **cmd, char *command, int flag, int i);
-int		ft_space(t_token **cmd, char *command, int flag, int i);
-int		ft_quote(t_token **cmd, char *command, int flag, int i);
-int		ft_switch(t_token **cmd, char *command, int flag, int i);
+int		ft_separator(t_token **cmd, t_vars *vars);
+int		ft_space(t_token **cmd, t_vars *vars);
+int		ft_quote(t_token **cmd, t_vars *vars);
+int		ft_switch(t_token **cmd, t_vars *vars);
+int 	hasspaceafter(char *str, int i);
 //tree.c
 t_tree	*make_node(t_token **cmd, int flag);
 t_tree	*make_command(t_token *token);
@@ -158,6 +162,7 @@ void	add_cmd(t_cmd **cmd, t_token *token);
 //tools1.c
 int		ft_isspace(char c);
 int		ft_isquote(char c);
+int		ft_alphanum(char c);
 int		islimiter(int c);
 //ft_split.c
 char	**ft_split(char const *s, char c);
@@ -209,6 +214,8 @@ void	find_node_to_execute(t_tree *root, t_env *env);
 void	one_command_execution(t_tree *node, t_env *env);
 //pipeexecution.c
 void	pipe_execution(t_tree *node, t_env *env);
+//expand.c
+char	*expand(t_env *env, char *key);
 
 void	print2D(t_tree *root);
 #endif

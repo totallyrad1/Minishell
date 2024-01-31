@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 20:40:11 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/31 17:11:09 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,22 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	t_token *save;
 	t_token *new_cmd;
 	int		i;
-	
+	t_vars *vars;
+
+	vars = malloc(sizeof(t_vars));
+	if(!vars)
+		return;
+	vars->flag = 1;
+	vars->i = 0;
+	vars->env = env;
+	vars->cmd = str;
 	curr = *cmd;
 	if(str[0])
     {
 		exec_heredoc(str);
         if(brackets_check(str) == 1)
         {
-            i = ft_switch(cmd, str, 1, 0);
+            i = ft_switch(cmd, vars);
             if(i == 0)
 			{
 				give_state_and_type(cmd);
@@ -145,6 +153,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);
+	t_env *curr;
 	rl_catch_signals = 0;
 	sa.sa_handler = signal_handler;
 	while (420)

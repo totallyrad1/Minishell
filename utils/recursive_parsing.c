@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 16:40:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/31 15:11:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,115 +19,107 @@ int hasspaceafter(char *str, int i)
 	return 0;
 }
 
-int	ft_char(t_token **cmd, char *command, int flag, int i)
+int	ft_char(t_token **cmd, t_vars *vars)
 {
-	int	tmp;
-
-	tmp = i;
-	while (command[i] && islimiter(command[i]) == 0
-		&& ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 0
-		&& (command[i] != ')' && command[i] != '('))
-		i++;
-	if (flag == 1)
+	vars->tmp = vars->i;
+	while (vars->cmd[vars->i] && islimiter(vars->cmd[vars->i]) == 0
+		&& ft_isquote(vars->cmd[vars->i]) == 0 && ft_isspace(vars->cmd[vars->i]) == 0
+		&& (vars->cmd[vars->i] != ')' && vars->cmd[vars->i] != '('))
+		vars->i++;
+	if (vars->flag == 1)
 	{
-		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(command, i);
-		flag = 0;
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL, hasspaceafter(command, i));
-	return (ft_switch(cmd, command, flag, i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+	return (ft_switch(cmd, vars));
 }
 
-int	ft_separator(t_token **cmd, char *command, int flag, int i)
+int	ft_separator(t_token **cmd, t_vars *vars)
 {
-	int		tmp;
 	int		x;
 	char	save;
 
-	tmp = i;
+	vars->tmp = vars->i;
 	x = 0;
-	save = command[i];
-	while (command[i] && islimiter(command[i]) == 1
-		&& ft_isquote(command[i]) == 0
-		&& ft_isspace(command[i]) == 0 && x++ < 2 && save == command[i])
-		i++;
-	if (islimiter(command[i]) == 1 || look_for_char(command, i) == 0
-		|| (command[tmp] == '&' && command[tmp + 1] != '&'))
+	save = vars->cmd[vars->i];
+	while (vars->cmd[vars->i] && islimiter(vars->cmd[vars->i]) == 1
+		&& ft_isquote(vars->cmd[vars->i]) == 0
+		&& ft_isspace(vars->cmd[vars->i]) == 0 && x++ < 2 && save == vars->cmd[vars->i])
+		vars->i++;
+	if (islimiter(vars->cmd[vars->i]) == 1 || look_for_char(vars->cmd, vars->i) == 0
+		|| (vars->cmd[vars->tmp] == '&' && vars->cmd[vars->tmp + 1] != '&'))
 		return (printf("syntax error\n"), 1);
-	if (flag == 1)
+	if (vars->flag == 1)
 	{
-		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(command, i);
-		flag = 0;
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL, hasspaceafter(command, i));
-	return (ft_switch(cmd, command, flag, i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+	return (ft_switch(cmd, vars));
 }
 
-int	ft_space(t_token **cmd, char *command, int flag, int i)
+int	ft_space(t_token **cmd, t_vars *vars)
 {
-	int	tmp;
-
-	tmp = i;
-	while (command[i] && islimiter(command[i]) == 0
-		&& ft_isquote(command[i]) == 0 && ft_isspace(command[i]) == 1)
-		i++;
-	return (ft_switch(cmd, command, flag, i));
+	vars->tmp = vars->i;
+	while (vars->cmd[vars->i] && islimiter(vars->cmd[vars->i]) == 0
+		&& ft_isquote(vars->cmd[vars->i]) == 0 && ft_isspace(vars->cmd[vars->i]) == 1)
+		vars->i++;
+	return (ft_switch(cmd, vars));
 }
 
-int	ft_bracket(t_token **cmd, char *command, int flag, int i)
+int	ft_bracket(t_token **cmd, t_vars *vars)
 {
-	int	tmp;
-
-	tmp = i;
-	if (command[i] == '(' || command[i] == ')')
-		i++;
-	if (flag == 1)
+	vars->tmp = vars->i;
+	if (vars->cmd[vars->i] == '(' || vars->cmd[vars->i] == ')')
+		vars->i++;
+	if (vars->flag == 1)
 	{
-		(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
+		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(command, i);
-		flag = 0;
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(command, tmp, i - tmp), GENERAL, hasspaceafter(command, i));
-	return (ft_switch(cmd, command, flag, i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+	return (ft_switch(cmd, vars));
 }
 
-int	ft_quote(t_token **cmd, char *command, int flag, int i)
+int	ft_quote(t_token **cmd, t_vars *vars)
 {
-	int		tmp;
 	char	save;
 
-	tmp = i + 1;
-	if (command[i] == '\'' || command[i] == '"')
-		save = command[i++];
-	while (command[i] && command[i] != save)
-		i++;
-	if (command[i] == '\'' || command[i] == '"')
+	vars->tmp = vars->i + 1;
+	if (vars->cmd[vars->i] == '\'' || vars->cmd[vars->i] == '"')
+		save = vars->cmd[vars->i++];
+	while (vars->cmd[vars->i] && vars->cmd[vars->i] != save)
+		vars->i++;
+	if (vars->cmd[vars->i] == '\'' || vars->cmd[vars->i] == '"')
 	{
-		if (flag == 1)
+		if (vars->flag == 1)
 		{
-			(*cmd)->cmd = ft_substr(command, tmp, i - tmp);
-			(*cmd)->spaceafter = hasspaceafter(command, i);
+			(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
+			(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
 			if(save == '"')
 				(*cmd)->state = IN_DQUOTE;
 			else
 			 	(*cmd)->state = IN_QUOTE;;
-			flag = 0;
+			vars->flag = 0;
 		}
 		else
 		{
 			if(save == '"')
-				ft_newnode(cmd, ft_substr(command, tmp, i - tmp), IN_DQUOTE, hasspaceafter(command, i));
+				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_DQUOTE, hasspaceafter(vars->cmd, vars->i));
 			else
-			 	ft_newnode(cmd, ft_substr(command, tmp, i - tmp), IN_QUOTE, hasspaceafter(command, i));
+			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i));
 		}
-		return (ft_switch(cmd, command, flag, ++i));
+		return (ft_switch(cmd, vars));
 	}
 	else
 		return (printf("syntax error\n"), 1);

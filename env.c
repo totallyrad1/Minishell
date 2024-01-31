@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:47:04 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/01/31 17:25:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ t_env	*arr_to_env(char **env)
 		while (env[i])
 		{
 			len = ft_strlen_till(env[i], '=');
-			// printf("%s=%s\n", ft_strdup_len(env[i], len), ft_strdup(env[i] + len + 1));
 			add_env(&env_lst, ft_strdup_len(env[i], len), ft_strdup(env[i] + len + 1));
 			i++;
 		}
@@ -99,19 +98,24 @@ char	**env_to_arr(t_env *env)
 	int		i;
 	char	**env_arr;
 	char	*tmp;
+	t_env *curr;	
 
+	curr = env;
 	env_arr = malloc(sizeof(char *) * (env->size + 1));
 	if (!env_arr)
 		return (NULL);
 	i = 0;
-	while (i < env->size)
+	while (i < env->size && curr)
 	{
-		env_arr[i] = malloc(ft_strlen(env->key) + ft_strlen(env->value) + 2);
+		// env_arr[i] = malloc(ft_strlen(curr->key) + ft_strlen(curr->value) + 2);
 		if (!env_arr)
 			ft_free_array(env_arr);
-		tmp = ft_strjoin(ft_strdup(env->key), "=");
-		tmp = ft_strjoin(tmp, env->value);
+		tmp = ft_strjoin(ft_strdup(curr->key), "=");
+		tmp = ft_strjoin(tmp, curr->value);
+		env_arr[i] = ft_strdup(tmp);
+		free(tmp);
 		i++;
+		curr = curr->next;
 	}
 	env_arr[i] = NULL;
 	return (env_arr);

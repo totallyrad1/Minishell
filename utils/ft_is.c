@@ -6,11 +6,24 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:59:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:21:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/31 15:25:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int ft_alphanum(char c)
+{
+	if(c >= 'A' && c <= 'Z')
+		return 1;
+	if(c >= 'a' && c <= 'z')
+		return 1;
+	if(c >= '0' && c <= '1')
+		return 1;
+	if(c == '_')
+		return 1;
+	return 0;
+}
 
 int	ft_isspace(char c)
 {
@@ -32,7 +45,7 @@ int	islimiter(int c)
 {
 	if (c == '<' || c == '>')
 		return (1);
-	if (c == '$' || c == '|' || c == '&')
+	if ( c == '|' || c == '&')
 		return (1);
 	return (0);
 }

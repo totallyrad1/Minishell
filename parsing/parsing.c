@@ -6,26 +6,62 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 16:17:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/01/31 15:28:21 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_switch(t_token **cmd, char *command, int flag, int i)
+int	ft_dollarsign(t_token **cmd, t_vars *vars)
 {
-	if (command[i])
+	int dollaronly = 1;
+
+	vars->tmp = vars->i;
+	if(vars->cmd[vars->i] == '$')
+		vars->i++;
+	if(ft_alphanum(vars->cmd[vars->i]) == 1)
 	{
-		if (ft_isspace(command[i]) == 1)
-			return (ft_space(cmd, command, flag, i));
-		else if (ft_isquote(command[i]) == 1)
-			return (ft_quote(cmd, command, flag, i));
-		else if (islimiter(command[i]) == 1)
-			return (ft_separator(cmd, command, flag, i));
-		else if (command[i] == '(' || command[i] == ')')
-			return (ft_bracket(cmd, command, flag, i));
+		while(vars->cmd[vars->i] && ft_alphanum(vars->cmd[vars->i]) == 1)	
+			vars->i++;
+	}
+	else
+		dollaronly = 0;
+	if (vars->flag == 1)
+	{
+		if(dollaronly == 0)
+			(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
+		else if(dollaronly == 1)
+			(*cmd)->cmd = expand(vars->env, ft_substr(vars->cmd, vars->tmp + 1, vars->i - vars->tmp + 1));
+		(*cmd)->state = GENERAL;
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		vars->flag = 0;
+	}
+	else
+	{
+		if(dollaronly == 0)
+			ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
 		else
-			return (ft_char(cmd, command, flag, i));
+		 	ft_newnode(cmd, expand(vars->env, ft_substr(vars->cmd, vars->tmp + 1, vars->i - vars->tmp + 1)), GENERAL, hasspaceafter(vars->cmd, vars->i));
+	}
+	return (ft_switch(cmd, vars));
+}
+
+int	ft_switch(t_token **cmd, t_vars *vars)
+{
+	if (vars->cmd[vars->i])
+	{
+		if (ft_isspace(vars->cmd[vars->i]) == 1)
+			return (ft_space(cmd, vars));
+		else if (ft_isquote(vars->cmd[vars->i]) == 1)
+			return (ft_quote(cmd, vars));
+		else if (islimiter(vars->cmd[vars->i]) == 1)
+			return (ft_separator(cmd, vars));
+		else if (vars->cmd[vars->i] == '(' || vars->cmd[vars->i] == ')')
+			return (ft_bracket(cmd, vars));
+		else if(vars->cmd[vars->i] == '$')
+			return ft_dollarsign(cmd, vars);
+		else
+			return (ft_char(cmd, vars));
 	}
 	return (0);
 }
@@ -37,7 +73,8 @@ void	give_state_and_type(t_token **cmd)
 	curr = *cmd;
 	while (curr)
 	{
-		curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
+		if(curr->cmd)
+			curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
 		// if (curr->cmd[0] == '"')
 		// 	curr->state = IN_DQUOTE;
 		// else if (curr->cmd[0] == '\'')
