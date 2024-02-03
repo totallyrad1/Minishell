@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 15:28:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 05:37:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,20 @@
 
 int	ft_dollarsign(t_token **cmd, t_vars *vars)
 {
-	int dollaronly = 1;
-
 	vars->tmp = vars->i;
 	if(vars->cmd[vars->i] == '$')
 		vars->i++;
-	if(ft_alphanum(vars->cmd[vars->i]) == 1)
-	{
-		while(vars->cmd[vars->i] && ft_alphanum(vars->cmd[vars->i]) == 1)	
-			vars->i++;
-	}
-	else
-		dollaronly = 0;
+	while(vars->cmd[vars->i] && vars->cmd[vars->i] != 32 && islimiter(vars->cmd[vars->i]) == 0)
+		vars->i++;
 	if (vars->flag == 1)
 	{
-		if(dollaronly == 0)
-			(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
-		else if(dollaronly == 1)
-			(*cmd)->cmd = expand(vars->env, ft_substr(vars->cmd, vars->tmp + 1, vars->i - vars->tmp + 1));
+		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
 		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
 		vars->flag = 0;
 	}
 	else
-	{
-		if(dollaronly == 0)
-			ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
-		else
-		 	ft_newnode(cmd, expand(vars->env, ft_substr(vars->cmd, vars->tmp + 1, vars->i - vars->tmp + 1)), GENERAL, hasspaceafter(vars->cmd, vars->i));
-	}
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
 	return (ft_switch(cmd, vars));
 }
 
@@ -54,12 +39,12 @@ int	ft_switch(t_token **cmd, t_vars *vars)
 			return (ft_space(cmd, vars));
 		else if (ft_isquote(vars->cmd[vars->i]) == 1)
 			return (ft_quote(cmd, vars));
+		else if(vars->cmd[vars->i] == '$')
+			return ft_dollarsign(cmd, vars);
 		else if (islimiter(vars->cmd[vars->i]) == 1)
 			return (ft_separator(cmd, vars));
 		else if (vars->cmd[vars->i] == '(' || vars->cmd[vars->i] == ')')
 			return (ft_bracket(cmd, vars));
-		else if(vars->cmd[vars->i] == '$')
-			return ft_dollarsign(cmd, vars);
 		else
 			return (ft_char(cmd, vars));
 	}

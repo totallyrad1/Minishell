@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 21:49:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 06:21:19 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void handle_input(t_token **cmd, char *str, t_env *env)
             if(i == 0)
 			{
 				give_state_and_type(cmd);
-				curr = *cmd;
-				while(curr)
-				{
-					if (curr->cmd)
-						printf("token====>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
-					curr = curr->next;
-				}
+				// curr = *cmd;
+				// while(curr)
+				// {
+				// 	if (curr->cmd)
+				// 		printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
+				// 	curr = curr->next;
+				// }
 			}
 			new_cmd = join_args_ifspace(*cmd);
 			give_state_and_type(&new_cmd);
@@ -66,13 +66,19 @@ void handle_input(t_token **cmd, char *str, t_env *env)
         else
             return;
     }
+	// printf("\n");
+	// printf("\n");
+	// printf("\n");
+	// printf("\n");
+	// printf("\n");
+	// printf("\n");
 	// if(i == 0)
 	// {
 	// 	curr = new_cmd;
 	// 	while(curr)
 	// 	{
 	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
 	// 		curr = curr->next;
 	// 	}
 	// }
@@ -83,8 +89,14 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		while(new_cmd->next)
 			new_cmd = new_cmd->next;
 		root = search_logical_operator(new_cmd);
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
 		// print2D(root);
 		// printf("\n");
+		// return;
 		find_node_to_execute(root, env);
 		free_tree(&root);
 		*cmd = save;

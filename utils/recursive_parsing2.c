@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 14:21:20 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 21:55:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 06:09:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,11 @@ t_token *join_args_ifspace(t_token *cmd)
 			{
 				new_cmd->cmd = wordsjoined;
 				new_cmd->state = GENERAL;
+				new_cmd->spaceafter = curr->spaceafter;
 				tnp = 0;
 			}
 			else
-				ft_newnode(&new_cmd, wordsjoined, 0, 0);
+				ft_newnode(&new_cmd, wordsjoined, 0, curr->spaceafter);
 		}
 		else
 		{
@@ -60,10 +61,11 @@ t_token *join_args_ifspace(t_token *cmd)
 			{
 				new_cmd->cmd = ft_strdup(curr->cmd);
 				new_cmd->state = GENERAL;
+				new_cmd->spaceafter = curr->spaceafter;
 				tnp = 0;
 			}
 			else
-				ft_newnode(&new_cmd, ft_strdup(curr->cmd), 0, 0);
+				ft_newnode(&new_cmd, ft_strdup(curr->cmd), 0, curr->spaceafter);
 		}
 		curr = curr->next;
 	}

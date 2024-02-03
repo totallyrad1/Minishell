@@ -6,14 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 17:12:15 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 06:21:45 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <sys/unistd.h>
 
-char **join_args(t_tree *root)
+char **join_args(t_tree *root , t_env *env)
 {
 	char **args;
 	int args_size;
@@ -23,18 +22,24 @@ char **join_args(t_tree *root)
 	args_size = 0;
 	i = 0;
 	temp = root->next;
-	while(temp && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
 	{	
-		temp = temp->next;
 		args_size++;
+		temp = temp->next;
 	}
 	args = malloc((args_size + 1) * sizeof(char *));
 	if(!args)
 		return NULL;
 	temp = root->next;
-	while(temp && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
 	{	
-		args[i] = ft_strdup(temp->cmd);
+		if(temp->cmd[0] == '$' && ft_alphanum(temp->cmd[1]))
+		{
+			args[i] = expand(env, &temp->cmd[1]);
+		}
+		else {
+			args[i] = ft_strdup(temp->cmd);
+		}
 		i++;
 		temp = temp->next;
 	}
@@ -50,7 +55,7 @@ void one_command_execution(t_tree *node, t_env *env)
 	char	**envp;
 
 	envp = env_to_arr(env);
-	args = join_args(node);
+	args = join_args(node, env);
 	if(access(node->data, X_OK) != 0)
 		absolutepath = get_working_path(envp, node->data);
 	else

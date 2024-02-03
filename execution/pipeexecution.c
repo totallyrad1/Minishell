@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/30 20:36:42 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/03 02:41:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void pipeexecution1(t_tree *node, t_tree *save, t_env *env)
 		}
 		close(save->fd[1]);
 		close(save->fd[0]);
-		wait(NULL);
+		wait(NULL);	
 		id = fork();
 		if(id == 0)
 		{
@@ -90,6 +90,8 @@ void pipe_execution(t_tree *node, t_env *env)
 			one_command_execution(node->left, env);
 			exit(0);
 		}
+		// close(node->fd[1]);
+		// close(node->fd[0]);
 		wait(NULL);
 		save = node;
 		pipeexecution1(node->right, save, env);
