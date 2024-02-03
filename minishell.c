@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 06:21:19 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 10:15:36 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,50 +108,50 @@ void f()
 	system("leaks minishell");
 }
 
-// void print2DUtil(t_tree* root, int space)
-// {
-// 	t_cmd	*tmp;
-//     // Base case
-//     if (root == NULL)
-//         return;
+void print2DUtil(t_tree* root, int space)
+{
+	t_cmd	*tmp;
+    // Base case
+    if (root == NULL)
+        return;
  
-//     // Increase distance between levels
-//     space += 10;
-// 	if (root->next)
-// 	{
-// 		tmp = root->next;
-// 		for (int i = 10; i < space; i++)
-// 			printf(" ");
-// 		while (tmp)
-// 		{
-// 			printf("  ==>  %s", tmp->cmd);
-// 			tmp = tmp->next;
-// 		}
-// 	}
-//     // Process right child first
-// 	if(root && root->right)
-//     	print2DUtil(root->right, space);
+    // Increase distance between levels
+    space += 10;
+	if (root->next)
+	{
+		tmp = root->next;
+		for (int i = 10; i < space; i++)
+			printf(" ");
+		while (tmp)
+		{
+			printf("  ==>  %s %d", tmp->cmd, tmp->spaceafter);
+			tmp = tmp->next;
+		}
+	}
+    // Process right child first
+	if(root && root->right)
+    	print2DUtil(root->right, space);
  
-//     // Print current node after space
-//     // count
-// 	if (!root->next)
-//     {
-// 		printf("\n");
-// 		for (int i = 10; i < space; i++)
-// 			printf(" ");
-// 		printf("%s\n", root->data);
-// 	}
+    // Print current node after space
+    // count
+	if (!root->next)
+    {
+		printf("\n");
+		for (int i = 10; i < space; i++)
+			printf(" ");
+		printf("%s\n", root->data);
+	}
  
-//     // Process left child
-// 	if(root && root->left)
-// 		print2DUtil(root->left, space);
-// }
+    // Process left child
+	if(root && root->left)
+		print2DUtil(root->left, space);
+}
  
-// // Wrapper over print2DUtil()
-// void print2D(t_tree* root)
-// {
-//     print2DUtil(root, 0);
-// }
+// Wrapper over print2DUtil()
+void print2D(t_tree* root)
+{
+    print2DUtil(root, 0);
+}
 
 int main(int ac, char **av, char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 06:20:49 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/03 09:20:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	int				fd[2];
+	int				spaceafter;
 	struct s_cmd	*next;
 }				t_cmd;
 
