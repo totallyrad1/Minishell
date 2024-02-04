@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 10:15:36 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/04 12:37:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		// print2D(root);
 		// printf("\n");
 		// return;
-		find_node_to_execute(root, env);
+		// find_node_to_execute(root, env);
+		andorexecution(root, env);
 		free_tree(&root);
 		*cmd = save;
 	}

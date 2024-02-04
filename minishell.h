@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 09:20:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/04 12:55:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,9 +212,10 @@ int		heredoc(char *str);
 void	exec_heredoc(char *str);
 //onecommand.c
 void	find_node_to_execute(t_tree *root, t_env *env);
-void	one_command_execution(t_tree *node, t_env *env);
+int	one_command_execution(t_tree *node, t_env *env);
+int  andorexecution(t_tree *root, t_env *env);
 //pipeexecution.c
-void	pipe_execution(t_tree *node, t_env *env);
+int	pipe_execution(t_tree *node, t_env *env);
 //expand.c
 char	*expand(t_env *env, char *key);
 

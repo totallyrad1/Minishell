@@ -6,11 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 10:14:48 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/04 13:58:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <assert.h>
+#include <stdio.h>
 
 char **join_args(t_tree *root , t_env *env)
 {
@@ -76,12 +78,13 @@ char **join_args(t_tree *root , t_env *env)
 	return (args);
 }
 
-void one_command_execution(t_tree *node, t_env *env)
+int one_command_execution(t_tree *node, t_env *env)
 {
 	char 	*absolutepath;
 	char 	**args;
 	int 	id;
 	char	**envp;
+	int status;
 
 	envp = env_to_arr(env);
 	args = join_args(node, env);
@@ -91,17 +94,50 @@ void one_command_execution(t_tree *node, t_env *env)
 		absolutepath = node->data;
 	id = fork();
 	if(id == -1)
-		return;
+		return 127;
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)
 			printf("invalid command : [%s]\n", args[0]);
 		exit(EXIT_FAILURE);
 	}
-	wait(NULL);
-	// free(absolutepath);
-	// ft_free_array(args);
+	wait(&status);
+	// fprintf(stderr, "%d\n", status);
+	return (status);
 }
+
+
+
+int  andorexecution(t_tree *root, t_env *env)
+{
+	int status = 0;
+	if(root->tree_type == CMD)
+	{
+		return one_command_execution(root, env);
+	}
+	else if(root->tree_type == PIPE)
+	{
+		return pipe_execution(root, env);
+	}
+	if(root->tree_type == AND)
+	{
+		status = andorexecution(root->left, env);
+		if(status == 0)
+			return andorexecution(root->right, env);
+		else
+		 	return 127;
+	}
+	else if(root->tree_type == OR)
+	{
+		status = andorexecution(root->left, env);
+		if(status != 0)
+			return andorexecution(root->right, env);
+		else
+		 	return 127;
+	}
+	return 127;
+}
+
 void find_node_to_execute(t_tree *root , t_env *env)
 {
 	if(root->tree_type == PIPE)
