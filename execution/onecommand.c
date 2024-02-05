@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 15:52:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 16:35:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int one_command_execution(t_tree *node, t_env *env)
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
-	// fprintf(stderr, "%d\n", status);
 	return (status);
 }
 
