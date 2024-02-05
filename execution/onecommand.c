@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:33:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:42:56 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,10 @@ int one_command_execution(t_tree *node, t_env *env)
 	{
 		if(execve(absolutepath, args, envp) != 0)
 			printf("invalid command : [%s]\n", args[0]);
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	wait(&status);
-	if(status != 0)
-		exitstatus(127, 1);
-	else
-	 	exitstatus(0, 1);
+	exitstatus(WEXITSTATUS(status), 1);
 	return (status);
 }
 

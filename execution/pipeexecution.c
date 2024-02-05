@@ -6,12 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:35:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:42:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 // int pipeexecution1(t_tree *node, t_tree *save, t_env *env)
@@ -103,16 +104,13 @@ int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save)
 			dup2(node->fd[1], STDOUT_FILENO);
 			close(node->fd[1]);
 			if(andorexecution(node->left, env) != 0)
-				exit(EXIT_FAILURE);
+				exit(127);
 			exit(0);
 		}
 		close(save->fd[1]);
 		close(save->fd[0]);
 		wait(&status);
-		if(status != 0)
-			exitstatus(127, 1);
-		else
-	 		exitstatus(0, 1);
+		exitstatus(WEXITSTATUS(status), 1);
 		if(status != 0)
 			return 127;
 		save = node;
@@ -126,16 +124,13 @@ int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save)
 			dup2(save->fd[0],STDIN_FILENO);
 			close(save->fd[0]);
 			if(andorexecution(node, env) != 0)
-				exit(EXIT_FAILURE);
+				exit(127);
 			exit(0);
 		}
 		close(save->fd[1]);
 		close(save->fd[0]);
 		wait(&status);
-		if(status != 0)
-			exitstatus(127, 1);
-		else
-	 		exitstatus(0, 1);
+		exitstatus(WEXITSTATUS(status), 1);
 		if(status != 0)
 			return 127;
 	}
@@ -156,14 +151,11 @@ int improvedpipeexecution(t_tree *node, t_env *env)
 		dup2(node->fd[1], STDOUT_FILENO);
 		close(node->fd[1]);
 		if(andorexecution(node->left, env) != 0)
-			exit(EXIT_FAILURE);
+			exit(127);
 		exit(0);
 	}
 	wait(&status);
-	if(status != 0)
-		exitstatus(127, 1);
-	else
-	 	exitstatus(0, 1);
+	exitstatus(WEXITSTATUS(status), 1);
 	if(status != 0)
 		return 127;	
 	save = node;
