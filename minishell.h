@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 14:36:59 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:29:03 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,8 @@ int pipeexecution1(t_tree *node, t_tree *save, t_env *env);
 char	*expand(t_env *env, char *key);
 
 int improvedpipeexecution(t_tree *node, t_env *env);
-
+int exitstatus(int nestatus, int flag);
+//ft_itoa.c
+char	*ft_itoa(int n);
 void	print2D(t_tree *root);
 #endif

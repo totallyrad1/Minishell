@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 15:42:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:35:56 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save)
 		close(save->fd[0]);
 		wait(&status);
 		if(status != 0)
+			exitstatus(127, 1);
+		else
+	 		exitstatus(0, 1);
+		if(status != 0)
 			return 127;
 		save = node;
 		return improvedpipeexecution1(node->right, env, save);
@@ -128,6 +132,10 @@ int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save)
 		close(save->fd[1]);
 		close(save->fd[0]);
 		wait(&status);
+		if(status != 0)
+			exitstatus(127, 1);
+		else
+	 		exitstatus(0, 1);
 		if(status != 0)
 			return 127;
 	}
@@ -152,6 +160,10 @@ int improvedpipeexecution(t_tree *node, t_env *env)
 		exit(0);
 	}
 	wait(&status);
+	if(status != 0)
+		exitstatus(127, 1);
+	else
+	 	exitstatus(0, 1);
 	if(status != 0)
 		return 127;	
 	save = node;

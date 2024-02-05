@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 16:35:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:33:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int one_command_execution(t_tree *node, t_env *env)
 		absolutepath = node->data;
 	id = fork();
 	if(id == -1)
-		return 127;
+		return (exitstatus(status, 1), 127);
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)
@@ -100,6 +100,10 @@ int one_command_execution(t_tree *node, t_env *env)
 		exit(EXIT_FAILURE);
 	}
 	wait(&status);
+	if(status != 0)
+		exitstatus(127, 1);
+	else
+	 	exitstatus(0, 1);
 	return (status);
 }
 

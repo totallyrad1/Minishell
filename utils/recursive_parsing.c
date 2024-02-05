@@ -6,16 +6,41 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 21:52:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 18:29:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int exitstatus(int newstatus, int flag)
+{
+	static int status;
+
+	if(flag == 1)
+		status = newstatus;
+	return status;
+}
+
+int	islimiter1(int c)
+{
+	if (c == '<' || c == '>')
+		return (1);
+	if ( c == '|' || c == '&')
+		return (1);
+	return (0);
+}
+
 int hasspaceafter(char *str, int i)
 {
-	if(str[i] == 32)
-		return 1;
+	if(str[i] == ' ')
+	{
+		while(str[i] && islimiter1(str[i]) == 0)
+		{
+			if(ft_isspace(str[i]) == 0)
+				return 1;
+			i++;
+		}		
+	}
 	return 0;
 }
 
