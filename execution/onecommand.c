@@ -6,13 +6,11 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/04 15:17:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 15:43:21 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <assert.h>
-#include <stdio.h>
 
 char **join_args(t_tree *root , t_env *env)
 {
@@ -114,7 +112,7 @@ int  andorexecution(t_tree *root, t_env *env)
 	if(root->tree_type == CMD)
 		return one_command_execution(root, env);
 	else if(root->tree_type == PIPE)
-		return pipe_execution(root, env);
+		return improvedpipeexecution(root, env);
 	if(root->tree_type == AND)
 		return (andorexecution(root->left, env) || andorexecution(root->right, env));
 	else if(root->tree_type == OR)
@@ -122,20 +120,20 @@ int  andorexecution(t_tree *root, t_env *env)
 	return 127;
 }
 
-void find_node_to_execute(t_tree *root , t_env *env)
-{
-	if(root->tree_type == PIPE)
-	{
-		pipe_execution(root, env);
-			return;
-	}
-	if(root->tree_type == CMD)
-	{
-		one_command_execution(root, env);
-		return ;
-	}
-	if(root->left)
-		find_node_to_execute(root->left, env);
-	if(root->right)
-		find_node_to_execute(root->right, env);
-}
+// void find_node_to_execute(t_tree *root , t_env *env)
+// {
+// 	if(root->tree_type == PIPE)
+// 	{
+// 		pipe_execution(root, env);
+// 			return;
+// 	}
+// 	if(root->tree_type == CMD)
+// 	{
+// 		one_command_execution(root, env);
+// 		return ;
+// 	}
+// 	if(root->left)
+// 		find_node_to_execute(root->left, env);
+// 	if(root->right)
+// 		find_node_to_execute(root->right, env);
+// }

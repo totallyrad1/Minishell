@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/04 14:57:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 15:40:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		while(new_cmd->next)
 			new_cmd = new_cmd->next;
 		root = search_logical_operator(new_cmd);
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		print2D(root);
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// print2D(root);
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
 		// return;
 		// find_node_to_execute(root, env);
 		andorexecution(root, env);
