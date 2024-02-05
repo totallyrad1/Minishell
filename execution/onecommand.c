@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 15:43:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/05 15:52:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int one_command_execution(t_tree *node, t_env *env)
 
 int  andorexecution(t_tree *root, t_env *env)
 {
-	int status;
 	if(root->tree_type == CMD)
 		return one_command_execution(root, env);
 	else if(root->tree_type == PIPE)

@@ -5,3 +5,5 @@
 	# parsing : 
 		1 -> need to improve parsing (still a lot of syntax errors iguess)
 		2 -> add $ expandind in "" and ''
+	# etc :
+		1 -> need to add wildcard shit
