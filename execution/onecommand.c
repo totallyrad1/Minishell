@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 16:58:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 20:01:55 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,17 @@ char **join_args(t_tree *root , t_env *env)
 		{
 			while(temp && temp->cmd && temp->spaceafter != 1)
 			{
-				if(temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+				if(temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
+				{
+					if(tnop == 1)
+					{
+						args[i] = quotes_toexpression(temp->cmd, env);
+						tnop = 0;
+					}
+					else if(tnop == 0)
+						args[i] = ft_strjoin(args[i], quotes_toexpression(temp->cmd, env));
+				}
+				else if(temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
 				{
 					if(tnop == 1)
 					{
@@ -64,12 +74,15 @@ char **join_args(t_tree *root , t_env *env)
 			
 		}
 		else if (temp->spaceafter == 1){
-			if(temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+			if(temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
+				args[i] = quotes_toexpression(temp->cmd, env);
+			else if(temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
 				args[i] = ft_strdup(expand(env, &temp->cmd[1]));
 			else
 				args[i] = ft_strdup(temp->cmd);
 			temp = temp->next;
 		}
+		// printf("args[i]------>%s\n", args[i]);
 		i++;
 	}
 	args[i] = NULL;

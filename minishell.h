@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 16:59:09 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 19:25:37 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,7 @@ int improvedpipeexecution(t_tree *node, t_env *env);
 int exitstatus(int nestatus, int flag);
 //ft_itoa.c
 char	*ft_itoa(int n);
+//QUOTE.C
+char *quotes_toexpression(char *str, t_env *env);
 void	print2D(t_tree *root);
 #endif

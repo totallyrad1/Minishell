@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:59:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/03 05:37:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 20:50:11 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int ft_alphanum(char c)
 
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t')
+	if (c == 32 || c == '\t')
 		return (1);
 	if (c >= 9 && c <= 13)
 		return (1);

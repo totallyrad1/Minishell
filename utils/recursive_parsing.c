@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 16:18:14 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 20:51:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,9 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 		else
 		{
 			if(save == '"')
-				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_DQUOTE, hasspaceafter(vars->cmd, vars->i + 1));
+				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_DQUOTE, hasspaceafter(vars->cmd, vars->i));
 			else
-			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i + 1));
+			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i));
 		}
 		return (ft_switch(cmd, vars));
 	}

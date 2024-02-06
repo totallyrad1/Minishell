@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 16:57:55 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 20:48:22 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void handle_input(t_token **cmd, char *str, t_env *env)
             if(i == 0)
 			{
 				give_state_and_type(cmd);
-				// curr = *cmd;
-				// while(curr)
-				// {
-				// 	if (curr->cmd)
-				// 		printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
-				// 	curr = curr->next;
-				// }
+				curr = *cmd;
+				while(curr)
+				{
+					if (curr->cmd)
+						printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
+					curr = curr->next;
+				}
 			}
 			new_cmd = join_args_ifspace(*cmd);
 			give_state_and_type(&new_cmd);
@@ -72,16 +72,16 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	// printf("\n");
 	// printf("\n");
 	// printf("\n");
-	// if(i == 0)
-	// {
-	// 	curr = new_cmd;
-	// 	while(curr)
-	// 	{
-	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
-	// 		curr = curr->next;
-	// 	}
-	// }
+	if(i == 0)
+	{
+		curr = new_cmd;
+		while(curr)
+		{
+			if (curr->cmd)
+				printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
+			curr = curr->next;
+		}
+	}
 	// return ;
 	if(i == 0)
 	{
@@ -89,17 +89,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		while(new_cmd->next)
 			new_cmd = new_cmd->next;
 		root = search_logical_operator(new_cmd);
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// print2D(root);
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		print2D(root);
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		printf("\n");
+		printf("\n");
 		// return;
 		// find_node_to_execute(root, env);
 		andorexecution(root, env);
