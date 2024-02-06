@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:42:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 13:57:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,42 @@ char **join_args(t_tree *root , t_env *env)
 	return (args);
 }
 
+/* int	is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	if (!ft_strcmp(cmd, "env"))
+		return (1);
+	if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	if (!ft_strcmp(cmd, "exit"))
+		return (1);
+}
+
+int	exec_builtin(char **args, char **envp)
+{
+	if (!ft_strcmp(args[0], "cd"))
+		return (1);
+	if (!ft_strcmp(args[0], "echo"))
+		return (1);
+	if (!ft_strcmp(args[0], "export"))
+		return (1);
+	if (!ft_strcmp(args[0], "env"))
+		return (1);
+	if (!ft_strcmp(args[0], "pwd"))
+		return (1);
+	if (!ft_strcmp(args[0], "unset"))
+		return (1);
+	if (!ft_strcmp(args[0], "exit"))
+		return (1);
+} */
+
 int one_command_execution(t_tree *node, t_env *env)
 {
 	char 	*absolutepath;
@@ -86,6 +122,8 @@ int one_command_execution(t_tree *node, t_env *env)
 
 	envp = env_to_arr(env);
 	args = join_args(node, env);
+	/* if (is_builtin(node->data))
+		return (exec_builtin(args, envp)); */
 	if(access(node->data, X_OK) != 0)
 		absolutepath = get_working_path(envp, node->data);
 	else

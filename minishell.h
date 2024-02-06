@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:03 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 13:34:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,6 @@ char	**ft_export(char **env, char *variable, int flag);
 char	**ft_cd(char *dir, char **env);
 // signal.c
 void	signal_handler(int signum);
-// get_home_dir.c
-char	*get_home_dir(char **envp);
 // start_message.c
 void	print_start_message(void);
 // clone_env.c
