@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 22:17:48 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 17:07:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:21:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	ft_echo(char **args)
 				flag = 0;
 		}
 	}
+	else
+		flag = 0;
 	i = flag + 1;
 	while(args[i])
 	{
