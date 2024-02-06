@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 20:48:22 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 22:20:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ void handle_input(t_token **cmd, char *str, t_env *env)
             if(i == 0)
 			{
 				give_state_and_type(cmd);
-				curr = *cmd;
-				while(curr)
-				{
-					if (curr->cmd)
-						printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
-					curr = curr->next;
-				}
+				// curr = *cmd;
+				// while(curr)
+				// {
+				// 	if (curr->cmd)
+				// 		printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
+				// 	curr = curr->next;
+				// }
 			}
-			new_cmd = join_args_ifspace(*cmd);
-			give_state_and_type(&new_cmd);
+			// new_cmd = join_args_ifspace(*cmd);
+			// give_state_and_type(&new_cmd);
         }
         else
             return;
@@ -74,7 +74,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	// printf("\n");
 	if(i == 0)
 	{
-		curr = new_cmd;
+		curr = *cmd;
 		while(curr)
 		{
 			if (curr->cmd)
@@ -86,9 +86,9 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	if(i == 0)
 	{
 		save = *cmd;
-		while(new_cmd->next)
-			new_cmd = new_cmd->next;
-		root = search_logical_operator(new_cmd);
+		while((*cmd)->next)
+			*cmd = (*cmd)->next;
+		root = search_logical_operator(*cmd);
 		printf("\n");
 		printf("\n");
 		printf("\n");

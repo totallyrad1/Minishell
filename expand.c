@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:47:54 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:42 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 22:51:36 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*expand(t_env *env, char *key)
 {
 	if(key[0] == '?' && !key[1])
 		return (ft_itoa(exitstatus(0, 0)));
+	if(!key[1])
+		return (ft_strdup("$"));
 	while (env)
 	{
 		if (!ft_strcmp(key, env->key))

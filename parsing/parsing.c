@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 17:23:04 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 22:32:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int	ft_dollarsign(t_token **cmd, t_vars *vars)
 	{
 		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
 		(*cmd)->state = GENERAL;
-		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->i);
+		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->tmp - 1);
 		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->i));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->tmp - 1));
 	return (ft_switch(cmd, vars));
 }
 

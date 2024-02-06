@@ -6,11 +6,65 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 20:01:55 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 22:49:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char **join_args1(t_tree *root , t_env *env)
+{
+	char **args;
+	int args_size;
+	t_cmd *temp;
+	int i;
+	int firstit = 0;
+
+	args_size = 0;
+	i = -1;
+	temp = root->next;
+	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	{	
+		args_size++;
+		temp = temp->next;
+	}
+	args = malloc((args_size + 1) * sizeof(char *));
+	if(!args)
+		return NULL;
+	temp = root->next;
+	temp->spaceafter = 1;
+	while(i < args_size && temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	{
+		if(temp->spaceafter == 1)
+		{
+			i++;
+			firstit = 0;
+		}
+		if (firstit == 0)
+		{
+			if (temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
+				args[i] = quotes_toexpression(temp->cmd, env);
+			else if (temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+				args[i] = ft_strdup(expand(env, &temp->cmd[1]));
+			else
+				args[i] = ft_strdup(temp->cmd);
+			firstit = 1;
+		}
+		else 
+		{
+			if (temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
+				args[i] = ft_strjoin(args[i], quotes_toexpression(temp->cmd, env));
+			else if (temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+				args[i] = ft_strjoin(args[i], expand(env, &temp->cmd[1]));
+			else
+				args[i] = ft_strjoin(args[i], ft_strdup(temp->cmd));
+		}
+		temp = temp->next;
+	}
+	i++;
+	args[i] = NULL;
+	return (args);
+}
 
 char **join_args(t_tree *root , t_env *env)
 {
@@ -82,10 +136,13 @@ char **join_args(t_tree *root , t_env *env)
 				args[i] = ft_strdup(temp->cmd);
 			temp = temp->next;
 		}
-		// printf("args[i]------>%s\n", args[i]);
+		printf("args[i]------>%s\n", args[i]);
 		i++;
 	}
 	args[i] = NULL;
+	int j = 0;
+	while(args[j])
+		printf("{%s}\n", args[j++]);
 	return (args);
 }
 
@@ -144,14 +201,14 @@ int one_command_execution(t_tree *node, t_env *env)
 	char	**envp;
 	int status;
 
+	args = join_args1(node, env);
 	envp = env_to_arr(env);
-	args = join_args(node, env);
-	if (is_builtin(node->data))
+	if (is_builtin(args[0]))
 		return (exec_builtin(args, &env));
 	if(access(node->data, X_OK) != 0)
-		absolutepath = get_working_path(envp, node->data);
+		absolutepath = get_working_path(envp, args[0]);
 	else
-		absolutepath = node->data;
+		absolutepath = ft_strdup(args[0]);
 	id = fork();
 	if(id == -1)
 		return (exitstatus(status, 1), 127);
@@ -163,6 +220,8 @@ int one_command_execution(t_tree *node, t_env *env)
 	}
 	wait(&status);
 	exitstatus(WEXITSTATUS(status), 1);
+	free(absolutepath);
+	ft_free_array(args);
 	return (status);
 }
 
