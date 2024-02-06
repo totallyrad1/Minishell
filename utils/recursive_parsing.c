@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 16:18:14 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,14 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 {
 	char	save;
 
-	vars->tmp = vars->i + 1;
+	vars->tmp = vars->i;
 	if (vars->cmd[vars->i] == '\'' || vars->cmd[vars->i] == '"')
 		save = vars->cmd[vars->i++];
 	while (vars->cmd[vars->i] && vars->cmd[vars->i] != save)
 		vars->i++;
 	if (vars->cmd[vars->i] == '\'' || vars->cmd[vars->i] == '"')
 	{
+		vars->i++;
 		if (vars->flag == 1)
 		{
 			(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
@@ -134,7 +135,7 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 			if(save == '"')
 				(*cmd)->state = IN_DQUOTE;
 			else
-			 	(*cmd)->state = IN_QUOTE;;
+				(*cmd)->state = IN_QUOTE;;
 			vars->flag = 0;
 		}
 		else
@@ -144,7 +145,6 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 			else
 			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), IN_QUOTE, hasspaceafter(vars->cmd, vars->i + 1));
 		}
-		vars->i++;
 		return (ft_switch(cmd, vars));
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 13:34:26 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 16:59:09 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	struct s_env	*prev;
 }				t_env;
 
 typedef struct s_vars
@@ -129,6 +130,9 @@ size_t	ft_strlen(const char *s);
 void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter);
 void	ft_free_cmd(t_token *lst);
 t_token	*init_token();
+int		ft_isalpha(int c);
+int		ft_isalnum(int c);
+
 //parsing.c
 int		ft_char(t_token **cmd, t_vars *vars);
 void	give_state_and_type(t_token **cmd);
@@ -184,7 +188,7 @@ char	*ft_strchr(const char *str, int c);
 // free_array.c
 void	ft_free_array(char **array);
 // pwd.c
-char	*get_pwd(char **envp);
+char	*get_pwd(t_env **envp);
 // print_env.c
 void	print_env(t_env *env);
 // env.c
@@ -194,11 +198,13 @@ char	**env_to_arr(t_env *env);
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c
-char	**unset(char **envp, char *var);
+int	unset(char **args, t_env **envp);
 //export.c
-char	**ft_export(char **env, char *variable, int flag);
+int		ft_export(char **args, t_env **env);
 //cd.c 
-char	**ft_cd(char *dir, char **env);
+int		ft_cd(char **args, t_env **env);
+//echo.c
+int		ft_echo(char **args);
 // signal.c
 void	signal_handler(int signum);
 // start_message.c

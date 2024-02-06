@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/28 15:47:25 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 17:17:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_key(char *line)
+static char	*get_key(char *line)
 {
 	int		i;
 	char	*key;
 
 	i = 0;
-	while (line[i] && line[i] != '=')
+	while (line[i] && line[i] != '=' && line[i] != '+')
 		i++;
 	key = ft_substr(line, 0, i);
 	return (key);
 }
 
-char	*get_value(char *line)
+static char	*get_value(char *line)
 {
 	int		i;
 	int		tmp;
@@ -41,82 +41,83 @@ char	*get_value(char *line)
 	return (value);
 }
 
-char	**create_new_env(char *value, char *var_name, char **env)
+static void	printfenv(t_env **env)
 {
-	int		env_size;
-	char	**new_env;
-	int		i;
-	char	*new_var;
+	t_env	*tmp;
 
-	env_size = 0;
-	i = 0;
-	while (env[env_size])
-		env_size++;
-	new_env = malloc((env_size + 2) * (sizeof(char *)));
-	if(!new_env)
-		return NULL;
-	while (env[i])
+	tmp = *env;
+	while (tmp)
 	{
-		new_env[i] = env[i];
-		i++;
-	}
-	new_var = ft_strjoin(var_name, "=");
-	new_var = ft_strjoin(new_var, value);
-	new_env[i++] = new_var;
-	new_env[i] = NULL;
-	return (free(value), new_env);
-}
-
-char	**append_new_env_var_value(char *value, char *var_name, char **env)
-{
-	char	*new_var;
-	int		i;
-
-	i = 0;
-	while (env[i] && ft_strncmp(var_name, env[i], ft_strlen(var_name)))
-		i++;
-	new_var = ft_strjoin(var_name, "=");
-	if (value)
-		new_var = ft_strjoin(new_var, value);
-	env[i] = new_var;
-	return (free(value), env);
-}
-
-void	printfenv(char **env)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (env[i])
-	{
-		j = 0;
 		printf("declare -x ");
-		while (env[i][j] && env[i][j] != '=')
-			printf("%c", env[i][j++]);
-		printf("\"");
-		while (env[i][j])
-			printf("%c", env[i][j++]);
-		printf("\"");
-		i++;
+		printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
 }
 
-char	**ft_export(char **env, char *variable, int flag)
+static int	check_arg(char *str)
 {
-	char	*var_name;
-	char	*value;
+	int	i;
 
-	if (flag == 1)
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	i++;
+	while (str[i] && str[i] != '=' && (str[i] != '+' && str[i + 1] != '='))
 	{
-		var_name = get_key(variable);
-		value = get_value(variable);
-		if (getenv(var_name) == NULL)
-			return (create_new_env(value, var_name, env));
-		else
-			return (append_new_env_var_value(value, var_name, env));
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
 	}
-	printfenv(env);
-	return (env);
+	return (1);
+}
+
+int	ft_export(char **args, t_env **env)
+{
+	char	*key;
+	char	*value;
+	t_env	*tmp;
+	int		i;
+	int		flag;
+
+	i = 1;
+	if (!args[i])
+		printfenv(env);
+	while (args[i])
+	{
+		flag = 0;
+		if (!check_arg(args[i]))
+		{
+			write(2, "export: `", 9);
+			write(2, args[i], ft_strlen(args[i]));
+			write(2, "': not a valid identifier\n", 26);
+		}
+		else
+		{
+			key = get_key(args[i]);
+			value = get_value(args[i]);
+			tmp = *env;
+			while (tmp)
+			{
+				if (!ft_strcmp(key, tmp->key))
+				{
+					if (ft_strchr(args[i], '+'))
+						tmp->value = ft_strjoin(tmp->value, value);
+					else
+					{
+						free(tmp->value);
+						tmp->value = ft_strdup(value);
+					}
+					flag = 1;
+					break ;
+				}
+				tmp = tmp->next;
+			}
+			if (!flag)
+				add_env(env, ft_strdup(key), ft_strdup(value));
+			free(key);
+			free(value);
+		}
+		i++;
+	}
+	return (0);
 }

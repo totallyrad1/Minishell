@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/31 17:46:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 16:39:14 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_env	*make_env(char *key, char *value)
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }
 
@@ -51,10 +52,9 @@ void	add_env(t_env **env, char *key, char *value)
 	}
 	tmp = *env;
 	while (tmp->next)
-	{
 		tmp = tmp->next;
-	}
 	tmp->next = new;
+	new->prev = tmp;
 	(*env)->size++;
 }
 

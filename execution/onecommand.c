@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 13:57:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 16:58:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char **join_args(t_tree *root , t_env *env)
 	return (args);
 }
 
-/* int	is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd"))
 		return (1);
@@ -92,25 +92,36 @@ char **join_args(t_tree *root , t_env *env)
 		return (1);
 	if (!ft_strcmp(cmd, "exit"))
 		return (1);
+	return (0);
 }
 
-int	exec_builtin(char **args, char **envp)
+int	exec_builtin(char **args, t_env **envp)
 {
+	char	*pwd_str;
+
 	if (!ft_strcmp(args[0], "cd"))
-		return (1);
+		return (ft_cd(args, envp));
 	if (!ft_strcmp(args[0], "echo"))
-		return (1);
+		return (ft_echo(args));
 	if (!ft_strcmp(args[0], "export"))
-		return (1);
+		return (ft_export(args, envp));
 	if (!ft_strcmp(args[0], "env"))
-		return (1);
+	{
+		print_env(*envp);
+		return (0);
+	}
 	if (!ft_strcmp(args[0], "pwd"))
-		return (1);
+	{
+		pwd_str = get_pwd(envp);
+		printf("%s\n", pwd_str);
+		return (free(pwd_str), 0);
+	}
 	if (!ft_strcmp(args[0], "unset"))
-		return (1);
-	if (!ft_strcmp(args[0], "exit"))
-		return (1);
-} */
+		return (unset(args, envp));
+/* 	if (!ft_strcmp(args[0], "exit"))
+		return (ft_exit(args, envp)); */
+	return (0);
+}
 
 int one_command_execution(t_tree *node, t_env *env)
 {
@@ -122,8 +133,8 @@ int one_command_execution(t_tree *node, t_env *env)
 
 	envp = env_to_arr(env);
 	args = join_args(node, env);
-	/* if (is_builtin(node->data))
-		return (exec_builtin(args, envp)); */
+	if (is_builtin(node->data))
+		return (exec_builtin(args, &env));
 	if(access(node->data, X_OK) != 0)
 		absolutepath = get_working_path(envp, node->data);
 	else

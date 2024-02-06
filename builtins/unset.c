@@ -3,40 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:27:25 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/22 12:03:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 17:04:01 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**unset(char **envp, char *var)
+static int	check_arg(char *str)
 {
-	int		size_envp;
-	int		i;
-	int		index_line_var;
-	char	**new_env;
+	int	i;
 
-	size_envp = 0;
-	index_line_var = 0;
-	while (envp[size_envp])
-	{
-		if (!ft_strncmp(var, envp[size_envp], ft_strlen(var)))
-			index_line_var = size_envp;
-		size_envp++;
-	}
-	new_env = malloc(sizeof(char *) * size_envp);
-	if (!new_env)
-		exit(1);
 	i = 0;
-	while (i < size_envp)
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	i++;
+	while (str[i])
 	{
-		if (i != index_line_var)
-			new_env[i] = ft_strdup(envp[i]);
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
 		i++;
 	}
-	new_env[i] = NULL;
-	return (ft_free_array(envp), new_env);
+	return (1);
+}
+
+int	unset(char **args, t_env **envp)
+{
+	int		i;
+	t_env	*tmp;
+	t_env	*tmp2;
+
+	i = 1;
+	while (args[i])
+	{
+		if (!check_arg(args[i]))
+		{
+			write(2, "unset: `", 8);
+			write(2, args[i], ft_strlen(args[i]));
+			write(2, "': not a valid identifier\n", 26);
+			continue ;
+		}
+		tmp = *envp;
+		while (tmp)
+		{
+			if (!ft_strcmp(tmp->key, args[i]))
+			{
+				tmp->prev->next = tmp->next;
+				tmp2 = tmp;
+				tmp = tmp->next;
+				free(tmp2->key);
+				free(tmp2->value);
+				free(tmp2);
+			}
+			else
+				tmp = tmp->next;
+		}
+		i++;
+	}
+	return (0);
 }

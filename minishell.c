@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 15:40:24 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/06 16:57:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,14 +195,6 @@ int main(int ac, char **av, char **env)
 			free(command);
 			exit(0);
 		}
-		if (!ft_strncmp(command, "pwd", 3))
-		{
-			pwd = get_pwd(env);
-			printf("%s\n", pwd);
-			free(pwd);
-		}
-		if (!ft_strncmp(command, "env", 3))
-			print_env(env_lst);
 		// if(check_syntax_error(command) == 1)
 		handle_input(&cmd, command, env_lst);
 		// ft_free_cmd(cmd);

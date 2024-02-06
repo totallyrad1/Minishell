@@ -6,17 +6,38 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 22:17:48 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 13:57:15 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/06 17:07:19 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_echo(char *string, int flag)
+int	ft_echo(char **args)
 {
-	if (!string)
-		return ;
+	int	flag;
+	int	i;
+
+	flag = 1;
+	i = 1;
+	if (!args)
+		return (0);
+	if(args[1][0] == '-')
+	{
+		while (args[1][i])
+		{
+			if (args[1][i++] != 'n')
+				flag = 0;
+		}
+	}
+	i = flag + 1;
+	while(args[i])
+	{
+		write(1, args[i], ft_strlen(args[i]));
+		if (args[i + 1])
+			write(1, " ", 1);
+		i++;
+	}		
 	if (flag == 0)
-		string = ft_strjoin(string, "\n");
-	printf("%s", string);
+		write(1, "\n", 1);
+	return (0);
 }
