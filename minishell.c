@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 08:39:13 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 09:35:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,35 @@ void	print_cmd(t_tree *root)
 	}
 }
 
+int bracketssyntax(t_token *cmd)
+{
+	t_token *curr;
+	int openc;
+	int closedc;
+	int flag;
+
+	curr = cmd;
+	closedc = 0;;
+	openc = 0;
+	flag = 0;
+	while(curr)
+	{
+		if(curr->type == TOKEN_CLOSED_BRACKET)
+			closedc++;
+		else if(curr->type == TOKEN_OPEN_BRACKET)
+		{
+			openc++;
+			flag = 1;
+		}	
+		if(curr->type == TOKEN_EXPR)
+			flag = 0;
+		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET))
+			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
+		curr = curr->next;
+	}
+	return 1;
+}
+
 void handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*tree;
@@ -32,7 +61,6 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	t_token	*curr;
 	t_token *save;
 	t_token *new_cmd;
-	int		i;
 	t_vars *vars;
 
 	vars = malloc(sizeof(t_vars));
@@ -46,8 +74,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	if(str[0])
     {
 		// exec_heredoc(str);
-        i = ft_switch(cmd, vars);
-		if(i == 0)
+		if(ft_switch(cmd, vars) == 0)
 		{
 			give_state_and_type(cmd);
 			// if(i == 0)
@@ -61,13 +88,16 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 			// 	}
 			// }
 			// return ;
-			save = *cmd;
-			while((*cmd)->next)
-				*cmd = (*cmd)->next;
-			root = search_logical_operator(*cmd);
-			andorexecution(root, env);
-			free_tree(&root);
-			*cmd = save;
+			if (bracketssyntax(*cmd) == 1)
+			{	
+				save = *cmd;
+				while((*cmd)->next)
+					*cmd = (*cmd)->next;
+				root = search_logical_operator(*cmd);
+				andorexecution(root, env);
+				free_tree(&root);
+				*cmd = save;
+			}
 		}
     }
 }
