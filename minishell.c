@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 09:49:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 11:04:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int bracketssyntax(t_token *cmd)
 			openc++;
 			flag = 1;
 		}
-		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR)
+		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR && curr->type != TOKEN_DOLLAR)
 			flag1 = 0;
-		if(curr->type == TOKEN_EXPR)
+		if(curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)
 			flag = 0;
 		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);

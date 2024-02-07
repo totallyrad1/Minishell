@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 08:46:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 10:21:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char **join_args1(t_tree *root , t_env *env)
 		{
 			if (temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
 				args[i] = quotes_toexpression(temp->cmd, env);
-			else if (temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+			else if (temp->cmd && temp->cmd[0] == '$')
 				args[i] = ft_strdup(expand(env, &temp->cmd[1]));
 			else
 				args[i] = ft_strdup(temp->cmd);
@@ -54,7 +54,7 @@ char **join_args1(t_tree *root , t_env *env)
 		{
 			if (temp->cmd && (temp->cmd[0] == '"' || temp->cmd[0] == '\''))
 				args[i] = ft_strjoin(args[i], quotes_toexpression(temp->cmd, env));
-			else if (temp->cmd && temp->cmd[0] == '$' && temp->cmd[1] != '\0')
+			else if (temp->cmd && temp->cmd[0] == '$')
 				args[i] = ft_strjoin(args[i], expand(env, &temp->cmd[1]));
 			else
 				args[i] = ft_strjoin(args[i], ft_strdup(temp->cmd));
