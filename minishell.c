@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 08:21:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 08:39:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,67 +45,31 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	curr = *cmd;
 	if(str[0])
     {
-		exec_heredoc(str);
-        if(brackets_check(str) == 1)
-        {
-            i = ft_switch(cmd, vars);
-            if(i == 0)
-			{
-				give_state_and_type(cmd);
-				// curr = *cmd;
-				// while(curr)
-				// {
-				// 	if (curr->cmd)
-				// 		printf("token____>|%s|,and space|%d|\n", curr->cmd, curr->spaceafter);
-				// 	curr = curr->next;
-				// }
-			}
-			// new_cmd = join_args_ifspace(*cmd);
-			// give_state_and_type(&new_cmd);
-        }
-        else
-            return;
+		// exec_heredoc(str);
+        i = ft_switch(cmd, vars);
+		if(i == 0)
+		{
+			give_state_and_type(cmd);
+			// if(i == 0)
+			// {
+			// 	curr = *cmd;
+			// 	while(curr)
+			// 	{
+			// 		if (curr->cmd)
+			// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
+			// 		curr = curr->next;
+			// 	}
+			// }
+			// return ;
+			save = *cmd;
+			while((*cmd)->next)
+				*cmd = (*cmd)->next;
+			root = search_logical_operator(*cmd);
+			andorexecution(root, env);
+			free_tree(&root);
+			*cmd = save;
+		}
     }
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// if(i == 0)
-	// {
-	// 	curr = *cmd;
-	// 	while(curr)
-	// 	{
-	// 		if (curr->cmd)
-	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
-	// 		curr = curr->next;
-	// 	}
-	// }
-	// return ;
-	if(i == 0)
-	{
-		save = *cmd;
-		while((*cmd)->next)
-			*cmd = (*cmd)->next;
-		root = search_logical_operator(*cmd);
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// print2D(root);
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// printf("\n");
-		// return;
-		// find_node_to_execute(root, env);
-		andorexecution(root, env);
-		free_tree(&root);
-		*cmd = save;
-	}
 }
 
 void f()
