@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 08:34:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:53:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	islimiter1(int c)
 
 int hasspaceafter(char *str, int i)
 {
+	if(i == -1)
+		return 0;
 	if(ft_isspace(str[i]) == 1)
 		return 1;
 	return 0;
