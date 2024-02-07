@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 22:32:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 08:33:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,6 @@ void	give_state_and_type(t_token **cmd)
 	{
 		if(curr->cmd)
 			curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
-		// if (curr->cmd[0] == '"')
-		// 	curr->state = IN_DQUOTE;
-		// else if (curr->cmd[0] == '\'')
-		// 	curr->state = IN_QUOTE;
-		// else
-		// 	curr->state = GENERAL;
 		curr = curr->next;
 	}
 }

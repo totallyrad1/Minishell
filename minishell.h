@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 19:25:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 08:35:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int		ft_isspace(char c);
 int		ft_isquote(char c);
 int		ft_alphanum(char c);
 int		islimiter(int c);
+int		islimiter1(int c);
 //ft_split.c
 char	**ft_split(char const *s, char c);
 //pipetools.c
@@ -230,5 +231,8 @@ int exitstatus(int nestatus, int flag);
 char	*ft_itoa(int n);
 //QUOTE.C
 char *quotes_toexpression(char *str, t_env *env);
+//exitstatus.c
+int exitstatus(int newstatus, int flag);
+
 void	print2D(t_tree *root);
 #endif

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 22:20:00 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 08:21:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	// printf("\n");
 	// printf("\n");
 	// printf("\n");
-	if(i == 0)
-	{
-		curr = *cmd;
-		while(curr)
-		{
-			if (curr->cmd)
-				printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
-			curr = curr->next;
-		}
-	}
+	// if(i == 0)
+	// {
+	// 	curr = *cmd;
+	// 	while(curr)
+	// 	{
+	// 		if (curr->cmd)
+	// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
+	// 		curr = curr->next;
+	// 	}
+	// }
 	// return ;
 	if(i == 0)
 	{
@@ -89,17 +89,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		while((*cmd)->next)
 			*cmd = (*cmd)->next;
 		root = search_logical_operator(*cmd);
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		print2D(root);
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
-		printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// print2D(root);
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
+		// printf("\n");
 		// return;
 		// find_node_to_execute(root, env);
 		andorexecution(root, env);
