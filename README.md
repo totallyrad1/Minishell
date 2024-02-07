@@ -1,9 +1,12 @@
 # Todo : 
 	# execution : 
 		1 -> add redirections execution
-		2 -> need to expand function (ila drti ghir $P atjbdel lik PATH) BRUH
 	# parsing : 
 		1 -> need to improve parsing (still a lot of syntax errors iguess)
-		2 -> add $ expandind in "" and ''
 	# etc :
 		1 -> need to add wildcard shit
+
+	#errors in export
+		1 -> _ makhashach tbdl 
+		2-> env khawi o kaytprinta 
+		3-> ila drtih khawi kaywli fih (null)

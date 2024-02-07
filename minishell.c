@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 17:05:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 18:20:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,17 +104,6 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				while((*cmd)->next)
 					*cmd = (*cmd)->next;
 				root = search_logical_operator(*cmd);
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				print2D(root);
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
 				andorexecution(root, env);
 				free_tree(&root);
 				*cmd = save;
