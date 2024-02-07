@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/31 17:09:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 09:56:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ char *get_working_path(char **envp, char *command)
 {
 	int i = 0;
 	char *line = get_path_line(envp);
+	if (line == NULL)
+		return NULL;
 	char *tpl = ft_strtrim(line, "PATH=");
 	char **paths = ft_split(tpl, ':');
 	free(tpl);
-	char *acesscheck;
+	char	*acesscheck;
 	while(paths[i])
 	{
 		acesscheck = ft_strjoin(paths[i], "/");

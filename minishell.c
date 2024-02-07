@@ -6,11 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 09:35:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/07 09:49:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/syslimits.h>
 
 void	print_cmd(t_tree *root)
 {
@@ -31,23 +32,30 @@ int bracketssyntax(t_token *cmd)
 	int openc;
 	int closedc;
 	int flag;
+	int flag1;
 
 	curr = cmd;
 	closedc = 0;;
 	openc = 0;
 	flag = 0;
+	flag1 =0;
 	while(curr)
 	{
 		if(curr->type == TOKEN_CLOSED_BRACKET)
+		{
 			closedc++;
+			flag1 = 1;
+		}		
 		else if(curr->type == TOKEN_OPEN_BRACKET)
 		{
 			openc++;
 			flag = 1;
-		}	
+		}
+		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR)
+			flag1 = 0;
 		if(curr->type == TOKEN_EXPR)
 			flag = 0;
-		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET))
+		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
 		curr = curr->next;
 	}
@@ -94,6 +102,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				while((*cmd)->next)
 					*cmd = (*cmd)->next;
 				root = search_logical_operator(*cmd);
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				print2D(root);
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
 				andorexecution(root, env);
 				free_tree(&root);
 				*cmd = save;
