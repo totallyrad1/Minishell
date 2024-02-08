@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 18:31:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/08 21:03:21 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ int improvedpipeexecution(t_tree *node, t_env *env)
 		exit(0);
 	}
 	save = node;
-	return improvedpipeexecution1(node->right, env, save);
+	return improvedpipeexecution1(node->right, env, save);	
 }

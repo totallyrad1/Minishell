@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 10:21:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/08 20:58:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,11 @@ int one_command_execution(t_tree *node, t_env *env)
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)
-			printf("invalid command : [%s]\n", args[0]);
+		{
+			write(2, "turboshell: command not found: ", ft_strlen("turboshell: command not found: "));
+			write(2, args[0], ft_strlen(args[0]));
+			write(2, "\n", 1);
+		}
 		exit(127);
 	}
 	wait(&status);

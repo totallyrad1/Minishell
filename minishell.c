@@ -6,11 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 18:20:59 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/08 22:18:37 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 #include <stdlib.h>
 #include <sys/syslimits.h>
 #include <unistd.h>
@@ -64,7 +65,7 @@ int bracketssyntax(t_token *cmd)
 	return 1;
 }
 
-void handle_input(t_token **cmd, char *str, t_env *env)
+void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction	*sa)
 {
 	t_tree	*tree;
 	t_tree	*root;
@@ -104,7 +105,20 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				while((*cmd)->next)
 					*cmd = (*cmd)->next;
 				root = search_logical_operator(*cmd);
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// print2D(root);
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				signal(SIGINT, SIG_IGN);
 				andorexecution(root, env);
+				sigaction(SIGINT, sa, NULL);
 				free_tree(&root);
 				*cmd = save;
 			}
@@ -200,7 +214,7 @@ int main(int ac, char **av, char **env)
 			exit(0);
 		}
 		// if(check_syntax_error(command) == 1)
-		handle_input(&cmd, command, env_lst);
+		handle_input(&cmd, command, env_lst, &sa);
 		// ft_free_cmd(cmd);
 		if (command[0])
 			add_history(command);
