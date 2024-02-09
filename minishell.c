@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 09:40:42 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 14:30:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,22 @@ int bracketssyntax(t_token *cmd)
 	int flag;
 	int flag1;
 	int flag2;
+	int flag3;
 
 	curr = cmd;
 	closedc = 0;;
 	openc = 0;
 	flag = 0;
-	flag1 =0;
+	flag1 = 0;
 	flag2 = 0;
+	flag3 = 0;
 	while(curr)
 	{
 		if(curr->type == TOKEN_CLOSED_BRACKET)
 		{
 			closedc++;
 			flag1 = 1;
+			flag3 = 1;
 		}		
 		else if(curr->type == TOKEN_OPEN_BRACKET)
 		{
@@ -60,16 +63,19 @@ int bracketssyntax(t_token *cmd)
 		{
 			flag2 = 0;
 			flag1 = 0;
+			flag3 = 0;
 		}	
 		if(curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)
 		{
 			flag2 = 1;
 			flag = 0;
-		}	
-		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET))
+		}
+		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag3 == 1 && (curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
 		curr = curr->next;
 	}
+	if(openc != closedc)
+		return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);
 	return 1;
 }
 

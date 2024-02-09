@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 09:35:42 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 11:33:14 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,8 @@ char	*ft_itoa(int n);
 char *quotes_toexpression(char *str, t_env *env);
 //exitstatus.c
 int exitstatus(int newstatus, int flag);
+//joinargs.c
+char **join_args1(t_tree *root , t_env *env);
 
 void	print2D(t_tree *root);
 #endif

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:33 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:30:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 10:30:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	look_for_char(char *command, int i)
 	int	flag;
 
 	flag = 0;
-	while (command[i] && islimiter(command[i]) == 0 && command[i] != ')')
+	while (command[i] && islimiter1(command[i]) == 0 && command[i] != ')')
 	{
 		if (ft_isspace(command[i]) == 0)
 			flag = 1;
