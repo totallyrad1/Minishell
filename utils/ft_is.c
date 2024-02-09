@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:59:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 20:50:11 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:41:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ int	islimiter(int c)
 	if (c == '<' || c == '>')
 		return (1);
 	if ( c == '$' || c == '|' || c == '&')
+		return (1);
+	return (0);
+}
+
+int	islimiter1(int c)
+{
+	if ( c == '|' || c == '&')
 		return (1);
 	return (0);
 }

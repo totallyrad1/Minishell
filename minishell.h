@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 11:33:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:29:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,8 @@ typedef struct s_vars
 //minishell.c
 void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
-int		check_syntax_error(char *prompt);
-int		brackets_check(char *command);
-int		all_brackets(char *command, int count, int position);
+int bracketssyntax(t_token *cmd);
+int check_syntax_error(t_token *cmd);
 //parsing.c
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -235,6 +234,7 @@ char *quotes_toexpression(char *str, t_env *env);
 int exitstatus(int newstatus, int flag);
 //joinargs.c
 char **join_args1(t_tree *root , t_env *env);
+int commandexecution(int i, int flag);
 
 void	print2D(t_tree *root);
 #endif

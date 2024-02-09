@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 10:30:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 18:26:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ int exitstatus(int newstatus, int flag)
 	if(flag == 1)
 		status = newstatus;
 	return status;
-}
-
-int	islimiter1(int c)
-{
-	if (c == '<' || c == '>')
-		return (1);
-	if ( c == '|' || c == '&')
-		return (1);
-	return (0);
 }
 
 int hasspaceafter(char *str, int i)
@@ -70,9 +61,9 @@ int	ft_separator(t_token **cmd, t_vars *vars)
 		&& ft_isquote(vars->cmd[vars->i]) == 0
 		&& ft_isspace(vars->cmd[vars->i]) == 0 && x++ < 2 && save == vars->cmd[vars->i])
 		vars->i++;
-	if (islimiter(vars->cmd[vars->i]) == 1 || look_for_char(vars->cmd, vars->i) == 0
-		|| (vars->cmd[vars->tmp] == '&' && vars->cmd[vars->tmp + 1] != '&'))
-		return (printf("syntax error\n"), 1);
+	// if (islimiter(vars->cmd[vars->i]) == 1 || look_for_char(vars->cmd, vars->i) == 0
+	// 	|| (vars->cmd[vars->tmp] == '&' && vars->cmd[vars->tmp + 1] != '&'))
+	// 	return (printf("syntax error\n"), 1);
 	if (vars->flag == 1)
 	{
 		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);

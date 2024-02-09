@@ -6,11 +6,20 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 11:32:32 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 16:58:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int commandexecution(int i, int flag)
+{
+	static int s;
+
+	if(flag == 1)
+		s = i;
+	return s;
+}
 
 int	is_builtin(char *cmd)
 {
