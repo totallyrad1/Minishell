@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/08 22:17:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 09:35:42 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_vars
 }				t_vars;
 
 //minishell.c
-void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction	*sa);
+void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
 int		check_syntax_error(char *prompt);
 int		brackets_check(char *command);
@@ -189,7 +189,7 @@ char	*ft_strchr(const char *str, int c);
 // free_array.c
 void	ft_free_array(char **array);
 // pwd.c
-char	*get_pwd(t_env **envp);
+char	*get_pwd(void);
 // print_env.c
 void	print_env(t_env *env);
 // env.c

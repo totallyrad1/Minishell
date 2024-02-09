@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 08:37:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 09:40:42 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ int bracketssyntax(t_token *cmd)
 	return 1;
 }
 
-void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction	*sa)
+void handle_input(t_token **cmd, char *str, t_env *env)
 {
-	t_tree	*tree;
 	t_tree	*root;
 	t_token	*curr;
 	t_token *save;
-	t_token *new_cmd;
 	t_vars *vars;
 
 	vars = malloc(sizeof(t_vars));
@@ -96,16 +94,13 @@ void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction	*sa)
 		if(ft_switch(cmd, vars) == 0)
 		{
 			give_state_and_type(cmd);
-			// if(i == 0)
-			// {
-			// 	curr = *cmd;
-			// 	while(curr)
-			// 	{
-			// 		if (curr->cmd)
-			// 			printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
-			// 		curr = curr->next;
-			// 	}
-			// }
+				// curr = *cmd;
+				// while(curr)
+				// {
+				// 	if (curr->cmd)
+				// 		printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
+				// 	curr = curr->next;
+				// }
 			// return ;
 			if (bracketssyntax(*cmd) == 1)
 			{	
@@ -186,7 +181,6 @@ int main(int ac, char **av, char **env)
 {
 	t_token				*cmd;
 	char				*command;
-	char				*pwd;
 	struct sigaction	sa;
 	t_env				*env_lst;
 
@@ -194,7 +188,6 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);
-	t_env *curr;
 	rl_catch_signals = 0;
 	sa.sa_handler = signal_handler;
 	while (420)
@@ -220,7 +213,7 @@ int main(int ac, char **av, char **env)
 			exit(0);
 		}
 		// if(check_syntax_error(command) == 1)
-		handle_input(&cmd, command, env_lst, &sa);
+		handle_input(&cmd, command, env_lst);
 		// ft_free_cmd(cmd);
 		if (command[0])
 			add_history(command);

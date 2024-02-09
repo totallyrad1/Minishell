@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 20:44:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 09:38:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char *quotes_toexpression(char *str, t_env *env)
 			new_str = ft_strjoin(new_str, ft_substr(str, tmp, i - tmp));
 			i++;
 			tmp = i;
-			while(str[i] && ft_alphanum(str[i]) == 1 || str[i] == '?')
+			while(str[i] &&(ft_alphanum(str[i]) == 1 || str[i] == '?'))
 				i++;
 			key = ft_substr(str, tmp, i - tmp);
 			new_str = ft_strjoin(new_str, expand(env, key));

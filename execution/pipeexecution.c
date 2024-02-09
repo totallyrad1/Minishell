@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/08 21:03:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 09:37:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int improvedpipeexecution(t_tree *node, t_env *env)
 {
 	t_tree *save;
 	pid_t id;
-	int status = 0;
 
 	pipe(node->fd);
 	id = fork();

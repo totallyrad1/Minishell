@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/08 20:58:13 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 09:42:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	exec_builtin(char **args, t_env **envp)
 	}
 	if (!ft_strcmp(args[0], "pwd"))
 	{
-		pwd_str = get_pwd(envp);
+		pwd_str = get_pwd();
 		printf("%s\n", pwd_str);
 		return (free(pwd_str), 0);
 	}
@@ -131,7 +131,7 @@ int one_command_execution(t_tree *node, t_env *env)
 		absolutepath = ft_strdup(args[0]);
 	id = fork();
 	if(id == -1)
-		return (exitstatus(status, 1), 127);
+		return (127);
 	if(id == 0)
 	{
 		if(execve(absolutepath, args, envp) != 0)

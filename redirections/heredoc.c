@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 11:51:12 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/27 03:38:25 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/09 09:36:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	heredoc(char *str)
 {
-	int		fd;
+	// int		fd;
 	char	*text;
 	// char *lktaba;
 
