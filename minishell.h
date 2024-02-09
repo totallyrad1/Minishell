@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 18:29:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 21:14:14 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strchr(const char *str, int c);
 // free_array.c
 void	ft_free_array(char **array);
+void free_env(t_env *env);
 // pwd.c
 char	*get_pwd(void);
 // print_env.c

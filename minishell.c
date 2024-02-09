@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 18:50:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 21:37:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ int main(int ac, char **av, char **env)
 			printf("exit\n");
 			ft_free_cmd(cmd);
 			free(command);
+			// free_env(env_lst);
 			exit(0);
 		}
 		// if(check_syntax_error(command) == 1)
@@ -175,5 +176,4 @@ int main(int ac, char **av, char **env)
 			add_history(command);
 		free(command);
 	}
-	free(env_lst);
 }

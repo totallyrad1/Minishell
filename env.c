@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/06 16:39:14 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/09 21:32:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,14 @@ static t_env	*make_env(char *key, char *value)
 	if (!node)
 		return (NULL);
 	node->size = 0;
-	node->key = key;
-	node->value = value;
+	if(key)
+		node->key = key;
+	else
+	 	node->key = NULL;
+	if(value)
+		node->value = value;
+	else
+	 	node->value = NULL;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
