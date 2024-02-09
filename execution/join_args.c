@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 14:37:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 16:48:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char **join_args1(t_tree *root , t_env *env)
 			args[i] = ft_strjoin(args[i], argextraction(temp, env));
 		}
 		temp = temp->next;
-		if(args[i] == NULL && firstit == 0)
+		if(args[i] == NULL && firstit == 1)
 			i--;
 	}
 	i++;
