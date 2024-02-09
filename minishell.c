@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/08 22:18:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/09 08:37:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ int bracketssyntax(t_token *cmd)
 	int closedc;
 	int flag;
 	int flag1;
+	int flag2;
 
 	curr = cmd;
 	closedc = 0;;
 	openc = 0;
 	flag = 0;
 	flag1 =0;
+	flag2 = 0;
 	while(curr)
 	{
 		if(curr->type == TOKEN_CLOSED_BRACKET)
@@ -55,10 +57,16 @@ int bracketssyntax(t_token *cmd)
 			flag = 1;
 		}
 		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR && curr->type != TOKEN_DOLLAR)
+		{
+			flag2 = 0;
 			flag1 = 0;
+		}	
 		if(curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)
+		{
+			flag2 = 1;
 			flag = 0;
-		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET))
+		}	
+		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
 		curr = curr->next;
 	}
@@ -116,9 +124,7 @@ void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction	*sa)
 				// printf("\n");
 				// printf("\n");
 				// printf("\n");
-				signal(SIGINT, SIG_IGN);
 				andorexecution(root, env);
-				sigaction(SIGINT, sa, NULL);
 				free_tree(&root);
 				*cmd = save;
 			}
