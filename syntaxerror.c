@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 18:46:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/10 22:10:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,11 @@ int check_syntax_error(t_token *cmd)
 		if((islimiter1(curr->cmd[0]) == 1 && initflag == 0) 
 			|| (islimiter1(curr->cmd[0]) == 1 && curr->next && islimiter1(curr->next->cmd[0]) == 1) 
 			|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
-			|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0))
+			|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
+			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
+			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '<')
+			|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>')
+			||(curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
 			return (printf("turboshell: parse error near `%s'\n", curr->cmd), 0);
 		curr = curr->next;
 	}
