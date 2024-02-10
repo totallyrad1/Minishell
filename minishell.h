@@ -196,6 +196,7 @@ void	print_env(t_env *env);
 t_env	*arr_to_env(char **env);
 void	add_env(t_env **env, char *key, char *value);
 char	**env_to_arr(t_env *env);
+char	*get_value_env(t_env *env, char *key);
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c
@@ -205,7 +206,7 @@ int		ft_export(char **args, t_env **env);
 //cd.c 
 int		ft_cd(char **args, t_env **env);
 //echo.c
-int		ft_echo(char **args);
+int		ft_echo(char **args, t_env **env);
 // signal.c
 void	signal_handler(int signum);
 // start_message.c

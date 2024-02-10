@@ -125,3 +125,14 @@ char	**env_to_arr(t_env *env)
 	env_arr[i] = NULL;
 	return (env_arr);
 }
+
+char	*get_value_env(t_env *env, char *key)
+{
+	while (env)
+	{
+		if (!ft_strcmp(key, env->key))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}

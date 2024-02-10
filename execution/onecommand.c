@@ -47,7 +47,7 @@ int	exec_builtin(char **args, t_env **envp)
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, envp));
 	if (!ft_strcmp(args[0], "echo"))
-		return (ft_echo(args));
+		return (ft_echo(args, envp));
 	if (!ft_strcmp(args[0], "export"))
 		return (ft_export(args, envp));
 	if (!ft_strcmp(args[0], "env"))

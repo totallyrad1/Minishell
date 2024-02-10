@@ -43,22 +43,27 @@ int	unset(char **args, t_env **envp)
 			write(2, "unset: `", 8);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 26);
-			continue ;
+			exitstatus(1, 1);
 		}
-		tmp = *envp;
-		while (tmp)
+		else
 		{
-			if (!ft_strcmp(tmp->key, args[i]))
+			tmp = *envp;
+			while (tmp)
 			{
-				tmp->prev->next = tmp->next;
-				tmp2 = tmp;
-				tmp = tmp->next;
-				free(tmp2->key);
-				free(tmp2->value);
-				free(tmp2);
+				if (!ft_strcmp(tmp->key, args[i]))
+				{
+					if (tmp->prev)
+						tmp->prev->next = tmp->next;
+					tmp2 = tmp;
+					tmp = tmp->next;
+					free(tmp2->key);
+					free(tmp2->value);
+					free(tmp2);
+					break ;
+				}
+				else
+					tmp = tmp->next;
 			}
-			else
-				tmp = tmp->next;
 		}
 		i++;
 	}

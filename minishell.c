@@ -13,7 +13,7 @@
 #include "minishell.h"
 #include <signal.h>
 #include <stdlib.h>
-#include <sys/syslimits.h>
+// #include <sys/syslimits.h>
 #include <unistd.h>
 
 void	print_cmd(t_tree *root)

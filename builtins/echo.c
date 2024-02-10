@@ -12,34 +12,51 @@
 
 #include "../minishell.h"
 
-int	ft_echo(char **args)
+int	is_full_n(char *str)
 {
-	int	flag;
 	int	i;
 
+	i = 0;
+	while (str[i] && str[i] == 'n')
+		i++;
+	if (!str[i] || str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		return (1);
+	return (0);
+}
+
+int	ft_echo(char **args, t_env **env)
+{
+	int	flag;
+	int	j;
+
 	flag = 1;
-	i = 1;
+	j = 1;
 	if (!args)
 		return (0);
-	if(args[1] && args[1][0] == '-')
+	while (args[j] && args[j][0] == '-')
 	{
-		while (args[1][i])
-		{
-			if (args[1][i++] != 'n')
-				flag = 0;
-		}
+		if (!is_full_n(&args[j][1]))
+			break ;
+		else
+			flag = 0;
+		j++;
 	}
-	else
-		flag = 0;
-	i = flag + 1;
-	while(args[i])
+	if (flag && j > 1)
+		j--;
+	while(args[j])
 	{
-		write(1, args[i], ft_strlen(args[i]));
-		if (args[i + 1])
+		if (!ft_strcmp(args[j], "~"))
+		{
+			write(1, "/home/", 6);
+			write(1, get_value_env(*env, "USERNAME"), ft_strlen(get_value_env(*env, "USERNAME")));
+		}
+		else
+			write(1, args[j], ft_strlen(args[j]));
+		if (args[j + 1])
 			write(1, " ", 1);
-		i++;
+		j++;
 	}		
-	if (flag == 0)
+	if (flag == 1)
 		write(1, "\n", 1);
 	return (0);
 }

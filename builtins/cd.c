@@ -21,6 +21,13 @@ int	ft_cd(char **args, t_env **env)
 	char *test[3];
 
 	dir = args[1];
+	if (!dir)
+	{
+		dir = ft_strdup("/home/");
+		dir = ft_strjoin(dir, get_value_env(*env, "USERNAME"));
+	}
+	if (!ft_strcmp(dir, "-"))
+		dir = get_value_env(*env, "OLDPWD");
 	old_path = getcwd(NULL, 0);
 	if(!old_path)
 		return (perror("getcwd"), free(old_path), 0);

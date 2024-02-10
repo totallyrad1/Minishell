@@ -14,6 +14,11 @@
 
 void	signal_handler(int signum)
 {
+	if (waitpid(-1, NULL, WNOHANG) == 0)
+	{
+		printf("\n");
+		return ;
+	}
 	if (signum == SIGINT)
 	{
 		exitstatus(1, 1);

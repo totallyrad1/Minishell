@@ -48,8 +48,15 @@ static void	printfenv(t_env **env)
 	tmp = *env;
 	while (tmp)
 	{
-		printf("declare -x ");
-		printf("%s=\"%s\"\n", tmp->key, tmp->value);
+		write(1, "declare -x ", 11);
+		write(1, tmp->key, ft_strlen(tmp->key));
+		if (tmp->value)
+		{
+			write(1, "=\"", 2);
+			write(1, tmp->value, ft_strlen(tmp->value));
+			write(1, "\"", 1);
+		}
+		write(1, "\n", 1);
 		tmp = tmp->next;
 	}
 }
@@ -90,6 +97,7 @@ int	ft_export(char **args, t_env **env)
 			write(2, "export: `", 9);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 26);
+			exitstatus(1, 1);
 		}
 		else
 		{
@@ -119,5 +127,6 @@ int	ft_export(char **args, t_env **env)
 		}
 		i++;
 	}
+	exitstatus(0, 1);
 	return (0);
 }
