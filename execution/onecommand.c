@@ -6,11 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 16:58:59 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/10 20:34:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/fcntl.h>
 
 int commandexecution(int i, int flag)
 {
@@ -68,6 +69,66 @@ int	exec_builtin(char **args, t_env **envp)
 	return (0);
 }
 
+int getlastinfile(t_cmd *cmd)
+{
+	int fd = 0;
+	t_cmd *curr;
+
+	curr = cmd;
+	while(curr)
+	{
+		if(curr->cmd[0] == '<')
+		{
+			fd = open(curr->next->cmd , O_RDONLY);
+		}
+		curr = curr->next;
+	}
+	return fd;
+}
+
+int getlastoutfile(t_cmd *cmd)
+{
+	int fd = 1;
+	t_cmd *curr;
+
+	curr = cmd;
+	while(curr)
+	{
+		if(curr->cmd[0] == '>')
+		{
+			fd = open(curr->next->cmd , O_CREAT | O_WRONLY, 0777);
+		}
+		curr = curr->next;
+	}	
+	return fd;
+}
+
+void changeinfile(int fd)
+{
+	if(fd != 0)
+	{
+		// write(2, "changed in file\n", ft_strlen("changed in file\n"));
+		dup2(fd,STDIN_FILENO);
+		close(fd);
+	}
+}
+
+void changeoutfile(int fd)
+{
+	if(fd != 1)
+	{
+		// write(2, "changed out file\n", ft_strlen("changed out file\n"));
+		dup2(fd,STDOUT_FILENO);
+		close(fd);
+	}
+}
+
+void resetfds()
+{
+	dup2(0, STDIN_FILENO);
+	dup2(1, STDOUT_FILENO);
+}
+
 int one_command_execution(t_tree *node, t_env *env)
 {
 	char	*absolutepath;
@@ -76,6 +137,14 @@ int one_command_execution(t_tree *node, t_env *env)
 	char	**envp;
 	int		status;
 
+	
+	int infile = 0;
+	int outfile = 1;
+	infile = getlastinfile(node->next);
+	// printf("infile ==>%d\n", infile);
+	outfile = getlastoutfile(node->next);
+	// printf("outfile ==>%d\n", outfile);
+	
 	args = join_args1(node, env);
 	envp = env_to_arr(env);
 	if (is_builtin(args[0]))
@@ -89,6 +158,8 @@ int one_command_execution(t_tree *node, t_env *env)
 		return (127);
 	if(id == 0)
 	{
+		changeinfile(infile);
+		changeoutfile(outfile);
 		if(execve(absolutepath, args, envp) != 0)
 		{
 			write(2, "turboshell: command not found: ", ft_strlen("turboshell: command not found: "));

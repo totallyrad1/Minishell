@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 16:48:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/10 19:59:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char **join_args1(t_tree *root , t_env *env)
 	// char *tmp;
 	int i;
 	int firstit = 0;
+	int flag = 0;
 
 	i = -1;
 	temp = root->next;
@@ -52,7 +53,7 @@ char **join_args1(t_tree *root , t_env *env)
 	temp->spaceafter = 1;
 	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
 	{
-		if(temp->spaceafter == 1)
+		if(temp->spaceafter == 1 && flag == 0)
 		{
 			i++;
 			firstit = 0;
@@ -67,8 +68,10 @@ char **join_args1(t_tree *root , t_env *env)
 			args[i] = ft_strjoin(args[i], argextraction(temp, env));
 		}
 		temp = temp->next;
-		if(args[i] == NULL && firstit == 1)
-			i--;
+		if(args[i] == NULL)
+			flag = 1;
+		else
+		 	flag = 0;
 	}
 	i++;
 	args[i] = NULL;
