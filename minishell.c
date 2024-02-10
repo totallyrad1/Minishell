@@ -32,7 +32,6 @@ void	print_cmd(t_tree *root)
 void handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*root;
-	t_token	*curr;
 	t_token *save;
 	t_vars *vars;
 
@@ -43,7 +42,6 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	vars->i = 0;
 	vars->env = env;
 	vars->cmd = str;
-	curr = *cmd;
 	if(str[0])
     {
 		// exec_heredoc(str);

@@ -12,16 +12,7 @@
 
 #include "../minishell.h"
 
-char	*get_pwd(void)
+void	get_pwd(t_env *env)
 {
-	char	*pwd1;
-
-	pwd1 = getcwd(NULL, 0);
-	if (!pwd1)
-	{
-		perror("getcwd");
-		free(pwd1);
-		return (NULL);
-	}
-	return (pwd1);
+	printf("%s\n", env->pwd);
 }

@@ -100,6 +100,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 	struct s_env	*prev;
+	char			*pwd;
 }				t_env;
 
 typedef struct s_vars
@@ -189,7 +190,7 @@ char	*ft_strchr(const char *str, int c);
 void	ft_free_array(char **array);
 void free_env(t_env *env);
 // pwd.c
-char	*get_pwd(void);
+void	get_pwd(t_env *env);
 // print_env.c
 void	print_env(t_env *env);
 // env.c
@@ -197,6 +198,7 @@ t_env	*arr_to_env(char **env);
 void	add_env(t_env **env, char *key, char *value);
 char	**env_to_arr(t_env *env);
 char	*get_value_env(t_env *env, char *key);
+void	change_value_env(t_env **env, char *key, char *value);
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c

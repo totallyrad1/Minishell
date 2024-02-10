@@ -40,12 +40,10 @@ char	*ft_strdup_len(char *s1, int len)
 {
 	char	*cpy;
 	int		i;
-	int		j;
 
 	if (!s1)
 		return (NULL);
 	i = 0;
-	j = 0;
 	cpy = malloc(len + 1);
 	if (!cpy)
 		return (NULL);

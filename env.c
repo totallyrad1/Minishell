@@ -54,6 +54,7 @@ void	add_env(t_env **env, char *key, char *value)
 	if (!*env)
 	{
 		*env = new;
+		new->pwd = getcwd(NULL, 0);
 		return ;
 	}
 	tmp = *env;
@@ -71,6 +72,7 @@ static t_env	*get_env()
 
 	pwd = getcwd(NULL, 0);
 	env = make_env(ft_strdup("PWD"), pwd);
+	env->pwd = pwd;
 	add_env(&env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 	add_env(&env, ft_strdup("SHLVL"), ft_strdup("1"));
 	return (env);
@@ -135,4 +137,27 @@ char	*get_value_env(t_env *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	change_value_env(t_env **env, char *key, char *value)
+{
+	t_env	*tmp;
+	int		flag;
+
+	flag = 0;
+	tmp = *env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->key, key))
+		{
+			if (tmp->value)
+				free(tmp->value);
+			tmp->value = value;
+			flag = 1;
+			break ;
+		}
+		tmp = tmp->next;
+	}
+	if (!flag)
+		add_env(env, key, value);
 }

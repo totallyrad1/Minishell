@@ -53,12 +53,10 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	trimstart;
 	size_t	trimend;
 	size_t	len;
-	size_t	i;
 
 	trimstart = ft_trimstart(s1, set);
 	trimend = ft_trimend(s1, set);
 	len = (trimend - trimstart);
-	i = 0;
 	if (trimstart >= trimend)
 		return (ft_strdup(""));
 	trimmedstring = (char *)malloc((len + 1) * sizeof(char));

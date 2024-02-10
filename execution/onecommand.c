@@ -43,8 +43,6 @@ int	is_builtin(char *cmd)
 
 int	exec_builtin(char **args, t_env **envp)
 {
-	char	*pwd_str;
-
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, envp));
 	if (!ft_strcmp(args[0], "echo"))
@@ -58,9 +56,8 @@ int	exec_builtin(char **args, t_env **envp)
 	}
 	if (!ft_strcmp(args[0], "pwd"))
 	{
-		pwd_str = get_pwd();
-		printf("%s\n", pwd_str);
-		return (free(pwd_str), 0);
+		get_pwd(*envp);
+		return (0);
 	}
 	if (!ft_strcmp(args[0], "unset"))
 		return (unset(args, envp));

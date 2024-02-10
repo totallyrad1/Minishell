@@ -47,8 +47,13 @@ int	ft_echo(char **args, t_env **env)
 	{
 		if (!ft_strcmp(args[j], "~"))
 		{
-			write(1, "/home/", 6);
-			write(1, get_value_env(*env, "USERNAME"), ft_strlen(get_value_env(*env, "USERNAME")));
+			if (!get_value_env(*env, "HOME"))
+			{
+				write(1, "/home/", 6);
+				write(1, get_value_env(*env, "USERNAME"), ft_strlen(get_value_env(*env, "USERNAME")));
+			}
+			else
+				write(1, get_value_env(*env, "HOME"), ft_strlen(get_value_env(*env, "HOME")));
 		}
 		else
 			write(1, args[j], ft_strlen(args[j]));

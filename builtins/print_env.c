@@ -16,7 +16,10 @@ void	print_env(t_env *env)
 {
 	while (env)
 	{
-		printf("%s=%s\n", env->key, env->value);
+		printf("%s=", env->key);
+		if (env->value)
+			printf("%s", env->value);
+		printf("\n");
 		env = env->next;
 	}
 }
