@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/11 18:16:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/11 18:59:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,14 @@ char **join_args1(t_tree *root , t_env *env)
 						if(tmp[j])
 						{
 							i++;
-							args[i] = NULL;
+							args[i] = NULL;	
 						}
+					}
+					char *test = ft_strdup(expand(env, &temp->cmd[1]));
+					if(test[0] == 32)
+					{
+						i++;
+						args[i] = NULL;
 					}
 				}
 				else {
@@ -134,6 +140,14 @@ char **join_args1(t_tree *root , t_env *env)
 				args[i] = ft_strjoin(args[i], argextraction(temp, env));
 			else
 			{
+				// *******
+				// char *test = ft_strdup(expand(env, &temp->cmd[1]));
+				// if(test[0] == 32)
+				// {
+				// 	i++;
+				// 	args[i] = NULL;
+				// }
+				// ****** 
 				tmp = var_toarray(temp->cmd, env);
 				if(tmp)
 				{
@@ -150,6 +164,12 @@ char **join_args1(t_tree *root , t_env *env)
 							i++;
 							args[i] = NULL;
 						}
+					}
+					char *test = ft_strdup(expand(env, &temp->cmd[1]));
+					if(test[0] == 32)
+					{
+						i++;
+						args[i] = NULL;
 					}
 				}
 				else {
