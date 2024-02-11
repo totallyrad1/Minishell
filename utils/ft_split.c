@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:44:50 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:21:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:44:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,6 @@ char	**ft_split(char const *s, char c)
 			return (freemem(res));
 		j++;
 	}
-	res[wc] = NULL;
+	res[j] = NULL;
 	return (res);
 }

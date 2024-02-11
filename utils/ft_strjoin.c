@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/06 19:59:27 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/11 17:20:43 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	if (!s1 && !s2)
 		return (NULL);
-	if (!s1)
+	if (!s1 || s1[0] == '\0')
 		return (ft_strdup(s2));
 	if (!s2)
 		return (newstring = ft_strdup(s1), free(s1), newstring);

@@ -6,12 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/10 19:59:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/11 18:16:14 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// #include <sys/_types/_null.h>
+#include <sys/_types/_null.h>
 
 char *argextraction(t_cmd *token, t_env *env)
 {
@@ -23,13 +23,49 @@ char *argextraction(t_cmd *token, t_env *env)
 		return ft_strdup(token->cmd);
 }
 
-int args_size(t_cmd *temp)
+char **var_toarray(char *token, t_env *env)
+{
+	char	*key;
+	char	**res;
+
+	key = ft_strdup(expand(env, &token[1]));
+	if(!key)
+		return NULL;
+	res = ft_split(key, 32);
+	return res;
+}
+
+int count_var_args(char *token, t_env *env)
+{
+	char	*key;
+	char	**res;
+	int		i;
+
+	key = ft_strdup(expand(env, &token[1]));
+	if(!key)
+		return 1;
+	res = ft_split(key, 32);
+	i = 0;
+	while(res[i])
+		i++;
+	free(key);
+	ft_free_array(res);
+	if(i != 0)
+		return i;
+	else
+	 	return 0;
+}
+
+int args_size(t_cmd *temp, t_env *env)
 {
 	int i = 0;
 
 	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
-	{	
-		i++;
+	{
+		if(temp->cmd[0] == '$')
+			i += count_var_args(temp->cmd, env);
+		else
+			i++;
 		temp = temp->next;
 	}
 	return i;
@@ -39,14 +75,17 @@ char **join_args1(t_tree *root , t_env *env)
 {
 	char **args;
 	t_cmd *temp;
-	// char *tmp;
+	char **tmp;
 	int i;
+	// int flag1 = 0;
+	int j = 0;
 	int firstit = 0;
 	int flag = 0;
+	// int flag2 = 0;
 
 	i = -1;
 	temp = root->next;
-	args = malloc((args_size(temp) + 1) * sizeof(char *));
+	args = malloc((args_size(temp, env) + 1) * sizeof(char *));
 	if(!args)
 		return NULL;
 	temp = root->next;
@@ -56,16 +95,67 @@ char **join_args1(t_tree *root , t_env *env)
 		if(temp->spaceafter == 1 && flag == 0)
 		{
 			i++;
+			args[i] = NULL;
 			firstit = 0;
 		}
 		if (firstit == 0)
 		{
-			args[i] = argextraction(temp, env);
+			if(temp->cmd[0] != '$')
+				args[i] = argextraction(temp, env);
+			else
+			{
+				tmp = var_toarray(temp->cmd, env);
+				if(tmp)
+				{
+					j = 0;
+					while(tmp[j])
+					{
+						if(j == 0)
+							args[i] = ft_strdup(tmp[j]);
+						else
+							args[i] = ft_strjoin(args[i], ft_strdup(tmp[j]));
+						j++;
+						if(tmp[j])
+						{
+							i++;
+							args[i] = NULL;
+						}
+					}
+				}
+				else {
+					args[i] = argextraction(temp, env);
+				}
+			}
 			firstit = 1;
 		}
 		else 
 		{
-			args[i] = ft_strjoin(args[i], argextraction(temp, env));
+			if(temp->cmd[0] != '$')
+				args[i] = ft_strjoin(args[i], argextraction(temp, env));
+			else
+			{
+				tmp = var_toarray(temp->cmd, env);
+				if(tmp)
+				{
+					j = 0;
+					while(tmp[j])
+					{
+						if(j == 0)
+							args[i] = ft_strjoin(args[i], ft_strdup(tmp[j]));
+						else 
+							args[i] = ft_strdup(tmp[j]);
+						j++;
+						if(tmp[j])
+						{
+							i++;
+							args[i] = NULL;
+						}
+					}
+				}
+				else {
+					args[i] = ft_strjoin(args[i], argextraction(temp, env));
+				}
+			}
 		}
 		temp = temp->next;
 		if(args[i] == NULL)

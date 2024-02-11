@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/10 20:34:13 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:56:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int one_command_execution(t_tree *node, t_env *env)
 	envp = env_to_arr(env);
 	if (is_builtin(args[0]))
 		return (exec_builtin(args, &env));
-	if(access(node->data, X_OK) != 0)
+	if(access(args[0], X_OK) != 0)
 		absolutepath = get_working_path(envp, args[0]);
 	else
 		absolutepath = ft_strdup(args[0]);
@@ -167,7 +167,8 @@ int one_command_execution(t_tree *node, t_env *env)
 	}
 	wait(&status);
 	exitstatus(WEXITSTATUS(status), 1);
-	return (ft_free_array(args), free(absolutepath), status);
+	// ft_free_array(args);
+	return ( free(absolutepath), status);
 }
 
 int  andorexecution(t_tree *root, t_env *env)
