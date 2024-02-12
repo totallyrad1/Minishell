@@ -6,14 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 17:08:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:14:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <signal.h>
 #include <stdlib.h>
-// #include <sys/syslimits.h>
 #include <unistd.h>
 
 void	print_cmd(t_tree *root)

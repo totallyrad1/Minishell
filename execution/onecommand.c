@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 17:09:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:23:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ t_cmd *get_command_start(t_cmd *node)
 	{
 	 	while(curr)
 		{
-			printf("curr ===> %s\n", curr->cmd);
 			if(curr->cmd[0] != '<' && curr->cmd[0] != '>' && curr->next->cmd[0] != '<' && curr->next->cmd[0] != '>')
 			{
 				curr = curr->next;

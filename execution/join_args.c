@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 15:52:25 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:31:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *argextraction(t_cmd *token, t_env *env)
 {
 	if (token->cmd && (token->cmd[0] == '"' || token->cmd[0] == '\''))
 		return quotes_toexpression(token->cmd, env);
-	else if (token->cmd && token->cmd[0] == '$')
+	else if (token->cmd && token->cmd[0] == '$' && token->next && token->next->spaceafter == 0)
 		return  ft_strdup(expand(env, &token->cmd[1]));
 	else
 		return ft_strdup(token->cmd);
