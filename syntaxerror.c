@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 19:26:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 21:37:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int delimitercheck(char *token)
 		return 1;
 	return 0;
 }
-
-// void a9wad_here_doc(t_token )
 
 int check_syntax_error(t_token **cmd)
 {
@@ -79,7 +77,7 @@ int check_syntax_error(t_token **cmd)
 			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
 			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '<')
 			|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>')
-			||(curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
+			|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
 			return (printf("turboshell: parse error near `%s'\n", curr->cmd), 0);
 		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag3 == 1 && (curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);

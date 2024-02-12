@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 19:23:32 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 20:24:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_token
 	int				type;
 	int				state;
 	int				visited;
+	int				for_heredoc;
 	int				spaceafter;
 	struct s_token	*prev;
 	struct s_token	*next;

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 19:23:35 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 20:26:02 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
 		curr->next = new;
 	}
 }
+
 
 t_token *join_heredocargs(t_token *cmd)
 {

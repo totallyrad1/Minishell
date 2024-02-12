@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 17:35:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 21:51:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,6 @@ char **join_args1(t_cmd *root , t_env *env)
 							args[i] = NULL;	
 						}
 					}
-					char *test = ft_strdup(expand(env, &temp->cmd[1]));
-					if(test && test[0] == 32)
-					{
-						i++;
-						args[i] = NULL;
-					}
 				}
 				else {
 					args[i] = argextraction(temp, env);
@@ -148,6 +142,12 @@ char **join_args1(t_cmd *root , t_env *env)
 				tmp = var_toarray(temp->cmd, env);
 				if(tmp)
 				{
+					char *test = ft_strdup(expand(env, &temp->cmd[1]));
+					if(test && test[0] == 32)
+					{
+						i++;
+						args[i] = NULL;
+					}
 					j = 0;
 					while(tmp[j])
 					{
@@ -161,12 +161,6 @@ char **join_args1(t_cmd *root , t_env *env)
 							i++;
 							args[i] = NULL;
 						}
-					}
-					char *test = ft_strdup(expand(env, &temp->cmd[1]));
-					if(test && test[0] == 32)
-					{
-						i++;
-						args[i] = NULL;
 					}
 				}
 				else {
