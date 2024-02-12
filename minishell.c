@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/10 20:33:49 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:08:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				// printf("\n");
 				// printf("\n");
 				// printf("\n");
+				// return ;
 				andorexecution(root, env);
 				free_tree(&root);
 				*cmd = save;
@@ -117,7 +118,7 @@ void print2DUtil(t_tree* root, int space)
 		printf("\n");
 		for (int i = 10; i < space; i++)
 			printf(" ");
-		printf("%s\n", root->data);
+		printf("%s %d\n", root->data, root->tree_type);
 	}
  
     // Process left child

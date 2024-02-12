@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/11 18:59:24 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 15:52:25 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int args_size(t_cmd *temp, t_env *env)
 {
 	int i = 0;
 
-	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	while(temp && temp->cmd)
 	{
 		if(temp->cmd[0] == '$')
 			i += count_var_args(temp->cmd, env);
@@ -71,34 +71,37 @@ int args_size(t_cmd *temp, t_env *env)
 	return i;
 }
 
-char **join_args1(t_tree *root , t_env *env)
+char **join_args1(t_cmd *root , t_env *env)
 {
 	char **args;
 	t_cmd *temp;
 	char **tmp;
 	int i;
-	// int flag1 = 0;
 	int j = 0;
 	int firstit = 0;
 	int flag = 0;
-	// int flag2 = 0;
 
 	i = -1;
-	temp = root->next;
+	temp = root;
 	args = malloc((args_size(temp, env) + 1) * sizeof(char *));
 	if(!args)
 		return NULL;
-	temp = root->next;
+	temp = root;
 	temp->spaceafter = 1;
-	while(temp && temp->cmd && temp->cmd[0] != '<' && temp->cmd[0] != '>')
+	while(temp && temp->cmd)
 	{
-		if(temp->spaceafter == 1 && flag == 0)
+		if(temp->cmd[0] == '>' || temp->cmd[0] =='<')
+		{
+			while(temp && (temp->cmd[0] == '>' || temp->cmd[0] =='<'))
+				temp = temp->next->next;
+		}
+		if(temp && temp->spaceafter == 1 && flag == 0)
 		{
 			i++;
 			args[i] = NULL;
 			firstit = 0;
 		}
-		if (firstit == 0)
+		if (temp && firstit == 0)
 		{
 			if(temp->cmd[0] != '$')
 				args[i] = argextraction(temp, env);
@@ -122,7 +125,7 @@ char **join_args1(t_tree *root , t_env *env)
 						}
 					}
 					char *test = ft_strdup(expand(env, &temp->cmd[1]));
-					if(test[0] == 32)
+					if(test && test[0] == 32)
 					{
 						i++;
 						args[i] = NULL;
@@ -134,20 +137,12 @@ char **join_args1(t_tree *root , t_env *env)
 			}
 			firstit = 1;
 		}
-		else 
+		else if(temp)
 		{
 			if(temp->cmd[0] != '$')
 				args[i] = ft_strjoin(args[i], argextraction(temp, env));
 			else
 			{
-				// *******
-				// char *test = ft_strdup(expand(env, &temp->cmd[1]));
-				// if(test[0] == 32)
-				// {
-				// 	i++;
-				// 	args[i] = NULL;
-				// }
-				// ****** 
 				tmp = var_toarray(temp->cmd, env);
 				if(tmp)
 				{
@@ -166,7 +161,7 @@ char **join_args1(t_tree *root , t_env *env)
 						}
 					}
 					char *test = ft_strdup(expand(env, &temp->cmd[1]));
-					if(test[0] == 32)
+					if(test && test[0] == 32)
 					{
 						i++;
 						args[i] = NULL;
@@ -177,7 +172,8 @@ char **join_args1(t_tree *root , t_env *env)
 				}
 			}
 		}
-		temp = temp->next;
+		if(temp)
+			temp = temp->next;
 		if(args[i] == NULL)
 			flag = 1;
 		else

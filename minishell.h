@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 21:14:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 15:55:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,8 +237,9 @@ char *quotes_toexpression(char *str, t_env *env);
 //exitstatus.c
 int exitstatus(int newstatus, int flag);
 //joinargs.c
-char **join_args1(t_tree *root , t_env *env);
+char **join_args1(t_cmd *root , t_env *env);
 int commandexecution(int i, int flag);
+char *argextraction(t_cmd *token, t_env *env);
 
 void	print2D(t_tree *root);
 #endif

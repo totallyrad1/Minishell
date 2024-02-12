@@ -6,12 +6,11 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/11 18:59:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:09:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <sys/fcntl.h>
 
 int commandexecution(int i, int flag)
 {
@@ -91,9 +90,13 @@ int getlastoutfile(t_cmd *cmd)
 	curr = cmd;
 	while(curr)
 	{
-		if(curr->cmd[0] == '>')
+		if(curr->cmd[0] == '>' && curr->cmd[1] == '>')
 		{
-			fd = open(curr->next->cmd , O_CREAT | O_WRONLY, 0777);
+			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0777);
+		}
+		else if(curr->cmd[0] == '>')
+		{
+			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		}
 		curr = curr->next;
 	}	
@@ -104,7 +107,6 @@ void changeinfile(int fd)
 {
 	if(fd != 0)
 	{
-		// write(2, "changed in file\n", ft_strlen("changed in file\n"));
 		dup2(fd,STDIN_FILENO);
 		close(fd);
 	}
@@ -114,7 +116,6 @@ void changeoutfile(int fd)
 {
 	if(fd != 1)
 	{
-		// write(2, "changed out file\n", ft_strlen("changed out file\n"));
 		dup2(fd,STDOUT_FILENO);
 		close(fd);
 	}
@@ -126,6 +127,99 @@ void resetfds()
 	dup2(1, STDOUT_FILENO);
 }
 
+t_cmd *get_command_start(t_cmd *node)
+{
+	t_cmd *curr;
+	
+	curr = node;
+
+	if(curr->cmd[0] != '<' && curr->cmd[0] != '>')
+		return curr;
+	else
+	{
+	 	while(curr)
+		{
+			printf("curr ===> %s\n", curr->cmd);
+			if(curr->cmd[0] != '<' && curr->cmd[0] != '>' && curr->next->cmd[0] != '<' && curr->next->cmd[0] != '>')
+			{
+				curr = curr->next;
+				return curr;
+			}
+			curr = curr->next;
+		}
+	}
+	return curr;
+}
+
+void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter)
+{
+	t_cmd *new;
+	t_cmd *curr;
+	
+	curr = *cmd;
+	new = malloc(sizeof(t_cmd));
+	if(!new)
+		return ;
+	if(*flag == 1)
+	{
+		new->cmd = buffer;
+		new->next = NULL;
+		new->spaceafter = spaceafter;
+		*flag = 0;
+		*cmd = new;
+	}
+	else {
+		while(curr->next)
+			curr = curr->next;
+		new->cmd = buffer;
+		new->next = NULL;
+		new->spaceafter = spaceafter;
+		curr ->next = new;
+	}
+}
+
+t_cmd *new_cmd_list(t_cmd *root , t_env *env)
+{
+	t_cmd *new;
+	t_cmd *curr;
+	char *buffer;
+	int flag = 1;
+	int spaceafter;
+
+	buffer = NULL;
+	curr = root;
+	while(curr)
+	{
+		if(curr->cmd[0] == '<' || curr->cmd[0] == '>')
+		{
+			spaceafter = curr->spaceafter;
+			buffer = ft_strdup(curr->cmd);
+			new_cmd_node(&flag, &new, buffer, spaceafter);
+			buffer = NULL;
+			curr = curr->next;
+			spaceafter = curr->spaceafter;
+			curr->spaceafter = 0;
+			while(curr && curr->spaceafter != 1)
+			{
+				buffer = ft_strjoin(buffer, argextraction(curr, env));
+				curr = curr->next;
+			}
+			new_cmd_node(&flag, &new, buffer, spaceafter);
+		}
+		else {
+			spaceafter = curr->spaceafter;
+			buffer = ft_strdup(curr->cmd);
+			new_cmd_node(&flag, &new, buffer, spaceafter);
+			curr=curr->next;
+		}
+		if(!curr)
+			break;
+		buffer = NULL;
+		// curr = curr->next;
+	}
+	return new;
+}
+
 int one_command_execution(t_tree *node, t_env *env)
 {
 	char	*absolutepath;
@@ -133,16 +227,15 @@ int one_command_execution(t_tree *node, t_env *env)
 	pid_t	id;
 	char	**envp;
 	int		status;
+	t_cmd *new;
 
 	
 	int infile = 0;
 	int outfile = 1;
-	infile = getlastinfile(node->next);
-	// printf("infile ==>%d\n", infile);
-	outfile = getlastoutfile(node->next);
-	// printf("outfile ==>%d\n", outfile);
-	
-	args = join_args1(node, env);
+	new = new_cmd_list(node->next, env);
+	infile = getlastinfile(new);
+	outfile = getlastoutfile(new);
+	args = join_args1(get_command_start(new), env);
 	envp = env_to_arr(env);
 	if (is_builtin(args[0]))
 		return (exec_builtin(args, &env));
@@ -167,19 +260,18 @@ int one_command_execution(t_tree *node, t_env *env)
 	}
 	wait(&status);
 	exitstatus(WEXITSTATUS(status), 1);
-	// ft_free_array(args);
 	return ( free(absolutepath), status);
 }
 
 int  andorexecution(t_tree *root, t_env *env)
 {
-	if (root->tree_type == CMD)
-		return one_command_execution(root, env);
-	else if (root->tree_type == PIPE)
-		return improvedpipeexecution(root, env);
 	if (root->tree_type == AND)
 		return (andorexecution(root->left, env) || andorexecution(root->right, env));
 	else if (root->tree_type == OR)
 		return (andorexecution(root->left, env) && andorexecution(root->right, env));
+	else if (root->tree_type == PIPE)
+		return improvedpipeexecution(root, env);
+	else
+		return one_command_execution(root, env);
 	return 127;
 }
