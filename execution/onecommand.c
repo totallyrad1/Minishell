@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 17:23:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:35:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_cmd *get_command_start(t_cmd *node)
 	{
 	 	while(curr)
 		{
-			if(curr->cmd[0] != '<' && curr->cmd[0] != '>' && curr->next->cmd[0] != '<' && curr->next->cmd[0] != '>')
+			if(curr->cmd[0] != '<' && curr->cmd[0] != '>' && curr->next && curr->next->cmd[0] != '<' && curr->next->cmd[0] != '>')
 			{
 				curr = curr->next;
 				return curr;
@@ -235,6 +235,8 @@ int one_command_execution(t_tree *node, t_env *env)
 	infile = getlastinfile(new);
 	outfile = getlastoutfile(new);
 	args = join_args1(get_command_start(new), env);
+	if(!args)
+		return 0;
 	envp = env_to_arr(env);
 	if (is_builtin(args[0]))
 		return (exec_builtin(args, &env));
