@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/10 22:10:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 19:26:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,12 @@ int delimitercheck(char *token)
 	return 0;
 }
 
-int check_syntax_error(t_token *cmd)
+// void a9wad_here_doc(t_token )
+
+int check_syntax_error(t_token **cmd)
 {
 	t_token *curr;
 	int initflag;
-	
-	curr = cmd;
-	initflag = 0;
-	while(curr)
-	{
-		if(curr->type == TOKEN_EXPR)
-			initflag = 1;
-		if((islimiter1(curr->cmd[0]) == 1 && initflag == 0) 
-			|| (islimiter1(curr->cmd[0]) == 1 && curr->next && islimiter1(curr->next->cmd[0]) == 1) 
-			|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
-			|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
-			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
-			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '<')
-			|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>')
-			||(curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
-			return (printf("turboshell: parse error near `%s'\n", curr->cmd), 0);
-		curr = curr->next;
-	}
-	return 1;
-}
-
-int bracketssyntax(t_token *cmd)
-{
-	t_token *curr;
 	int openc;
 	int closedc;
 	int flag;
@@ -60,15 +38,18 @@ int bracketssyntax(t_token *cmd)
 	int flag2;
 	int flag3;
 
-	curr = cmd;
+	curr = *cmd;
 	closedc = 0;;
 	openc = 0;
 	flag = 0;
 	flag1 = 0;
 	flag2 = 0;
 	flag3 = 0;
+	initflag = 0;
 	while(curr)
 	{
+		if(curr->type == TOKEN_EXPR)
+			initflag = 1;
 		if(curr->type == TOKEN_CLOSED_BRACKET)
 		{
 			closedc++;
@@ -91,6 +72,15 @@ int bracketssyntax(t_token *cmd)
 			flag2 = 1;
 			flag = 0;
 		}
+		if((islimiter1(curr->cmd[0]) == 1 && initflag == 0) 
+			|| (islimiter1(curr->cmd[0]) == 1 && curr->next && islimiter1(curr->next->cmd[0]) == 1) 
+			|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
+			|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
+			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
+			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '<')
+			|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>')
+			||(curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
+			return (printf("turboshell: parse error near `%s'\n", curr->cmd), 0);
 		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag3 == 1 && (curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)))
 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
 		curr = curr->next;
@@ -99,4 +89,54 @@ int bracketssyntax(t_token *cmd)
 		return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);
 	return 1;
 }
+
+// int bracketssyntax(t_token *cmd)
+// {
+// 	t_token *curr;
+// 	int openc;
+// 	int closedc;
+// 	int flag;
+// 	int flag1;
+// 	int flag2;
+// 	int flag3;
+
+// 	curr = cmd;
+// 	closedc = 0;;
+// 	openc = 0;
+// 	flag = 0;
+// 	flag1 = 0;
+// 	flag2 = 0;
+// 	flag3 = 0;
+// 	while(curr)
+// 	{
+// 		if(curr->type == TOKEN_CLOSED_BRACKET)
+// 		{
+// 			closedc++;
+// 			flag1 = 1;
+// 			flag3 = 1;
+// 		}		
+// 		else if(curr->type == TOKEN_OPEN_BRACKET)
+// 		{
+// 			openc++;
+// 			flag = 1;
+// 		}
+// 		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR && curr->type != TOKEN_DOLLAR)
+// 		{
+// 			flag2 = 0;
+// 			flag1 = 0;
+// 			flag3 = 0;
+// 		}	
+// 		if(curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)
+// 		{
+// 			flag2 = 1;
+// 			flag = 0;
+// 		}
+// 		if(closedc > openc || (flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) || (flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET) || (flag3 == 1 && (curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)))
+// 			return (printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd),0);
+// 		curr = curr->next;
+// 	}
+// 	if(openc != closedc)
+// 		return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);
+// 	return 1;
+// }
 

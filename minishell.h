@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 15:55:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 19:23:32 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ typedef struct s_vars
 void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
 int bracketssyntax(t_token *cmd);
-int check_syntax_error(t_token *cmd);
+int check_syntax_error(t_token **cmd);
 //parsing.c
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -240,6 +240,8 @@ int exitstatus(int newstatus, int flag);
 char **join_args1(t_cmd *root , t_env *env);
 int commandexecution(int i, int flag);
 char *argextraction(t_cmd *token, t_env *env);
+
+t_cmd *new_cmd_list(t_cmd *root , t_env *env);
 
 void	print2D(t_tree *root);
 #endif

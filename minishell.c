@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 17:14:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/12 19:23:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,83 @@ void	print_cmd(t_tree *root)
 	}
 }
 
+void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
+{
+	t_token *new;
+	t_token *curr;
+
+	new = malloc(sizeof(t_token));
+	if(!new)
+		return ;
+	curr = *cmd;
+	if(*flag == 1)
+	{
+		new->cmd = buffer;
+		new->spaceafter = spaceafter;
+		new->visited = 0;
+		new->next = NULL;
+		new->prev = NULL;
+		*cmd = new;
+		*flag = 0;
+	}
+	else {
+		while(curr->next)
+			curr = curr->next;
+		new->cmd = buffer;
+		new->spaceafter = spaceafter;
+		new->visited = 0;
+		new->next = NULL;
+		new->prev = curr;
+		curr->next = new;
+	}
+}
+
+t_token *join_heredocargs(t_token *cmd)
+{
+	t_token *new;
+	char *buffer;
+	t_token *curr;
+	int spaceafter;
+	int flag = 1;
+
+	curr = cmd;
+	while(curr)
+	{
+		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
+		{
+			spaceafter = curr->spaceafter;
+			buffer = ft_strdup(curr->cmd);
+			new_node_heredoc(&new, &flag, spaceafter, buffer);
+			buffer = NULL;
+			curr = curr->next;
+			spaceafter = curr->spaceafter;
+			curr->spaceafter = 0;
+			while(curr && curr->spaceafter != 1)
+			{
+				buffer = ft_strjoin(buffer, curr->cmd);
+				curr = curr->next;
+			}
+			new_node_heredoc(&new, &flag, spaceafter, buffer);
+		}
+		else {
+			spaceafter = curr->spaceafter;
+			buffer = ft_strdup(curr->cmd);
+			new_node_heredoc(&new, &flag, spaceafter, buffer);
+			curr=curr->next;
+		}
+		if(!curr)
+			break;
+		buffer = NULL;
+	}
+	return (new);
+}
+
 void handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*root;
 	t_token *save;
 	t_vars *vars;
+	// t_token *new;
 
 	vars = malloc(sizeof(t_vars));
 	if(!vars)
@@ -46,18 +118,12 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		// exec_heredoc(str);
 		if(ft_switch(cmd, vars) == 0)
 		{
+			// new = join_heredocargs(*cmd);
 			give_state_and_type(cmd);
-			if(check_syntax_error(*cmd) == 1 && bracketssyntax(*cmd) == 1)
+			if(check_syntax_error(cmd) == 1)
 			{
-				// curr = *cmd;
-				// while(curr)
-				// {
-				// 	if (curr->cmd)
-				// 		printf("token====>|%s|,and its state is|%d|,and its type is|%d|, space after|%d|\n", curr->cmd, curr->state, curr->type, curr->spaceafter);
-				// 	curr = curr->next;
-				// }
-				// return ;
 				save = *cmd;
+				
 				while((*cmd)->next)
 					*cmd = (*cmd)->next;
 				root = search_logical_operator(*cmd);
