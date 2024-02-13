@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 10:46:27 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 12:49:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
 }
 
 
+char *removequotesfromheredocargs(char *str)
+{
+	int i;
+	char save;
+
+	i = 0;
+	save = str[i++];
+	while(str[i] && str[i] != save)		
+		i++;
+	return ft_substr(str, 1, i - 1);
+}
+
 t_token *join_heredocargs(t_token *cmd)
 {
 	t_token *new;
@@ -82,7 +94,10 @@ t_token *join_heredocargs(t_token *cmd)
 			curr->spaceafter = 0;
 			while(curr && curr->spaceafter != 1)
 			{
-				buffer = ft_strjoin(buffer, curr->cmd);
+				if(curr->cmd[0] == '\'' || curr->cmd[0] == '"')
+					buffer = ft_strjoin(buffer, removequotesfromheredocargs(curr->cmd));
+				else
+					buffer = ft_strjoin(buffer, curr->cmd);
 				curr = curr->next;
 			}
 			new_node_heredoc(&new, &flag, spaceafter, buffer);
@@ -105,7 +120,8 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	t_tree	*root;
 	t_token *save;
 	t_vars *vars;
-	// t_token *new;
+	t_token *new;
+	t_token *save1;
 
 	vars = malloc(sizeof(t_vars));
 	if(!vars)
@@ -116,30 +132,38 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	vars->cmd = str;
 	if(str[0])
     {
-		// exec_heredoc(str);
 		if(ft_switch(cmd, vars) == 0)
 		{
-			// new = join_heredocargs(*cmd);
-			give_state_and_type(cmd);
-			if(check_syntax_error(cmd) == 1)
+			new = join_heredocargs(*cmd);
+			give_state_and_type(&new);
+			t_token *curr;
+				curr = new;
+				while(curr)
+				{
+					if (curr->cmd)
+						printf("token====>|%s|,and its state is|%d|,and its type is|%d|\n", curr->cmd, curr->state, curr->type);
+					curr = curr->next;
+				}
+			// return ;
+			if(check_syntax_error(&new) == 1)
 			{
 				save = *cmd;
-				
-				while((*cmd)->next)
-					*cmd = (*cmd)->next;
-				root = search_logical_operator(*cmd);
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// print2D(root);
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// return ;
+				save1 = new;
+				while(new->next)
+					new = new->next;
+				root = search_logical_operator(new);
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				print2D(root);
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				printf("\n");
+				return ;
 				andorexecution(root, env);
 				free_tree(&root);
 				*cmd = save;

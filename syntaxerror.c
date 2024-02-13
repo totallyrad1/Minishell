@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 10:47:43 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 12:27:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int delimitercheck(char *token)
 		return 1;
 	return 0;
 }
+
+
 
 int check_syntax_error(t_token **cmd)
 {
