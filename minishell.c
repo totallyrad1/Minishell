@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 12:49:35 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 13:47:27 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				printf("\n");
 				printf("\n");
 				printf("\n");
-				return ;
+				// return ;
 				andorexecution(root, env);
 				free_tree(&root);
 				*cmd = save;

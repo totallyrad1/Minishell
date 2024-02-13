@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 18:43:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 14:25:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 			curr = curr->next;
 			spaceafter = curr->spaceafter;
 			curr->spaceafter = 0;
-			while(curr && curr->spaceafter != 1)
+			while(curr && curr->spaceafter != 1 && curr->cmd[0] != '>' && curr->cmd[0] != '<')
 			{
 				buffer = ft_strjoin(buffer, argextraction(curr, env));
 				curr = curr->next;
@@ -214,7 +214,6 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 		if(!curr)
 			break;
 		buffer = NULL;
-		// curr = curr->next;
 	}
 	return new;
 }
