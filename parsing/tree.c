@@ -12,17 +12,6 @@
 
 #include "../minishell.h"
 
-
-// Because the HEREDOC gets executed first even before syntax error
-// I think we should execute it first when tokenizing the input
-// Then we would want to skip it in the next part of parsing which is making the tree
-
-static void	skip_heredoc(t_token **token)
-{
-	while ((*token) && (*token)->type == TOKEN_HEREDOC)
-		(*token) = (*token)->next->next;
-}
-
 t_tree	*make_command(t_token *token)
 {
 	t_tree	*node;
@@ -32,7 +21,6 @@ t_tree	*make_command(t_token *token)
 		return (NULL);
 	while (token->prev && token->prev->visited != 1)
 		token = token->prev;
-	skip_heredoc(&token);
 	if (!token)
 		return (NULL);
 	node = make_node(&token, 0);
@@ -41,7 +29,6 @@ t_tree	*make_command(t_token *token)
 	token = token->next;
 	while (token && token->visited != 1)
 	{
-		skip_heredoc(&token);
 		if (token && token->visited != 1)
 		{
 			add_cmd(&cmd, token);
