@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/12 21:51:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 10:51:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char **join_args1(t_cmd *root , t_env *env)
 						}
 					}
 				}
-				else {
+				else if(temp->cmd[0] == '$' && temp->cmd[1] == '\0'){
 					args[i] = argextraction(temp, env);
 				}
 			}
@@ -162,9 +162,6 @@ char **join_args1(t_cmd *root , t_env *env)
 							args[i] = NULL;
 						}
 					}
-				}
-				else {
-					args[i] = ft_strjoin(args[i], argextraction(temp, env));
 				}
 			}
 		}
