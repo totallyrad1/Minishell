@@ -47,23 +47,8 @@ int	unset(char **args, t_env **envp)
 		}
 		else
 		{
-			tmp = *envp;
-			while (tmp)
-			{
-				if (!ft_strcmp(tmp->key, args[i]))
-				{
-					if (tmp->prev)
-						tmp->prev->next = tmp->next;
-					tmp2 = tmp;
-					tmp = tmp->next;
-					free(tmp2->key);
-					free(tmp2->value);
-					free(tmp2);
-					break ;
-				}
-				else
-					tmp = tmp->next;
-			}
+			if (ft_strcmp(args[i], "_"))
+				del_node_env(envp, args[i]);
 		}
 		i++;
 	}

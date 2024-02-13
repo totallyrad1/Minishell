@@ -195,6 +195,8 @@ void	add_env(t_env **env, char *key, char *value);
 char	**env_to_arr(t_env *env);
 char	*get_value_env(t_env *env, char *key);
 void	change_value_env(t_env **env, char *key, char *value);
+void	del_node_env(t_env **env, char *key);
+t_env	*get_node_env(t_env *env, char *key);
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c

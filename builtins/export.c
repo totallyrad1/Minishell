@@ -75,6 +75,8 @@ static int	check_arg(char *str)
 			return (0);
 		i++;
 	}
+	if (!str[i])
+		return (2);
 	return (1);
 }
 
@@ -103,25 +105,28 @@ int	ft_export(char **args, t_env **env)
 		{
 			key = get_key(args[i]);
 			value = get_value(args[i]);
-			tmp = *env;
-			while (tmp)
+			if (value || ft_strchr(args[i], '='))
 			{
-				if (!ft_strcmp(key, tmp->key))
+				tmp = *env;
+				while (tmp)
 				{
-					if (ft_strchr(args[i], '+'))
-						tmp->value = ft_strjoin(tmp->value, value);
-					else
+					if (!ft_strcmp(key, tmp->key))
 					{
-						free(tmp->value);
-						tmp->value = ft_strdup(value);
+						if (ft_strchr(args[i], '+'))
+							tmp->value = ft_strjoin(tmp->value, value);
+						else
+						{
+							free(tmp->value);
+							tmp->value = ft_strdup(value);
+						}
+						flag = 1;
+						break ;
 					}
-					flag = 1;
-					break ;
+					tmp = tmp->next;
 				}
-				tmp = tmp->next;
-			}
 			if (!flag)
 				add_env(env, ft_strdup(key), ft_strdup(value));
+			}
 			free(key);
 			free(value);
 		}

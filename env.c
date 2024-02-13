@@ -54,7 +54,6 @@ void	add_env(t_env **env, char *key, char *value)
 	if (!*env)
 	{
 		*env = new;
-		new->pwd = getcwd(NULL, 0);
 		return ;
 	}
 	tmp = *env;
@@ -71,8 +70,9 @@ static t_env	*get_env()
 	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	env = make_env(ft_strdup("PWD"), pwd);
+	env = make_env(NULL, NULL);
 	env->pwd = pwd;
+	add_env(&env, ft_strdup("PWD"), ft_strdup(env->pwd));
 	add_env(&env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 	add_env(&env, ft_strdup("SHLVL"), ft_strdup("1"));
 	return (env);
@@ -90,7 +90,8 @@ t_env	*arr_to_env(char **env)
 	else
 	{
 		i = 0;
-		env_lst = NULL;
+		env_lst = make_env(NULL, NULL);
+		env_lst->pwd = getcwd(NULL, 0);
 		while (env[i])
 		{
 			len = ft_strlen_till(env[i], '=');
@@ -137,6 +138,35 @@ char	*get_value_env(t_env *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+t_env	*get_node_env(t_env *env, char *key)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->key, key))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+void	del_node_env(t_env **env, char *key)
+{
+	t_env	*node_to_del;
+
+	node_to_del = get_node_env(*env, key);
+	if (!(*env) || !node_to_del)
+		return ;
+	if (*env == node_to_del)
+		*env = node_to_del->next;
+	if (node_to_del->next)
+		node_to_del->next->prev = node_to_del->prev;
+	if (node_to_del->prev)
+		node_to_del->prev->next = node_to_del->next;
+	free(node_to_del->value);
+	free(node_to_del->key);
+	free(node_to_del);
 }
 
 void	change_value_env(t_env **env, char *key, char *value)

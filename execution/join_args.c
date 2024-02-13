@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 #include <ctype.h>
-#include <sys/_types/_null.h>
+// #include <sys/_types/_null.h>
 
 char	*argextraction(t_cmd *token, t_env *env)
 {

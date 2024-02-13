@@ -14,6 +14,7 @@
 
 void	print_env(t_env *env)
 {
+	env = env->next;
 	while (env)
 	{
 		printf("%s=", env->key);
