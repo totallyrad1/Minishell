@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 20:44:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 22:11:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_cmd
 	int				fd[2];
 	int				spaceafter;
 	int				heredocfd;
+	int				expand;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -232,6 +233,7 @@ int exitstatus(int nestatus, int flag);
 char	*ft_itoa(int n);
 //QUOTE.C
 char *quotes_toexpression(char *str, t_env *env);
+char *heredoc_expanding(char *str, t_env *env);
 //exitstatus.c
 int exitstatus(int newstatus, int flag);
 //joinargs.c

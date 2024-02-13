@@ -6,11 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 21:00:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 22:22:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <sys/fcntl.h>
+#include <unistd.h>
 
 int commandexecution(int i, int flag)
 {
@@ -65,7 +67,36 @@ int	exec_builtin(char **args, t_env **envp)
 	return (0);
 }
 
-int getlastinfile(t_cmd *cmd)
+int heredoc_expanded(int fd, t_env *env)
+{
+	char *buffer;
+	int newfd;
+	int fdtoreturn;
+	char *everything;
+	int bytes_read;
+	char *new;
+	
+	buffer = malloc(100);
+	everything = NULL;
+	bytes_read = 1;
+	while(bytes_read > 0)
+	{
+		bytes_read = read(fd, buffer, 99);
+		if(bytes_read == -1)
+			return (free(buffer), -1);
+		buffer[bytes_read] = '\0';
+		everything = ft_strjoin(everything, buffer);
+	}
+	new = heredoc_expanding(everything, env);
+	newfd = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fdtoreturn = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	write(newfd, new, ft_strlen(new));
+	unlink("dasdasdas");
+	close(newfd);
+	return (free(buffer), free(everything),fdtoreturn);
+}
+
+int getlastinfile(t_cmd *cmd, t_env *env)
 {
 	int fd = 0;
 	t_cmd *curr;
@@ -75,7 +106,10 @@ int getlastinfile(t_cmd *cmd)
 	{
 		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
 		{
-			fd = curr->heredocfd;
+			if(curr->expand == 0)
+				fd = heredoc_expanded(curr->heredocfd, env);
+			else
+				fd = curr->heredocfd;
 		}
 		else if(curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 		{
@@ -154,7 +188,7 @@ t_cmd *get_command_start(t_cmd *node)
 	return curr;
 }
 
-void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int heredocfd)
+void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int heredocfd, int forheredoc)
 {
 	t_cmd *new;
 	t_cmd *curr;
@@ -168,6 +202,7 @@ void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int here
 		new->cmd = buffer;
 		new->next = NULL;
 		new->heredocfd = heredocfd;
+		new->expand = forheredoc;
 		new->spaceafter = spaceafter;
 		*flag = 0;
 		*cmd = new;
@@ -178,6 +213,7 @@ void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int here
 		new->cmd = buffer;
 		new->next = NULL;
 		new->heredocfd = heredocfd;
+		new->expand = forheredoc;
 		new->spaceafter = spaceafter;
 		curr ->next = new;
 	}
@@ -191,19 +227,23 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 	int flag = 1;
 	int spaceafter;
 	int heredocfd;
+	int forheredoc;
 
 	buffer = NULL;
 	curr = root;
+	forheredoc = 0;
 	while(curr)
 	{
 		if(curr->cmd[0] == '<' || curr->cmd[0] == '>')
 		{
+			forheredoc = curr->expand;
 			spaceafter = curr->spaceafter;
 			heredocfd = curr->heredocfd;
 			buffer = ft_strdup(curr->cmd);
-			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd, forheredoc);
 			buffer = NULL;
 			curr = curr->next;
+			forheredoc = curr->expand;
 			spaceafter = curr->spaceafter;
 			heredocfd = curr->heredocfd;
 			curr->spaceafter = 0;
@@ -212,13 +252,14 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 				buffer = ft_strjoin(buffer, argextraction(curr, env));
 				curr = curr->next;
 			}
-			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd, forheredoc);
 		}
 		else {
+			forheredoc = curr->expand;
 			spaceafter = curr->spaceafter;
 			heredocfd = curr->heredocfd;
 			buffer = ft_strdup(curr->cmd);
-			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd, forheredoc);
 			curr=curr->next;
 		}
 		if(!curr)
@@ -241,7 +282,7 @@ int one_command_execution(t_tree *node, t_env *env)
 	int infile = 0;
 	int outfile = 1;
 	new = new_cmd_list(node->next, env);
-	infile = getlastinfile(new);
+	infile = getlastinfile(new, env);
 	outfile = getlastoutfile(new);
 	args = join_args1(get_command_start(new), env);
 	if(!args)

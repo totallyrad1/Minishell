@@ -6,12 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 17:53:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 21:59:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <ctype.h>
+// #include <ctype.h>
 // #include <sys/_types/_null.h>
 
 char	*argextraction(t_cmd *token, t_env *env)
@@ -79,7 +79,7 @@ int	check_expanded_var(char *str, t_env *env)
 	char	*key;
 
 	key = expand(env, &str[1]);
-	if (key && isspace(key[0]) == 1)
+	if (key && ft_isspace(key[0]) == 1)
 		return (free(key), 1);
 	else
 		return (free(key), 0);

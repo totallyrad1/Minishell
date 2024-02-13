@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 20:59:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 22:23:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_cmd(t_tree *root)
 	}
 }
 
-void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
+void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer, int forheredoc)
 {
 	t_token *new;
 	t_token *curr;
@@ -41,6 +41,7 @@ void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
 	{
 		new->cmd = buffer;
 		new->spaceafter = spaceafter;
+		new->for_heredoc = forheredoc;
 		new->visited = 0;
 		new->next = NULL;
 		new->prev = NULL;
@@ -52,6 +53,7 @@ void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer)
 			curr = curr->next;
 		new->cmd = buffer;
 		new->spaceafter = spaceafter;
+		new->for_heredoc = forheredoc;
 		new->visited = 0;
 		new->next = NULL;
 		new->prev = curr;
@@ -79,33 +81,39 @@ t_token *join_heredocargs(t_token *cmd)
 	t_token *curr;
 	int spaceafter;
 	int flag = 1;
+	int forheredoc;
 
 	curr = cmd;
+	forheredoc = 0;
 	while(curr)
 	{
 		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
 		{
 			spaceafter = curr->spaceafter;
 			buffer = ft_strdup(curr->cmd);
-			new_node_heredoc(&new, &flag, spaceafter, buffer);
+			new_node_heredoc(&new, &flag, spaceafter, buffer, forheredoc);
 			buffer = NULL;
 			curr = curr->next;
 			spaceafter = curr->spaceafter;
 			curr->spaceafter = 0;
 			while(curr && curr->spaceafter != 1)
 			{
+				forheredoc = 0;
 				if(curr->cmd[0] == '\'' || curr->cmd[0] == '"')
+				{
+					forheredoc = 1;
 					buffer = ft_strjoin(buffer, removequotesfromheredocargs(curr->cmd));
+				}
 				else
 					buffer = ft_strjoin(buffer, curr->cmd);
 				curr = curr->next;
 			}
-			new_node_heredoc(&new, &flag, spaceafter, buffer);
+			new_node_heredoc(&new, &flag, spaceafter, buffer, forheredoc);
 		}
 		else {
 			spaceafter = curr->spaceafter;
 			buffer = ft_strdup(curr->cmd);
-			new_node_heredoc(&new, &flag, spaceafter, buffer);
+			new_node_heredoc(&new, &flag, spaceafter, buffer, forheredoc);
 			curr=curr->next;
 		}
 		if(!curr)
@@ -144,7 +152,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				// while(curr)
 				// {
 				// 	if (curr->cmd)
-				// 		printf("token====>|%s|,and its type is|%d|heredoc fd |%d|\n", curr->cmd, curr->type, curr->heredocfd);
+				// 		printf("token====>|%s|,and its type is|%d|heredoc fd |%d| expandornot|%d|\n", curr->cmd, curr->type, curr->heredocfd, curr->for_heredoc);
 				// 	curr = curr->next;
 				// }
 				save = *cmd;

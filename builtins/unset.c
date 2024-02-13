@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:27:25 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/06 17:04:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/13 21:56:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static int	check_arg(char *str)
 int	unset(char **args, t_env **envp)
 {
 	int		i;
-	t_env	*tmp;
-	t_env	*tmp2;
 
 	i = 1;
 	while (args[i])
