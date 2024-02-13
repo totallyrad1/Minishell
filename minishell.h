@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 15:23:40 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 17:55:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,12 +231,17 @@ char *quotes_toexpression(char *str, t_env *env);
 //exitstatus.c
 int exitstatus(int newstatus, int flag);
 //joinargs.c
-char **join_args1(t_cmd *root , t_env *env);
-char **join_args(t_cmd *root, t_env *env);
-int commandexecution(int i, int flag);
-char *argextraction(t_cmd *token, t_env *env);
 
 t_cmd *new_cmd_list(t_cmd *root , t_env *env);
+
+//join_args.c
+char	*argextraction(t_cmd *token, t_env *env);
+char	**var_toarray(char *token, t_env *env);
+int	count_var_args(char *token, t_env *env);
+int	args_size(t_cmd *temp, t_env *env);
+int	check_expanded_var(char *str, t_env *env);
+//join_args1.c
+char	**join_args1(t_cmd *root, t_env *env);
 
 void	print2D(t_tree *root);
 #endif

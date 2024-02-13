@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 15:24:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 17:24:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,14 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		{
 			new = join_heredocargs(*cmd);
 			give_state_and_type(&new);
-			t_token *curr;
-				curr = new;
-				while(curr)
-				{
-					if (curr->cmd)
-						printf("token====>|%s|,and its type is|%d|\n", curr->cmd, curr->type);
-					curr = curr->next;
-				}
+			// t_token *curr;
+			// 	curr = new;
+			// 	while(curr)
+			// 	{
+			// 		if (curr->cmd)
+			// 			printf("token====>|%s|,and its type is|%d|\n", curr->cmd, curr->type);
+			// 		curr = curr->next;
+			// 	}
 			// return ;
 			if(check_syntax_error(&new) == 1)
 			{
@@ -152,17 +152,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				while(new->next)
 					new = new->next;
 				root = search_logical_operator(new);
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				print2D(root);
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
-				printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// print2D(root);
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
+				// printf("\n");
 				// return ;
 				andorexecution(root, env);
 				free_tree(&root);
