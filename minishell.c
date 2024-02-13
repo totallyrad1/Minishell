@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 17:24:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 20:59:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,17 +136,17 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		{
 			new = join_heredocargs(*cmd);
 			give_state_and_type(&new);
-			// t_token *curr;
-			// 	curr = new;
-			// 	while(curr)
-			// 	{
-			// 		if (curr->cmd)
-			// 			printf("token====>|%s|,and its type is|%d|\n", curr->cmd, curr->type);
-			// 		curr = curr->next;
-			// 	}
 			// return ;
 			if(check_syntax_error(&new) == 1)
 			{
+				// t_token *curr;
+				// curr = new;
+				// while(curr)
+				// {
+				// 	if (curr->cmd)
+				// 		printf("token====>|%s|,and its type is|%d|heredoc fd |%d|\n", curr->cmd, curr->type, curr->heredocfd);
+				// 	curr = curr->next;
+				// }
 				save = *cmd;
 				save1 = new;
 				while(new->next)
@@ -193,7 +193,7 @@ void print2DUtil(t_tree* root, int space)
 			printf(" ");
 		while (tmp)
 		{
-			printf("  ==>  %s %d", tmp->cmd, tmp->spaceafter);
+			printf("  ==>  %s %d %d", tmp->cmd, tmp->spaceafter, tmp->heredocfd);
 			tmp = tmp->next;
 		}
 	}
@@ -208,7 +208,7 @@ void print2DUtil(t_tree* root, int space)
 		printf("\n");
 		for (int i = 10; i < space; i++)
 			printf(" ");
-		printf("%s %d\n", root->data, root->tree_type);
+		printf("%s %d \n", root->data, root->tree_type);
 	}
  
     // Process left child

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 14:25:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 21:00:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ int getlastinfile(t_cmd *cmd)
 	curr = cmd;
 	while(curr)
 	{
-		if(curr->cmd[0] == '<')
+		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
+		{
+			fd = curr->heredocfd;
+		}
+		else if(curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 		{
 			fd = open(curr->next->cmd , O_RDONLY);
 		}
@@ -94,7 +98,7 @@ int getlastoutfile(t_cmd *cmd)
 		{
 			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0777);
 		}
-		else if(curr->cmd[0] == '>')
+		else if(curr->cmd[0] == '>' && curr->cmd[1] == '\0')
 		{
 			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		}
@@ -150,7 +154,7 @@ t_cmd *get_command_start(t_cmd *node)
 	return curr;
 }
 
-void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter)
+void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int heredocfd)
 {
 	t_cmd *new;
 	t_cmd *curr;
@@ -163,6 +167,7 @@ void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter)
 	{
 		new->cmd = buffer;
 		new->next = NULL;
+		new->heredocfd = heredocfd;
 		new->spaceafter = spaceafter;
 		*flag = 0;
 		*cmd = new;
@@ -172,6 +177,7 @@ void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter)
 			curr = curr->next;
 		new->cmd = buffer;
 		new->next = NULL;
+		new->heredocfd = heredocfd;
 		new->spaceafter = spaceafter;
 		curr ->next = new;
 	}
@@ -184,6 +190,7 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 	char *buffer;
 	int flag = 1;
 	int spaceafter;
+	int heredocfd;
 
 	buffer = NULL;
 	curr = root;
@@ -192,23 +199,26 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 		if(curr->cmd[0] == '<' || curr->cmd[0] == '>')
 		{
 			spaceafter = curr->spaceafter;
+			heredocfd = curr->heredocfd;
 			buffer = ft_strdup(curr->cmd);
-			new_cmd_node(&flag, &new, buffer, spaceafter);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
 			buffer = NULL;
 			curr = curr->next;
 			spaceafter = curr->spaceafter;
+			heredocfd = curr->heredocfd;
 			curr->spaceafter = 0;
 			while(curr && curr->spaceafter != 1 && curr->cmd[0] != '>' && curr->cmd[0] != '<')
 			{
 				buffer = ft_strjoin(buffer, argextraction(curr, env));
 				curr = curr->next;
 			}
-			new_cmd_node(&flag, &new, buffer, spaceafter);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
 		}
 		else {
 			spaceafter = curr->spaceafter;
+			heredocfd = curr->heredocfd;
 			buffer = ft_strdup(curr->cmd);
-			new_cmd_node(&flag, &new, buffer, spaceafter);
+			new_cmd_node(&flag, &new, buffer, spaceafter, heredocfd);
 			curr=curr->next;
 		}
 		if(!curr)

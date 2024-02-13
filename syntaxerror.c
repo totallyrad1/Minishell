@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 17:28:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 20:42:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,9 @@ int check_syntax_error(t_token **cmd)
 	initflag = 0;
 	while(curr)
 	{
-		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && islimiter1(curr->cmd[0]) == 0)
+		if(curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
+			curr->heredocfd = heredocshit(curr->next->cmd);
+		if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && islimiter2(curr->cmd[0]) == 0)
 			initflag = 1;
 		if(curr->type == TOKEN_CLOSED_BRACKET)
 		{

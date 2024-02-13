@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 17:55:12 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 20:44:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_cmd
 	char			*cmd;
 	int				fd[2];
 	int				spaceafter;
+	int				heredocfd;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -164,6 +165,7 @@ int		ft_isquote(char c);
 int		ft_alphanum(char c);
 int		islimiter(int c);
 int		islimiter1(int c);
+int		islimiter2(int c);
 //ft_split.c
 char	**ft_split(char const *s, char c);
 //pipetools.c
@@ -242,6 +244,8 @@ int	args_size(t_cmd *temp, t_env *env);
 int	check_expanded_var(char *str, t_env *env);
 //join_args1.c
 char	**join_args1(t_cmd *root, t_env *env);
+//here_doc.c
+int heredocshit(char *delimiter);
 
 void	print2D(t_tree *root);
 #endif
