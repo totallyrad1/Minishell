@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/06 16:18:45 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:23:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter)
+void	ft_newnode(t_token **cmd, char *value, int spaceafter)
 {
 	t_token	*new_node;
 	t_token	*curr;
@@ -25,7 +25,6 @@ void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter)
 	new_node->spaceafter = spaceafter;
 	new_node->next = NULL;
 	new_node->cmd = value;
-	new_node->state = state;
 	while (curr->next)
 		curr = curr->next;
 	curr->next = new_node;

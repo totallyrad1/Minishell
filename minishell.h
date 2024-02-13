@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 14:02:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 15:23:40 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ enum e_type
 	TOKEN_CLOSED_BRACKET,
 } ;
 
-enum e_state
-{
-	GENERAL,
-	IN_DQUOTE,
-	IN_QUOTE,
-};
-
 enum e_tree_type
 {
 	AND,
@@ -68,7 +61,6 @@ typedef struct s_token
 {
 	char			*cmd;
 	int				type;
-	int				state;
 	int				visited;
 	int				for_heredoc;
 	int 			heredocfd;
@@ -129,7 +121,7 @@ char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 char	*ft_strdup_len(char *s1, int len);
 size_t	ft_strlen(const char *s);
-void	ft_newnode(t_token **cmd, char *value, int state, int spaceafter);
+void	ft_newnode(t_token **cmd, char *value, int spaceafter);
 void	ft_free_cmd(t_token *lst);
 t_token	*init_token();
 int		ft_isalpha(int c);

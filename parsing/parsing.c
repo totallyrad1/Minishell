@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/07 08:33:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/13 15:24:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ int	ft_dollarsign(t_token **cmd, t_vars *vars)
 	if (vars->flag == 1)
 	{
 		(*cmd)->cmd = ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp);
-		(*cmd)->state = GENERAL;
 		(*cmd)->spaceafter = hasspaceafter(vars->cmd, vars->tmp - 1);
 		vars->flag = 0;
 	}
 	else
-		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), GENERAL, hasspaceafter(vars->cmd, vars->tmp - 1));
+		ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), hasspaceafter(vars->cmd, vars->tmp - 1));
 	return (ft_switch(cmd, vars));
 }
 
