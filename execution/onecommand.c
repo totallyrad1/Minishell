@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 08:44:50 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 11:09:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,7 @@ int one_command_execution(t_tree *node, t_env *env)
 	}
 	wait(&status);
 	exitstatus(WEXITSTATUS(status), 1);
-	return ( free(absolutepath), status);
+	return (ft_free_array(args), free(absolutepath), status);
 }
 
 int  andorexecution(t_tree *root, t_env *env)

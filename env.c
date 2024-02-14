@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/09 21:32:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 11:03:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,8 @@ static t_env	*make_env(char *key, char *value)
 	if (!node)
 		return (NULL);
 	node->size = 0;
-	if(key)
-		node->key = key;
-	else
-	 	node->key = NULL;
-	if(value)
-		node->value = value;
-	else
-	 	node->value = NULL;
+	node->key = key;
+	node->value = value;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);

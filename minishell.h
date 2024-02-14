@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 08:53:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 11:20:11 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ int		ft_isquote(char c);
 int		ft_alphanum(char c);
 int		islimiter(int c);
 int		islimiter1(int c);
+int	islimiter2(int c);
 int	isredirection(int c);
 //ft_split.c
 char	**ft_split(char const *s, char c);

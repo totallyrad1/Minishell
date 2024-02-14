@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 22:23:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 11:09:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		if(ft_switch(cmd, vars) == 0)
 		{
 			new = join_heredocargs(*cmd);
+			ft_free_cmd(*cmd);
 			give_state_and_type(&new);
-			// return ;
 			if(check_syntax_error(&new) == 1)
 			{
 				// t_token *curr;
@@ -174,6 +174,8 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				// return ;
 				andorexecution(root, env);
 				free_tree(&root);
+				free(vars);
+				ft_free_cmd(new);
 				*cmd = save;
 			}
 		}
@@ -182,7 +184,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 
 void f()
 {
-	system("leaks minishell");
+	system("leaks minishell > hh");
 }
 
 void print2DUtil(t_tree* root, int space)

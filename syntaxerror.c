@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 08:21:50 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 11:20:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int check_syntax_error(t_token **cmd)
 			flag2 = 1;
 			flag = 0;
 		}
-		if((islimiter1(curr->cmd[0]) == 1 && initflag == 0) 
-			|| (isredirection(curr->cmd[0]) == 1 && curr->next && islimiter(curr->next->cmd[0]) == 1) 
+		if((islimiter2(curr->cmd[0]) == 1 && initflag == 0) 
+			|| (isredirection(curr->cmd[0]) == 1 && curr->next && islimiter1(curr->next->cmd[0]) == 1) 
 			|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
 			|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
 			|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
