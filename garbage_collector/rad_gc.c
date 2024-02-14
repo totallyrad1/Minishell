@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 17:09:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 17:40:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	*rad_malloc(size_t size, int flag, int type)
 		gc = malloc(sizeof(t_gc));
 		if(!gc)
 			return (NULL);
+		gc->next = NULL;
 		addmallocedptr(ptr, &gc, first_iter, type);
 		first_iter = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 17:10:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 17:41:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,8 @@ int main(int ac, char **av, char **env)
 		{
 			printf("exit\n");
 			rad_malloc(0, 1, 0);
-			// ft_free_cmd(cmd);
 			free(command);
 			free(env_lst->pwd);
-			// free_env(env_lst);
 			exit(0);
 		}
 		// if(check_syntax_error(command) == 1)
