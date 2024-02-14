@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:50:42 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 11:29:10 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:30:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void ft_firstit(t_cmd *token, int *i, t_env *env, char **args)
 {
 	char **tmp;
 
-	if(token->cmd[0] != '$')
-		args[*i] = argextraction(token, env);
-	else
+	if(token->cmd[0] == '$' && token->cmd[1] != '\0')
 	{
 		tmp = var_toarray(token->cmd, env);
 		if (tmp)
@@ -46,6 +44,8 @@ void ft_firstit(t_cmd *token, int *i, t_env *env, char **args)
 		else if (token->cmd[0] == '$' && token->cmd[1] == '\0')
 			args[*i] = argextraction(token, env);
 	}
+	else
+		args[*i] = argextraction(token, env);
 }
 
 void ft_secondit1(char **args, int *i, char **tmp)
@@ -108,7 +108,7 @@ char	**join_args1(t_cmd *temp, t_env *env)
 	i = -1;
 	if (!temp)
 		return (NULL);
-	args = malloc((args_size(temp, env) + 1) * sizeof(char *));
+	args = rad_malloc((args_size(temp, env) + 1) * sizeof(char *), 0, COMMAND);
 	if(!args)
 		return NULL;
 	temp->spaceafter = 1;

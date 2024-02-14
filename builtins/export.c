@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/06 17:17:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:38:02 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	ft_export(char **args, t_env **env)
 							tmp->value = ft_strjoin(tmp->value, value);
 						else
 						{
-							free(tmp->value);
+							// free(tmp->value);
 							tmp->value = ft_strdup(value);
 						}
 						flag = 1;
@@ -127,8 +127,8 @@ int	ft_export(char **args, t_env **env)
 			if (!flag)
 				add_env(env, ft_strdup(key), ft_strdup(value));
 			}
-			free(key);
-			free(value);
+			// free(key);
+			// free(value);
 		}
 		i++;
 	}

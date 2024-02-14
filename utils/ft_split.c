@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:44:50 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/11 16:44:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:41:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*getword(size_t *i, char const *s, char c)
 	while (s[*i] && s[*i] != c)
 		(*i)++;
 	currwordsize = *i - tpos;
-	res = (char *)malloc((currwordsize + 1) * sizeof(char));
+	res = (char *)rad_malloc((currwordsize + 1) * sizeof(char),0, OTHERS);
 	if (res == NULL)
 		return (NULL);
 	while (tpos + j < *i)
@@ -57,22 +57,22 @@ static char	*getword(size_t *i, char const *s, char c)
 	return (res);
 }
 
-static char	**freemem(char **str)
-{
-	size_t	i;
+// static char	**freemem(char **str)
+// {
+// 	size_t	i;
 
-	i = 0;
-	if (str)
-	{
-		while (str[i])
-		{
-			free(str[i]);
-			i++;
-		}
-		free(str);
-	}
-	return (NULL);
-}
+// 	i = 0;
+// 	if (str)
+// 	{
+// 		while (str[i])
+// 		{
+// 			free(str[i]);
+// 			i++;
+// 		}
+// 		free(str);
+// 	}
+// 	return (NULL);
+// }
 
 char	**ft_split(char const *s, char c)
 {
@@ -86,14 +86,14 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	wc = wordscount(s, c);
-	res = (char **)malloc((wc + 1) * sizeof(char *));
+	res = (char **)rad_malloc((wc + 1) * sizeof(char *), 0, OTHERS);
 	if (!res)
 		return (NULL);
 	while (j < wc)
 	{
 		res[j] = getword(&i, s, c);
 		if (!res[j])
-			return (freemem(res));
+			return (NULL);
 		j++;
 	}
 	res[j] = NULL;

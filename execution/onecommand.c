@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 11:09:12 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:41:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ void new_cmd_node(int *flag, t_cmd **cmd, char *buffer, int spaceafter, int here
 	t_cmd *curr;
 	
 	curr = *cmd;
-	new = malloc(sizeof(t_cmd));
+	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if(!new)
 		return ;
 	if(*flag == 1)
@@ -281,7 +281,7 @@ int one_command_execution(t_tree *node, t_env *env)
 	}
 	wait(&status);
 	exitstatus(WEXITSTATUS(status), 1);
-	return (ft_free_array(args), free(absolutepath), status);
+	return ( status);
 }
 
 int  andorexecution(t_tree *root, t_env *env)

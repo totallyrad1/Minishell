@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:28:46 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/05 18:28:48 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:32:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_itoa(int n)
 	len = intlen(nb);
 	if (nb < 0)
 		len += 1;
-	str = (char *)malloc((len + 1) * sizeof(char));
+	str = (char *)rad_malloc((len + 1) * sizeof(char), 0, OTHERS);
 	if (!str)
 		return (NULL);
 	putitoa(neg, len, str, nb);

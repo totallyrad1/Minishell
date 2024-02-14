@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:16:19 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:20:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:32:19 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**ft_clone_env(char **env)
 	i = 0;
 	while (env[env_size])
 		env_size++;
-	new_env = (char **)malloc((env_size + 1) * sizeof(char *));
+	new_env = (char **)rad_malloc((env_size + 1) * sizeof(char *), 0, ENV);
 	if (!new_env)
 		return (env);
 	while (env[i])

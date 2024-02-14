@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/11 17:20:43 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:40:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 || s1[0] == '\0')
 		return (ft_strdup(s2));
 	if (!s2)
-		return (newstring = ft_strdup(s1), free(s1), newstring);
-	newstring = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1));
+		return (newstring = ft_strdup(s1), newstring);
+	newstring = (char *)rad_malloc((ft_strlen(s1) + ft_strlen(s2) + 1), 0, OTHERS);
 	if (newstring == NULL)
 		return (free(s1), NULL);
 	while (s1[i])
@@ -37,5 +37,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		newstring[i++] = s2[j++];
 	newstring[i] = '\0';
-	return (free(s1), newstring);
+	return ( newstring);
 }

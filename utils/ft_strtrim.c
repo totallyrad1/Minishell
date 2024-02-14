@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:52:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/01/22 12:24:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:34:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	len = (trimend - trimstart);
 	if (trimstart >= trimend)
 		return (ft_strdup(""));
-	trimmedstring = (char *)malloc((len + 1) * sizeof(char));
+	trimmedstring = (char *)rad_malloc((len + 1) * sizeof(char), 0, OTHERS);
 	if (trimmedstring == NULL)
 		return (NULL);
 	ft_strlcpy(trimmedstring, s1 + trimstart, len + 1);

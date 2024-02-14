@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:11:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/14 16:34:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strdup(char *s1)
 	j = 0;
 	while (s1[i])
 		i++;
-	cpy = malloc(i + 1);
+	cpy = rad_malloc(i + 1, 0, OTHERS);
 	if (!cpy)
 		return (NULL);
 	while (j < i)
@@ -44,7 +44,7 @@ char	*ft_strdup_len(char *s1, int len)
 	if (!s1)
 		return (NULL);
 	i = 0;
-	cpy = malloc(len + 1);
+	cpy = rad_malloc(len + 1, 0, OTHERS);
 	if (!cpy)
 		return (NULL);
 	while (i < len)

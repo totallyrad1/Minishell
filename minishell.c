@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 11:09:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 17:10:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer, in
 	t_token *new;
 	t_token *curr;
 
-	new = malloc(sizeof(t_token));
+	new = rad_malloc(sizeof(t_token), 0, COMMAND);
 	if(!new)
 		return ;
 	curr = *cmd;
@@ -131,7 +131,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 	t_token *new;
 	t_token *save1;
 
-	vars = malloc(sizeof(t_vars));
+	vars = rad_malloc(sizeof(t_vars), 0, COMMAND);
 	if(!vars)
 		return;
 	vars->flag = 1;
@@ -143,7 +143,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		if(ft_switch(cmd, vars) == 0)
 		{
 			new = join_heredocargs(*cmd);
-			ft_free_cmd(*cmd);
+			// ft_free_cmd(*cmd);
 			give_state_and_type(&new);
 			if(check_syntax_error(&new) == 1)
 			{
@@ -173,9 +173,9 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				// printf("\n");
 				// return ;
 				andorexecution(root, env);
-				free_tree(&root);
-				free(vars);
-				ft_free_cmd(new);
+				// free_tree(&root);
+				// free(vars);
+				// ft_free_cmd(new);
 				*cmd = save;
 			}
 		}
@@ -239,7 +239,7 @@ int main(int ac, char **av, char **env)
 	struct sigaction	sa;
 	t_env				*env_lst;
 
-	// atexit(f);
+	atexit(f);
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);
@@ -263,8 +263,10 @@ int main(int ac, char **av, char **env)
 		if (!ft_strncmp(command, "exit", 5))
 		{
 			printf("exit\n");
-			ft_free_cmd(cmd);
+			rad_malloc(0, 1, 0);
+			// ft_free_cmd(cmd);
 			free(command);
+			free(env_lst->pwd);
 			// free_env(env_lst);
 			exit(0);
 		}
@@ -274,5 +276,7 @@ int main(int ac, char **av, char **env)
 		if (command[0])
 			add_history(command);
 		free(command);
+		// rad_malloc(0, 1, COMMAND);
 	}
+	// free(env_lst->pwd);
 }

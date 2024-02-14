@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 08:55:11 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 17:09:21 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,18 @@ static void free_type(t_gc **gc, int type)
 
 static void	rad_free(t_gc **gc, int type)
 {
-	t_gc	*curr;
-	t_gc	*next;
+	t_gc	*last;
+	void	*last_malloced_ptr;
 
-	curr = *gc;
 	if(!type)
 	{
-		while (curr)
+		while ((*gc))
 		{
-			next = curr->next;
-			free(curr->mallocedptr);
-			curr->mallocedptr = NULL;
-			free(curr);
-			curr = NULL;
-			curr = next;
+			last = *gc;
+			last_malloced_ptr = (*gc)->mallocedptr;
+			(*gc) = (*gc)->next;
+			free(last);
+			free(last_malloced_ptr);
 		}
 	}
 	else

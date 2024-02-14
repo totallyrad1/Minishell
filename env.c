@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/14 11:03:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:36:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_env	*make_env(char *key, char *value)
 {
 	t_env	*node;
 
-	node = malloc(sizeof(t_env));
+	node = rad_malloc(sizeof(t_env), 0, ENV);
 	if (!node)
 		return (NULL);
 	node->size = 0;
@@ -104,18 +104,18 @@ char	**env_to_arr(t_env *env)
 	t_env *curr;	
 
 	curr = env;
-	env_arr = malloc(sizeof(char *) * (env->size + 1));
+	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, COMMAND);
 	if (!env_arr)
 		return (NULL);
 	i = 0;
 	while (i < env->size && curr)
 	{
-		if (!env_arr)
-			ft_free_array(env_arr);
+		// if (!env_arr)
+		// 	ft_free_array(env_arr);
 		tmp = ft_strjoin(ft_strdup(curr->key), "=");
 		tmp = ft_strjoin(tmp, curr->value);
 		env_arr[i] = ft_strdup(tmp);
-		free(tmp);
+		// free(tmp);
 		i++;
 		curr = curr->next;
 	}
@@ -158,9 +158,9 @@ void	del_node_env(t_env **env, char *key)
 		node_to_del->next->prev = node_to_del->prev;
 	if (node_to_del->prev)
 		node_to_del->prev->next = node_to_del->next;
-	free(node_to_del->value);
-	free(node_to_del->key);
-	free(node_to_del);
+	// free(node_to_del->value);
+	// free(node_to_del->key);
+	// free(node_to_del);
 }
 
 void	change_value_env(t_env **env, char *key, char *value)
@@ -174,8 +174,8 @@ void	change_value_env(t_env **env, char *key, char *value)
 	{
 		if (!ft_strcmp(tmp->key, key))
 		{
-			if (tmp->value)
-				free(tmp->value);
+			// if (tmp->value)
+			// 	free(tmp->value);
 			tmp->value = value;
 			flag = 1;
 			break ;

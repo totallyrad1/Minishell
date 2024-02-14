@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:32:03 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/13 22:04:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:32:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_cmd	*make_cmd(t_token *token)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!cmd)
 		return (NULL);
 	cmd->cmd = ft_strdup(token->cmd);

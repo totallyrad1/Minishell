@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 15:24:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 13:41:56 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	give_state_and_type(t_token **cmd)
 	curr = *cmd;
 	while (curr)
 	{
-		if(curr->cmd)
+		if(curr->cmd && curr->cmd[0])
 			curr->type = getlimitertoken(curr->cmd[0], curr->cmd[1]);
 		curr = curr->next;
 	}
