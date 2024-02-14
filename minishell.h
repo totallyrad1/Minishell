@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 08:21:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 08:53:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,22 @@ typedef struct s_vars
 	int				i;
 	t_env			*env;
 }				t_vars;
+
+typedef struct s_gc
+{
+	void		*mallocedptr;
+	int			type;
+	struct s_gc	*next;
+}				t_gc;
+
+enum e_garbagecollector
+{
+	COMMAND,
+	ENV,
+};
+
+//garbage collector
+void	*rad_malloc(size_t size, int flag, int type);
 
 //minishell.c
 void handle_input(t_token **cmd, char *str, t_env *env);
@@ -250,6 +266,7 @@ int	check_expanded_var(char *str, t_env *env);
 char	**join_args1(t_cmd *root, t_env *env);
 //here_doc.c
 int heredocshit(char *delimiter);
+int heredoc_expanded(int fd, t_env *env);
 
 void	print2D(t_tree *root);
 #endif

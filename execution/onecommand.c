@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/13 22:35:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 08:44:50 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,34 +67,6 @@ int	exec_builtin(char **args, t_env **envp)
 	return (0);
 }
 
-int heredoc_expanded(int fd, t_env *env)
-{
-	char *buffer;
-	int newfd;
-	int fdtoreturn;
-	char *everything;
-	int bytes_read;
-	char *new;
-	
-	buffer = malloc(100);
-	everything = NULL;
-	bytes_read = 1;
-	while(bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, 99);
-		if(bytes_read == -1)
-			return (free(buffer), -1);
-		buffer[bytes_read] = '\0';
-		everything = ft_strjoin(everything, buffer);
-	}
-	new = heredoc_expanding(everything, env);
-	newfd = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	fdtoreturn = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	write(newfd, new, ft_strlen(new));
-	unlink("dasdasdas");
-	close(newfd);
-	return (free(buffer), free(everything),fdtoreturn);
-}
 
 int getlastinfile(t_cmd *cmd, t_env *env)
 {
@@ -112,9 +84,7 @@ int getlastinfile(t_cmd *cmd, t_env *env)
 				fd = curr->heredocfd;
 		}
 		else if(curr->cmd[0] == '<' && curr->cmd[1] == '\0')
-		{
 			fd = open(curr->next->cmd , O_RDONLY);
-		}
 		curr = curr->next;
 	}
 	return fd;
