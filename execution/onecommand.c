@@ -6,11 +6,12 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:41:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 20:28:09 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 #include <sys/fcntl.h>
 #include <unistd.h>
 
@@ -25,6 +26,7 @@ int commandexecution(int i, int flag)
 
 int	is_builtin(char *cmd)
 {
+	
 	if (!ft_strcmp(cmd, "cd"))
 		return (1);
 	if (!ft_strcmp(cmd, "echo"))
@@ -107,7 +109,7 @@ int getlastoutfile(t_cmd *cmd)
 			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		}
 		curr = curr->next;
-	}	
+	}
 	return fd;
 }
 
@@ -129,11 +131,6 @@ void changeoutfile(int fd)
 	}
 }
 
-void resetfds()
-{
-	dup2(0, STDIN_FILENO);
-	dup2(1, STDOUT_FILENO);
-}
 
 t_cmd *get_command_start(t_cmd *node)
 {
@@ -248,6 +245,9 @@ int one_command_execution(t_tree *node, t_env *env)
 	int		status;
 	t_cmd *new;
 
+
+	//
+
 	
 	int infile = 0;
 	int outfile = 1;
@@ -258,8 +258,19 @@ int one_command_execution(t_tree *node, t_env *env)
 	if(!args)
 		return 0;
 	envp = env_to_arr(env);
+	int originlin = dup(STDIN_FILENO);
+	int originalout = dup(STDOUT_FILENO);
 	if (is_builtin(args[0]))
-		return (exec_builtin(args, &env));
+	{
+		changeinfile(infile);
+		changeoutfile(outfile);
+		status = exec_builtin(args, &env);
+		if(infile != 0)
+			dup2(originlin, STDIN_FILENO);
+		if(outfile != 1)
+			dup2(originalout, STDOUT_FILENO);
+		return status;
+	}
 	if(access(args[0], X_OK) != 0)
 		absolutepath = get_working_path(envp, args[0]);
 	else
