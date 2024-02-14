@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 17:41:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 19:35:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,7 +239,7 @@ int main(int ac, char **av, char **env)
 	struct sigaction	sa;
 	t_env				*env_lst;
 
-	atexit(f);
+	// atexit(f);
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);

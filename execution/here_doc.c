@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:48:31 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/14 19:35:07 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@
 void ft_readheredoc(int fd, char *delimiter)
 {
 	char *str;
+	char *temp;
 
 	while(1)
 	{
 		str = readline(">");
+		temp = str;
 		if(!str || ft_strcmp(str, delimiter) == 0)
+		{
+			free(str);
 			break;
-		str = ft_strjoin(str, "\n");
+		}
+		str = ft_strjoin(ft_strdup(str), "\n");
+		free(temp);
 		write(fd, str, ft_strlen(str));
-		free(str);
 	}
 }
 
