@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/15 20:24:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 00:04:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,9 +125,9 @@ int	ft_export(char **args, t_env **env)
 					}
 					tmp = tmp->next;
 				}
+			}
 			if (!flag)
 				add_env(env, ft_strdup(key), ft_strdup(value));
-			}
 			// free(key);
 			// free(value);
 		}
