@@ -1,59 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is.c                                            :+:      :+:    :+:   */
+/*   ft_is1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/06 14:59:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 17:04:04 by asnaji           ###   ########.fr       */
+/*   Created: 2024/02/15 17:02:47 by asnaji            #+#    #+#             */
+/*   Updated: 2024/02/15 17:04:09 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_alphanum(char c)
+int	is_builtin(char *cmd)
 {
-	if(c >= 'A' && c <= 'Z')
-		return 1;
-	if(c >= 'a' && c <= 'z')
-		return 1;
-	if(c >= '0' && c <= '1')
-		return 1;
-	if(c == '_')
-		return 1;
-	return 0;
-}
-
-int	ft_isspace(char c)
-{
-	if (c == 32 || c == '\t')
+	
+	if (!ft_strcmp(cmd, "cd"))
 		return (1);
-	if (c >= 9 && c <= 13)
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	if (!ft_strcmp(cmd, "env"))
+		return (1);
+	if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	if (!ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }
 
-int	ft_isquote(char c)
+int	isredirection(int c)
 {
-	if (c == '"' || c == '\'')
+	if ( c == '>' || c == '<')
 		return (1);
 	return (0);
 }
 
-int	islimiter(int c)
+int	islimiter2(int c)
 {
-	if (c == '<' || c == '>')
-		return (1);
-	if ( c == '$' || c == '|' || c == '&')
-		return (1);
-	return (0);
-}
-
-int	islimiter1(int c)
-{
-	if (c == '<' || c == '>')
-		return (1);
 	if ( c == '|' || c == '&')
 		return (1);
 	return (0);

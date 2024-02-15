@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 13:54:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 17:58:38 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ char *removequotesfromheredocargs(char *str)
 
 	i = 0;
 	save = str[i++];
-	while(str[i] && str[i] != save)		
+	while (str[i] && str[i] != save)		
 		i++;
-	return ft_substr(str, 1, i - 1);
+	return (ft_substr(str, 1, i - 1));
 }
 
 t_token *join_heredocargs(t_token *cmd)
@@ -96,9 +96,9 @@ t_token *join_heredocargs(t_token *cmd)
 			curr = curr->next;
 			spaceafter = curr->spaceafter;
 			curr->spaceafter = 0;
+			forheredoc = 0;
 			while(curr && curr->spaceafter != 1)
 			{
-				forheredoc = 0;
 				if(curr->cmd[0] == '\'' || curr->cmd[0] == '"')
 				{
 					forheredoc = 1;
@@ -128,11 +128,6 @@ t_token *join_heredocargs(t_token *cmd)
 	return (new);
 }
 
-void ft_exit()
-{
-	rad_malloc(0, 1, 0);
-}
-
 void handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*root;
@@ -150,6 +145,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
     {
 		if(ft_switch(cmd, vars) == 0)
 		{
+			free(str);
 			new = join_heredocargs(*cmd);
 			give_state_and_type(&new);
 			if(check_syntax_error(&new) == 1)
@@ -263,10 +259,9 @@ int main(int ac, char **av, char **env)
 			free(env_lst->pwd);
 			exit(0);
 		}
-		if(onlyspaces(command) == 1)
-			handle_input(&cmd, command, env_lst);
 		if (command[0])
 			add_history(command);
-		free(command);
+		if(onlyspaces(command) == 1)
+			handle_input(&cmd, command, env_lst);
 	}
 }

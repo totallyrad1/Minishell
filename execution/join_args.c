@@ -6,13 +6,11 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 11:25:45 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 15:22:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// #include <ctype.h>
-// #include <sys/_types/_null.h>
 
 char	*argextraction(t_cmd *token, t_env *env)
 {

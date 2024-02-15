@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 11:28:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 17:37:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	ft_newnode(t_token **cmd, char *value, int spaceafter);
 void	ft_free_cmd(t_token *lst);
 t_token	*init_token();
 int		ft_isalpha(int c);
+void	wrerror(char *str);
 int		ft_isalnum(int c);
 
 //parsing.c
@@ -178,7 +179,7 @@ void	join_data(t_cmd *cmd, t_token **token);
 //cmd_utils.c
 t_cmd	*make_cmd(t_token *token);
 void	add_cmd(t_cmd **cmd, t_token *token);
-//tools1.c
+//ft_is.c
 int		ft_isspace(char c);
 int		ft_isquote(char c);
 int		ft_alphanum(char c);
@@ -186,6 +187,13 @@ int		islimiter(int c);
 int		islimiter1(int c);
 int	islimiter2(int c);
 int	isredirection(int c);
+//ft_is1.c
+int	is_builtin(char *cmd);
+//fd_utils.c
+int getlastinfile(t_cmd *cmd, t_env *env);
+int getlastoutfile(t_cmd *cmd);
+void changeoutfile(int fd);
+void changeinfile(int fd);
 //ft_split.c
 char	**ft_split(char const *s, char c);
 //pipetools.c
@@ -247,6 +255,7 @@ int pipeexecution1(t_tree *node, t_tree *save, t_env *env);
 char	*expand(t_env *env, char *key);
 
 int improvedpipeexecution(t_tree *node, t_env *env);
+int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save);
 int exitstatus(int nestatus, int flag);
 //ft_itoa.c
 char	*ft_itoa(int n);
@@ -275,6 +284,10 @@ char	**join_args1(t_cmd *root, t_env *env);
 //here_doc.c
 int heredocshit(char *delimiter);
 int heredoc_expanded(int fd, t_env *env);
+//onecommandeec.c
+t_cmd *get_command_start(t_cmd *node);
+int builtinexec(char **args, t_env **env, int infile, int outfile);
+int ft_exit(char **args, t_env *env);
 
 void	print2D(t_tree *root);
 #endif

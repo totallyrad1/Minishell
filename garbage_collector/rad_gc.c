@@ -6,14 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 17:40:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 18:29:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-static void free_type(t_gc **gc, int type)
+static void	free_type(t_gc **gc, int type)
 {
 	t_gc	*curr;
 
@@ -32,7 +31,7 @@ static void	rad_free(t_gc **gc, int type)
 	t_gc	*last;
 	void	*last_malloced_ptr;
 
-	if(!type)
+	if (!type)
 	{
 		while ((*gc))
 		{
@@ -52,9 +51,9 @@ static void	addmallocedptr(void *ptr, t_gc **gc, int flag, int type)
 	t_gc	*curr;
 	t_gc	*new;
 
-	if(flag == 0)
+	if (flag == 0)
 		(*gc)->mallocedptr = ptr;
-	else 
+	else
 	{
 		curr = *gc;
 		new = malloc(sizeof(t_gc));
@@ -75,22 +74,18 @@ void	*rad_malloc(size_t size, int flag, int type)
 	static t_gc	*gc;
 	static int	first_iter = 0;
 
-	if(flag == 0)
+	if (flag == 0)
 	{
 		ptr = malloc(size);
 		if (!ptr)
 			return (NULL);
 	}
 	else if (flag == 1)
-	{
-		if(type == -1)
-			first_iter = 0;
 		return (rad_free(&gc, type), NULL);
-	}
 	if (first_iter == 0)
 	{
 		gc = malloc(sizeof(t_gc));
-		if(!gc)
+		if (!gc)
 			return (NULL);
 		gc->next = NULL;
 		addmallocedptr(ptr, &gc, first_iter, type);

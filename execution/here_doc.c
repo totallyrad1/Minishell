@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 11:25:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 17:47:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,11 @@ int	heredocshit(char *delimiter)
 	return (fdtoreturn);
 }
 
-int	heredoc_expanded(int fd, t_env *env)
+char	*heredocread(int fd, t_env *env)
 {
-	char	*buffer;
-	int		newfd;
-	int		fdtoreturn;
 	char	*everything;
+	char	*buffer;
 	int		bytes_read;
-	char	*new;
 
 	buffer = rad_malloc(100, 0, COMMAND);
 	everything = NULL;
@@ -67,10 +64,21 @@ int	heredoc_expanded(int fd, t_env *env)
 	{
 		bytes_read = read(fd, buffer, 99);
 		if (bytes_read == -1)
-			return (-1);
+			ft_exit(NULL, env);
 		buffer[bytes_read] = '\0';
 		everything = ft_strjoin(everything, buffer);
 	}
+	return (everything);
+}
+
+int	heredoc_expanded(int fd, t_env *env)
+{
+	int		newfd;
+	int		fdtoreturn;
+	char	*everything;
+	char	*new;
+
+	everything = heredocread(fd, env);
 	new = heredoc_expanding(everything, env);
 	newfd = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	fdtoreturn = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);

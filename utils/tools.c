@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:40:40 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 16:32:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ t_token	*init_token()
 	cmd->cmd = NULL;
 	cmd->prev = NULL;
 	return (cmd);
+}
+
+void wrerror(char *str)
+{
+	if(str)
+		write(2, str, ft_strlen(str));	
 }
