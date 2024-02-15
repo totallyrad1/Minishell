@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:33:06 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:28:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,11 @@ int	count_var_args(char *token, t_env *env);
 int	args_size(t_cmd *temp, t_env *env);
 int	check_expanded_var(char *str, t_env *env);
 //join_args1.c
+void  firstit1(char **args, int *i, char **tmp);
+void ft_firstit(t_cmd *token, int *i, t_env *env, char **args);
+void ft_secondit1(char **args, int *i, char **tmp);
+void ft_secondit(t_cmd *token, int *i, t_env *env, char **args);
+//join_args2.c
 char	**join_args1(t_cmd *root, t_env *env);
 //here_doc.c
 int heredocshit(char *delimiter);

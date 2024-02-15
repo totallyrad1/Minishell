@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 20:28:09 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:18:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,24 @@ t_cmd *new_cmd_list(t_cmd *root , t_env *env)
 	return new;
 }
 
+int builtinexec(char **args, t_env **env, int infile, int outfile)
+{
+	int status;
+	int originalout;
+	int originlin;
+	
+	originalout = dup(STDOUT_FILENO);
+	originlin = dup(STDIN_FILENO);
+	changeinfile(infile);
+	changeoutfile(outfile);
+	status = exec_builtin(args, env);
+	if (infile != 0)
+		dup2(originlin, STDIN_FILENO);
+	if (outfile != 1)
+		dup2(originalout, STDOUT_FILENO);
+	return (status);
+}
+
 int one_command_execution(t_tree *node, t_env *env)
 {
 	char	*absolutepath;
@@ -245,10 +263,6 @@ int one_command_execution(t_tree *node, t_env *env)
 	int		status;
 	t_cmd *new;
 
-
-	//
-
-	
 	int infile = 0;
 	int outfile = 1;
 	new = new_cmd_list(node->next, env);
@@ -258,26 +272,18 @@ int one_command_execution(t_tree *node, t_env *env)
 	if(!args)
 		return 0;
 	envp = env_to_arr(env);
-	int originlin = dup(STDIN_FILENO);
-	int originalout = dup(STDOUT_FILENO);
 	if (is_builtin(args[0]))
-	{
-		changeinfile(infile);
-		changeoutfile(outfile);
-		status = exec_builtin(args, &env);
-		if(infile != 0)
-			dup2(originlin, STDIN_FILENO);
-		if(outfile != 1)
-			dup2(originalout, STDOUT_FILENO);
-		return status;
-	}
+		return builtinexec(args, &env, infile, outfile);
 	if(access(args[0], X_OK) != 0)
 		absolutepath = get_working_path(envp, args[0]);
 	else
 		absolutepath = ft_strdup(args[0]);
 	id = fork();
 	if(id == -1)
+	{
+		write(2, "turboshell: fork: Resource temporarily unavailable\n", ft_strlen("turboshell: fork: Resource temporarily unavailable\n"));
 		return (127);
+	}
 	if(id == 0)
 	{
 		changeinfile(infile);

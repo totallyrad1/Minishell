@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 19:35:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 13:54:56 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ t_token *join_heredocargs(t_token *cmd)
 					forheredoc = 1;
 					buffer = ft_strjoin(buffer, removequotesfromheredocargs(curr->cmd));
 				}
+				else if(curr->cmd[0] == '$' && !curr->cmd[1] && curr->next)
+				{
+					if(curr->next && curr->next->cmd[0] != '"' && curr->next->cmd[0] != '\'')
+						buffer = ft_strjoin(buffer, curr->cmd);
+				}
 				else
 					buffer = ft_strjoin(buffer, curr->cmd);
 				curr = curr->next;
@@ -123,17 +128,20 @@ t_token *join_heredocargs(t_token *cmd)
 	return (new);
 }
 
+void ft_exit()
+{
+	rad_malloc(0, 1, 0);
+}
+
 void handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*root;
-	t_token *save;
 	t_vars *vars;
 	t_token *new;
-	t_token *save1;
 
 	vars = rad_malloc(sizeof(t_vars), 0, COMMAND);
 	if(!vars)
-		return;
+		exit(1);
 	vars->flag = 1;
 	vars->i = 0;
 	vars->env = env;
@@ -143,40 +151,13 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		if(ft_switch(cmd, vars) == 0)
 		{
 			new = join_heredocargs(*cmd);
-			// ft_free_cmd(*cmd);
 			give_state_and_type(&new);
 			if(check_syntax_error(&new) == 1)
 			{
-				// t_token *curr;
-				// curr = new;
-				// while(curr)
-				// {
-				// 	if (curr->cmd)
-				// 		printf("token====>|%s|,and its type is|%d|heredoc fd |%d| expandornot|%d|\n", curr->cmd, curr->type, curr->heredocfd, curr->for_heredoc);
-				// 	curr = curr->next;
-				// }
-				save = *cmd;
-				save1 = new;
 				while(new->next)
 					new = new->next;
 				root = search_logical_operator(new);
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// print2D(root);
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// printf("\n");
-				// return ;
 				andorexecution(root, env);
-				// free_tree(&root);
-				// free(vars);
-				// ft_free_cmd(new);
-				*cmd = save;
 			}
 		}
     }
@@ -232,6 +213,20 @@ void print2D(t_tree* root)
     print2DUtil(root, 0);
 }
 
+int onlyspaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]) == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int main(int ac, char **av, char **env)
 {
 	t_token				*cmd;
@@ -268,13 +263,10 @@ int main(int ac, char **av, char **env)
 			free(env_lst->pwd);
 			exit(0);
 		}
-		// if(check_syntax_error(command) == 1)
-		handle_input(&cmd, command, env_lst);
-		// ft_free_cmd(cmd);
+		if(onlyspaces(command) == 1)
+			handle_input(&cmd, command, env_lst);
 		if (command[0])
 			add_history(command);
 		free(command);
-		// rad_malloc(0, 1, COMMAND);
 	}
-	// free(env_lst->pwd);
 }

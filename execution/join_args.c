@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:38:36 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:25:45 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**var_toarray(char *token, t_env *env)
 	if (!key)
 		return (NULL);
 	res = ft_split(key, 32);
-	// free(key);
 	return (res);
 }
 
@@ -51,8 +50,6 @@ int	count_var_args(char *token, t_env *env)
 	i = 0;
 	while (res[i])
 		i++;
-	// free(key);
-	// ft_free_array(res);
 	if (i != 0)
 		return (i);
 	else
@@ -81,7 +78,7 @@ int	check_expanded_var(char *str, t_env *env)
 
 	key = expand(env, &str[1]);
 	if (key && ft_isspace(key[0]) == 1)
-		return ( 1);
+		return (1);
 	else
-		return ( 0);
+		return (0);
 }

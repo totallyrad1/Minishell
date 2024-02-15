@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 19:35:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 11:25:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-void ft_readheredoc(int fd, char *delimiter)
+void	ft_readheredoc(int fd, char *delimiter)
 {
-	char *str;
-	char *temp;
+	char	*str;
+	char	*temp;
 
-	while(1)
+	while (1)
 	{
 		str = readline(">");
 		temp = str;
-		if(!str || ft_strcmp(str, delimiter) == 0)
+		if (!str || ft_strcmp(str, delimiter) == 0)
 		{
 			free(str);
-			break;
+			break ;
 		}
 		str = ft_strjoin(ft_strdup(str), "\n");
 		free(temp);
@@ -34,7 +34,7 @@ void ft_readheredoc(int fd, char *delimiter)
 	}
 }
 
-int heredocshit(char *delimiter)
+int	heredocshit(char *delimiter)
 {
 	static int	hdcount;
 	int			fd;
@@ -46,13 +46,12 @@ int heredocshit(char *delimiter)
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
 	unlink(filename);
-	// free(filename);
 	ft_readheredoc(fd, delimiter);
 	close(fd);
 	return (fdtoreturn);
 }
 
-int heredoc_expanded(int fd, t_env *env)
+int	heredoc_expanded(int fd, t_env *env)
 {
 	char	*buffer;
 	int		newfd;
@@ -60,15 +59,15 @@ int heredoc_expanded(int fd, t_env *env)
 	char	*everything;
 	int		bytes_read;
 	char	*new;
-	
-	buffer = rad_malloc(100, 0 , COMMAND);
+
+	buffer = rad_malloc(100, 0, COMMAND);
 	everything = NULL;
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, 99);
-		if(bytes_read == -1)
-			return ( -1);
+		if (bytes_read == -1)
+			return (-1);
 		buffer[bytes_read] = '\0';
 		everything = ft_strjoin(everything, buffer);
 	}
