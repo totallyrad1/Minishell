@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 18:15:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 21:48:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	one_command_execution(t_tree *node, t_env *env)
 	if (outfile == -1 || infile == -1)
 		return (1);
 	args = join_args1(get_command_start(new), env);
+	args = get_all_wildcards(args);
 	if (!args || !args[0])
 		return (0);
 	if (is_builtin(args[0]))

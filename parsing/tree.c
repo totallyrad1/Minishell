@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/13 12:38:43 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 20:24:53 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ t_tree	*make_command(t_token *token)
 	token = token->next;
 	while (token && token->visited != 1)
 	{
-		if (token && token->visited != 1)
-		{
 			add_cmd(&cmd, token);
 			token = token->next;
-		}
 	}
 	return (node);
 }

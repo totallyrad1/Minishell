@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 17:37:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/15 21:37:18 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ typedef struct s_cmd
 	int				expand;
 	struct s_cmd	*next;
 }				t_cmd;
+
+typedef struct s_list
+{
+	void			*data;
+	struct s_list	*next;
+	struct s_list	*prev;
+	int				size;
+}				t_list;
 
 typedef struct s_tree
 {
@@ -206,6 +214,7 @@ void ft_pipe(char **av, char **envp, char *command, char *command2, char **comma
 // ft_strtrim.c
 char	*ft_strtrim(char const *s1, char const *set);
 // ft_strncmp.c
+int		ft_strncmp_rev(const char *s1, const char *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 // ft_strchr.c
@@ -288,6 +297,9 @@ int heredoc_expanded(int fd, t_env *env);
 t_cmd *get_command_start(t_cmd *node);
 int builtinexec(char **args, t_env **env, int infile, int outfile);
 int ft_exit(char **args, t_env *env);
+//wildcard.c
+char	**wildcard(char *str);
+char	**get_all_wildcards(char **args);
 
 void	print2D(t_tree *root);
 #endif
