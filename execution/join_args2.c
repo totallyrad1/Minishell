@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 17:48:59 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 19:53:10 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	setflag(int *flag, char *str)
 
 void	skip_redirections(t_cmd **temp)
 {
-	if ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<')
-		while (*temp && ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
+	if (*temp && (*temp)->cmd && ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
+		while (*temp && (*temp)->cmd && ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
 			(*temp) = (*temp)->next->next;
 }
 
