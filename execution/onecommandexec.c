@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 17:30:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:31:51 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,14 +200,14 @@ int	one_command_execution(t_tree *node, t_env *env)
 	lst_args = make_args_lst(new, env);
 	new_joinedargs = joined_args(lst_args);
 	args = get_all_wildcards(new_joinedargs);
-	t_cmd *temp;
-	temp = new_joinedargs;
-	while(temp)
-	{
-		printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
-		temp = temp->next;
-	}
-	return (0);
+	// t_cmd *temp;
+	// temp = new_joinedargs;
+	// while(temp)
+	// {
+	// 	printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
+	// 	temp = temp->next;
+	// }
+	// return (0);
 	infile = getlastinfile(new, env);
 	outfile = getlastoutfile(new);
 	if (outfile == -1 || infile == -1)

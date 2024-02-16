@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 16:01:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:33:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static int	check_arg(char *str)
 			return (0);
 		i++;
 	}
+	if (str[i] && str[i] != '+' && str[i] != '=')
+		return (0);
 	return (1);
 }
 
