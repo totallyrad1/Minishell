@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:15:06 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 17:17:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:53:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static char	*get_after_wildcard(char *str)
 	return (ft_strdup(str));
 }
 
-static char	**get_wildcard(t_list *lst, char *before, char *after)
+static char	**get_wildcard(t_list *lst, char *before, char *after, char *str)
 {
 	char	**ret;
 	int		count;
@@ -91,7 +91,7 @@ static char	**get_wildcard(t_list *lst, char *before, char *after)
 			before_check = 1;
 		else if (!ft_strncmp(before, (char *)lst->data, ft_strlen(before)))
 			before_check = 1;
-		if (!*after)
+		if (!*after || !after)
 			after_check = 1;
 		else if (!ft_strncmp_rev(after, (char *)lst->data, ft_strlen(after)))
 			after_check = 1;
@@ -99,6 +99,15 @@ static char	**get_wildcard(t_list *lst, char *before, char *after)
 			count++;
 
 		lst = lst->next;
+	}
+	if (count == 0)
+	{
+		ret = rad_malloc(sizeof(char *) * 2, 0, 0);
+		if (!ret)
+			return (NULL);
+		ret[0] = ft_strdup(str);
+		ret[1] = NULL;
+		return (ret);
 	}
 	ret = rad_malloc(sizeof(char *) * (count + 1), 0, 0);
 	if (!ret)
@@ -168,7 +177,7 @@ char	**wildcard(t_cmd *args)
 	lst = get_dirent();
 	before_wildcard = get_before_wildcard(str);
 	after_wildcard = get_after_wildcard(str);
-	ret = get_wildcard(lst, before_wildcard, after_wildcard);
+	ret = get_wildcard(lst, before_wildcard, after_wildcard, str);
 	return (ret);
 }
 

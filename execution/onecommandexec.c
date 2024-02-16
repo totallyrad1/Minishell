@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 17:31:51 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:54:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int	one_command_execution(t_tree *node, t_env *env)
 	outfile = getlastoutfile(new);
 	if (outfile == -1 || infile == -1)
 		return (1);
-	args = join_args1(get_command_start(new), env);
+	// args = join_args1(get_command_start(new), env);
 	if (!args || !args[0])
 		return (0);
 	if (is_builtin(args[0]))
