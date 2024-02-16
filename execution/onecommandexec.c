@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 17:54:11 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 19:48:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,13 +157,17 @@ t_cmd *joined_args(t_cmd *args)
 	buffer = NULL;
 	while(args)
 	{
+		skip_redirections(&args);
 		expand = 0;
-		spaceafter = args->spaceafter;
-		args->spaceafter = 0;
-		if(args->cmd && isredirection(args->cmd[0]) == 0)
+		if(args)
+			spaceafter = args->spaceafter;
+		if(args && args->cmd && isredirection(args->cmd[0]) == 0)
 		{
-			while(args && isredirection(args->cmd[0]) == 0 && args->spaceafter != 1)
+			args->spaceafter = 0;
+			while(args && args->spaceafter != 1)
 			{
+				if(args->cmd && isredirection(args->cmd[0]) == 1)
+					break;
 				if(args->cmd && ft_strchr(args->cmd, '*'))
 					expand = args->expand;
 				if(args->cmd)
@@ -171,12 +175,15 @@ t_cmd *joined_args(t_cmd *args)
 				args = args->next;
 			}
 		}
-		else if(args->cmd && isredirection(args->cmd[0]) == 1)
+		else if(args && args->cmd)
 		{
 			if(args->cmd && ft_strchr(args->cmd, '*'))
 					expand = args->expand;
 			if(args->cmd)
 				buffer = ft_strjoin(buffer, args->cmd);
+			args = args->next;
+		}
+		else if (args){
 			args = args->next;
 		}
 		make_args_node(&new, buffer, spaceafter, &flag, expand);

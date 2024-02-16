@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 17:27:32 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 19:46:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,8 @@ int builtinexec(char **args, t_env **env, int infile, int outfile);
 int ft_exit(char **args, t_env *env);
 //wildcard.c
 char	**get_all_wildcards(t_cmd *args);
+
+void	skip_redirections(t_cmd **temp);
 
 void	print2D(t_tree *root);
 #endif
