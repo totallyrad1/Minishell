@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:15:06 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/15 21:47:37 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 17:17:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,17 +145,20 @@ static t_list	*get_dirent()
 		if (dp)
 			lst_add_node(&lst, (void *)dp->d_name);
 	}
+	closedir(dir);
 	return (lst);
 }
 
-char	**wildcard(char *str)
+char	**wildcard(t_cmd *args)
 {
 	char	*before_wildcard;
 	char	*after_wildcard;
 	char	**ret;
 	t_list	*lst;
+	char	*str;
 
-	if (!ft_strchr(str, '*'))
+	str = args->cmd;
+	if (!ft_strchr(str, '*') || !args->expand)
 	{
 		ret = rad_malloc(sizeof(char *) * 2, 0, 0);
 		ret[0] = ft_strdup(str);
@@ -179,7 +182,7 @@ static int	array_len(char **array)
 	return (i);
 }
 
-char	**get_all_wildcards(char **args)
+char	**get_all_wildcards(t_cmd *args)
 {
 	t_list	*lst;
 	int		i;
@@ -189,8 +192,11 @@ char	**get_all_wildcards(char **args)
 
 	i = 0;
 	lst = NULL;
-	while (args[i])
-		lst_add_node(&lst, (void *)wildcard(args[i++]));
+	while (args)
+	{
+		lst_add_node(&lst, (void *)wildcard(args));
+		args = args->next;
+	}
 	head = lst;
 	count = 0;
 	while (lst)

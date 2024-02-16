@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 13:42:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 17:27:32 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,8 +306,7 @@ t_cmd *get_command_start(t_cmd *node);
 int builtinexec(char **args, t_env **env, int infile, int outfile);
 int ft_exit(char **args, t_env *env);
 //wildcard.c
-char	**wildcard(char *str);
-char	**get_all_wildcards(char **args);
+char	**get_all_wildcards(t_cmd *args);
 
 void	print2D(t_tree *root);
 #endif

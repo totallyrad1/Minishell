@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 15:33:43 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 17:30:12 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	return (status);
 }
 
-void make_args_node(t_args **args, char *buffer, int spaceafter, int *flag, int expand)
+void make_args_node(t_cmd **args, char *buffer, int spaceafter, int *flag, int expand)
 {
-	t_args *new;
-	t_args *curr;
+	t_cmd *new;
+	t_cmd *curr;
 
-	new = malloc(sizeof(t_args));
+	new = malloc(sizeof(t_cmd));
 	if(!new)
 		return;
 	new->spaceafter = spaceafter;
@@ -78,9 +78,9 @@ void make_args_node(t_args **args, char *buffer, int spaceafter, int *flag, int 
 	}
 }
 
-t_args *make_args_lst(t_cmd *cmd, t_env *env)
+t_cmd *make_args_lst(t_cmd *cmd, t_env *env)
 {
-	t_args	*new;
+	t_cmd	*new;
 	int		flag;
 	char	*buffer;
 	char 	**tmp;
@@ -90,7 +90,7 @@ t_args *make_args_lst(t_cmd *cmd, t_env *env)
 	buffer = NULL;
 	while(cmd)
 	{
-		if(cmd->cmd[0] == '$') 
+		if(cmd->cmd && cmd->cmd[0] == '$') 
 		{
 			tmp = var_toarray(cmd->cmd, env);
 			if (tmp)
@@ -114,10 +114,10 @@ t_args *make_args_lst(t_cmd *cmd, t_env *env)
 					j++;
 				}
 			}
-			else if(cmd->cmd[0] == '$' && !cmd->cmd[1]) 
+			else if(cmd->cmd && cmd->cmd[0] == '$' && !cmd->cmd[1]) 
 			{
 				buffer = argextraction(cmd, env);
-				if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
+				if(cmd->cmd && (cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"'))
 					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
 				else
 					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
@@ -125,13 +125,13 @@ t_args *make_args_lst(t_cmd *cmd, t_env *env)
 			else
 			{
 				buffer = argextraction(cmd, env);
-				if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
+				if(cmd->cmd && (cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"'))
 					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
 				else
 					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
 			}
 		}
-		else 
+		else if(cmd->cmd)
 		{
 			buffer = argextraction(cmd, env);
 			if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
@@ -144,9 +144,9 @@ t_args *make_args_lst(t_cmd *cmd, t_env *env)
 	return new;
 }
 
-t_args *joined_args(t_args *args)
+t_cmd *joined_args(t_cmd *args)
 {
-	t_args *new;
+	t_cmd *new;
 	int		flag;
 	int		expand;
 	char	*buffer;
@@ -160,10 +160,21 @@ t_args *joined_args(t_args *args)
 		expand = 0;
 		spaceafter = args->spaceafter;
 		args->spaceafter = 0;
-		while(args && args->spaceafter != 1)
+		if(args->cmd && isredirection(args->cmd[0]) == 0)
+		{
+			while(args && isredirection(args->cmd[0]) == 0 && args->spaceafter != 1)
+			{
+				if(args->cmd && ft_strchr(args->cmd, '*'))
+					expand = args->expand;
+				if(args->cmd)
+					buffer = ft_strjoin(buffer, args->cmd);
+				args = args->next;
+			}
+		}
+		else if(args->cmd && isredirection(args->cmd[0]) == 1)
 		{
 			if(args->cmd && ft_strchr(args->cmd, '*'))
-				expand = args->expand;
+					expand = args->expand;
 			if(args->cmd)
 				buffer = ft_strjoin(buffer, args->cmd);
 			args = args->next;
@@ -180,28 +191,28 @@ int	one_command_execution(t_tree *node, t_env *env)
 	t_cmd	*new;
 	int		infile;
 	int		outfile;
-	t_args	*lst_args;
-	t_args	*new_joinedargs;
+	t_cmd	*lst_args;
+	t_cmd	*new_joinedargs;
 
 	infile = 0;
 	outfile = 1;
 	new = new_cmd_list(node->next, env);
 	lst_args = make_args_lst(new, env);
 	new_joinedargs = joined_args(lst_args);
-	// t_args *temp;
-	// temp = new_joinedargs;
-	// while(temp)
-	// {
-	// 	printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
-	// 	temp = temp->next;
-	// }
-	return 0;
+	args = get_all_wildcards(new_joinedargs);
+	t_cmd *temp;
+	temp = new_joinedargs;
+	while(temp)
+	{
+		printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
+		temp = temp->next;
+	}
+	return (0);
 	infile = getlastinfile(new, env);
 	outfile = getlastoutfile(new);
 	if (outfile == -1 || infile == -1)
 		return (1);
 	args = join_args1(get_command_start(new), env);
-	args = get_all_wildcards(args);
 	if (!args || !args[0])
 		return (0);
 	if (is_builtin(args[0]))

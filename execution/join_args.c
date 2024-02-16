@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 14:32:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 16:56:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ char	*argextraction(t_cmd *token, t_env *env)
 	else if (token->cmd && token->cmd[0] == '$'
 		&& token->next && token->next->spaceafter == 0)
 		return (ft_strdup(expand(env, &token->cmd[1])));
-	else
+	else if(token->cmd[0] != '$' || (token->cmd[0] == '$' && !token->cmd[1]))
 		return (ft_strdup(token->cmd));
+	return (NULL);
 }
 
 char	**var_toarray(char *token, t_env *env)

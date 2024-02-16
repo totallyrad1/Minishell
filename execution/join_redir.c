@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 18:11:09 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 17:14:54 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	new_cmdpart1(t_cmd **curr, int *flag, t_cmd **new, t_env *env)
 		&& (*curr)->cmd[0] != '>' && (*curr)->cmd[0] != '<')
 	{
 		buffer = ft_strjoin(buffer, argextraction(*curr, env));
+		if(buffer == NULL)
+			buffer = ft_strdup("");
 		*curr = (*curr)->next;
 	}
 	new_cmd_node(flag, new, buffer, save);
