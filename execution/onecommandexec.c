@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 23:58:45 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:33:43 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+// #include <cstddef>
 
 void	execute_cmd(char *abpath, char **envp, char **args)
 {
@@ -52,16 +53,149 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	return (status);
 }
 
+void make_args_node(t_args **args, char *buffer, int spaceafter, int *flag, int expand)
+{
+	t_args *new;
+	t_args *curr;
+
+	new = malloc(sizeof(t_args));
+	if(!new)
+		return;
+	new->spaceafter = spaceafter;
+	new->cmd = buffer;
+	new->expand = expand;
+	new->next = NULL;
+	if(*flag == 1)
+	{
+		*args = new;
+		*flag = 0;
+	}
+	else {
+		curr = *args;
+		while(curr->next)
+			curr = curr->next;
+		curr->next = new;
+	}
+}
+
+t_args *make_args_lst(t_cmd *cmd, t_env *env)
+{
+	t_args	*new;
+	int		flag;
+	char	*buffer;
+	char 	**tmp;
+	int		j;
+
+	flag = 1;
+	buffer = NULL;
+	while(cmd)
+	{
+		if(cmd->cmd[0] == '$') 
+		{
+			tmp = var_toarray(cmd->cmd, env);
+			if (tmp)
+			{
+				j = 0;
+				while (tmp[j])
+				{
+					buffer = ft_strdup(tmp[j]);
+					if(j == 0)
+					{
+						if(check_expanded_var(cmd->cmd, env)== 1 || cmd->spaceafter == 1)
+							make_args_node(&new, buffer, 1, &flag , 1);
+						else
+							make_args_node(&new, buffer, 0, &flag , 1);
+						buffer = NULL;
+					}
+					else{
+						make_args_node(&new, buffer, 1, &flag , 1);
+						buffer = NULL;
+					}
+					j++;
+				}
+			}
+			else if(cmd->cmd[0] == '$' && !cmd->cmd[1]) 
+			{
+				buffer = argextraction(cmd, env);
+				if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+				else
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+			}
+			else
+			{
+				buffer = argextraction(cmd, env);
+				if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+				else
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+			}
+		}
+		else 
+		{
+			buffer = argextraction(cmd, env);
+			if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
+				make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+			else
+				make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+		}
+		cmd = cmd->next;
+	}
+	return new;
+}
+
+t_args *joined_args(t_args *args)
+{
+	t_args *new;
+	int		flag;
+	int		expand;
+	char	*buffer;
+	int		spaceafter;
+	
+	flag = 1;
+	expand = 0;
+	buffer = NULL;
+	while(args)
+	{
+		expand = 0;
+		spaceafter = args->spaceafter;
+		args->spaceafter = 0;
+		while(args && args->spaceafter != 1)
+		{
+			if(args->cmd && ft_strchr(args->cmd, '*'))
+				expand = args->expand;
+			if(args->cmd)
+				buffer = ft_strjoin(buffer, args->cmd);
+			args = args->next;
+		}
+		make_args_node(&new, buffer, spaceafter, &flag, expand);
+		buffer = NULL;
+	}
+	return new;
+}
+
 int	one_command_execution(t_tree *node, t_env *env)
 {
 	char	**args;
 	t_cmd	*new;
 	int		infile;
 	int		outfile;
+	t_args	*lst_args;
+	t_args	*new_joinedargs;
 
 	infile = 0;
 	outfile = 1;
 	new = new_cmd_list(node->next, env);
+	lst_args = make_args_lst(new, env);
+	new_joinedargs = joined_args(lst_args);
+	// t_args *temp;
+	// temp = new_joinedargs;
+	// while(temp)
+	// {
+	// 	printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
+	// 	temp = temp->next;
+	// }
+	return 0;
 	infile = getlastinfile(new, env);
 	outfile = getlastoutfile(new);
 	if (outfile == -1 || infile == -1)

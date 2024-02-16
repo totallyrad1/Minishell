@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 17:50:42 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 11:40:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:55:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_secondit1(char **args, int *i, char **tmp)
 		j++;
 		if (tmp[j])
 		{
-			i++;
+			(*i)++;
 			args[*i] = NULL;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 21:37:18 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:42:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ typedef struct s_cmd
 	int				expand;
 	struct s_cmd	*next;
 }				t_cmd;
+
+typedef struct s_args
+{
+	char			*cmd;
+	int				spaceafter;
+	int				expand;
+	struct s_args	*next;
+}				t_args;
 
 typedef struct s_list
 {
