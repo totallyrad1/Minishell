@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:32:03 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/14 16:32:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 21:48:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*make_cmd(t_token *token)
 	cmd->fd[1] = -1;
 	cmd->next = NULL;
 	cmd->heredocfd = token->heredocfd;
-	cmd->expand = token->for_heredoc;
+	cmd->expandheredoc = token->for_heredoc;
 	cmd->spaceafter = token->spaceafter;
 	return (cmd);
 }

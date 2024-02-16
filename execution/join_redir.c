@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 21:26:22 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 21:47:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	new_cmd_node(int *flag, t_cmd **cmd, char *buffer, t_cmd *save)
 	new->cmd = buffer;
 	new->next = NULL;
 	new->heredocfd = save->heredocfd;
-	new->expand = save->expand;
+	new->expandheredoc = save->expandheredoc;
 	new->spaceafter = save->spaceafter;
 	if (*flag == 1)
 	{

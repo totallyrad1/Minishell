@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:15:06 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 21:08:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 21:48:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ char	**wildcard(t_cmd *args)
 	char	*str;
 
 	str = args->cmd;
-	if (!ft_strchr(str, '*') || !args->expand)
+	if (!ft_strchr(str, '*') || !args->expandwildcard)
 	{
 		ret = rad_malloc(sizeof(char *) * 2, 0, 0);
 		ret[0] = ft_strdup(str);

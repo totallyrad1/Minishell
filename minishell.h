@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 20:44:00 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 21:46:42 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ typedef struct s_cmd
 	int				fd[2];
 	int				spaceafter;
 	int				heredocfd;
-	int				expand;
+	int				expandheredoc;
+	int				expandwildcard;
 	struct s_cmd	*next;
 }				t_cmd;
 
