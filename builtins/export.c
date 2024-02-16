@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 17:33:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:13:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ static char	*get_value(char *line)
 	tmp = i;
 	while (line[i])
 		i++;
+	printf("line = %s\n", line);
 	value = ft_substr(line, tmp, i - tmp);
+	printf("value = %s\n", value);
 	return (value);
 }
 

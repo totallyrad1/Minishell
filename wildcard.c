@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:15:06 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 17:53:16 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:08:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,12 @@ char	**wildcard(t_cmd *args)
 	return (ret);
 }
 
-static int	array_len(char **array)
+int	array_len(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (array[i])
+	while (array && array[i])
 		i++;
 	return (i);
 }

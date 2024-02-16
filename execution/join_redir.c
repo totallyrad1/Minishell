@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 17:14:54 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:26:22 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,20 @@ t_cmd	*new_cmd_list(t_cmd *root, t_env *env)
 	curr = root;
 	while (curr)
 	{
-		if (curr->cmd[0] == '<' || curr->cmd[0] == '>')
+		if (curr->cmd && (curr->cmd[0] == '<' || curr->cmd[0] == '>'))
+		{
+			if(array_len(var_toarray(curr->next->cmd, env)) > 1)
+			{
+				wrerror("turboshell: ");
+				wrerror(curr->next->cmd);
+				wrerror(": ambiguous redirection\n");
+			}
 			new_cmdpart1(&curr, &flag, &new, env);
+		}
 		else
 		{
 			save = curr;
+			
 			buffer = ft_strdup(curr->cmd);
 			new_cmd_node(&flag, &new, buffer, save);
 			curr = curr->next;

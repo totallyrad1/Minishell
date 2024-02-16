@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 19:48:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/16 21:26:50 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	return (status);
 }
 
-void make_args_node(t_cmd **args, char *buffer, int spaceafter, int *flag, int expand)
+void make_args_node(t_cmd **args, char *buffer, int spaceafter, int *flag, int expand, int heredocfd)
 {
 	t_cmd *new;
 	t_cmd *curr;
@@ -65,6 +65,7 @@ void make_args_node(t_cmd **args, char *buffer, int spaceafter, int *flag, int e
 	new->cmd = buffer;
 	new->expand = expand;
 	new->next = NULL;
+	new->heredocfd = heredocfd;
 	if(*flag == 1)
 	{
 		*args = new;
@@ -102,13 +103,13 @@ t_cmd *make_args_lst(t_cmd *cmd, t_env *env)
 					if(j == 0)
 					{
 						if(check_expanded_var(cmd->cmd, env)== 1 || cmd->spaceafter == 1)
-							make_args_node(&new, buffer, 1, &flag , 1);
+							make_args_node(&new, buffer, 1, &flag , 1, cmd->heredocfd);
 						else
-							make_args_node(&new, buffer, 0, &flag , 1);
+							make_args_node(&new, buffer, 0, &flag , 1, cmd->heredocfd);
 						buffer = NULL;
 					}
 					else{
-						make_args_node(&new, buffer, 1, &flag , 1);
+						make_args_node(&new, buffer, 1, &flag , 1, cmd->heredocfd);
 						buffer = NULL;
 					}
 					j++;
@@ -118,26 +119,26 @@ t_cmd *make_args_lst(t_cmd *cmd, t_env *env)
 			{
 				buffer = argextraction(cmd, env);
 				if(cmd->cmd && (cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"'))
-					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0, cmd->heredocfd);
 				else
-					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1, cmd->heredocfd);
 			}
 			else
 			{
 				buffer = argextraction(cmd, env);
 				if(cmd->cmd && (cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"'))
-					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 0, cmd->heredocfd);
 				else
-					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+					make_args_node(&new, buffer, cmd->spaceafter, &flag, 1, cmd->heredocfd);
 			}
 		}
 		else if(cmd->cmd)
 		{
 			buffer = argextraction(cmd, env);
 			if(cmd->cmd[0] == '\'' || cmd->cmd[0] == '\"')
-				make_args_node(&new, buffer, cmd->spaceafter, &flag, 0);
+				make_args_node(&new, buffer, cmd->spaceafter, &flag, 0, cmd->heredocfd);
 			else
-				make_args_node(&new, buffer, cmd->spaceafter, &flag, 1);
+				make_args_node(&new, buffer, cmd->spaceafter, &flag, 1, cmd->heredocfd);
 		}
 		cmd = cmd->next;
 	}
@@ -186,7 +187,7 @@ t_cmd *joined_args(t_cmd *args)
 		else if (args){
 			args = args->next;
 		}
-		make_args_node(&new, buffer, spaceafter, &flag, expand);
+		make_args_node(&new, buffer, spaceafter, &flag, expand, 0);
 		buffer = NULL;
 	}
 	return new;
@@ -203,18 +204,19 @@ int	one_command_execution(t_tree *node, t_env *env)
 
 	infile = 0;
 	outfile = 1;
-	new = new_cmd_list(node->next, env);
-	lst_args = make_args_lst(new, env);
-	new_joinedargs = joined_args(lst_args);
-	args = get_all_wildcards(new_joinedargs);
-	// t_cmd *temp;
-	// temp = new_joinedargs;
-	// while(temp)
-	// {
-	// 	printf("{%s} [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand);
-	// 	temp = temp->next;
-	// }
+	lst_args = make_args_lst(node->next, env);
+	new = new_cmd_list(lst_args, env);
+	new_joinedargs = joined_args(new);
+	t_cmd *temp;
+	temp = lst_args;
+	while(temp)
+	{
+		printf("{%s} [%d] [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expand, temp->heredocfd);
+		temp = temp->next;
+	}
 	// return (0);
+	
+	args = get_all_wildcards(new_joinedargs);
 	infile = getlastinfile(new, env);
 	outfile = getlastoutfile(new);
 	if (outfile == -1 || infile == -1)
