@@ -3,19 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:32:41 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 17:37:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:36:24 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static int check_arg(char *str)
+{
+	int		i;
+	long	res;
+	long	tmp;
+
+	i = 0;
+	res = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		tmp = (res * 10) + (str[i] - '0');
+		if (res > tmp)
+			return (0);
+		res = tmp;
+		i++;
+	}
+	if (!str[i])
+		return (1);
+	return (0);
+}
+
 int ft_exit(char **args, t_env *env)
 {
-	(void)args;
+	int	exit_value;
+
+	if (!args[1])
+	{
+		rad_malloc(0, 1, 0);
+		free(env->pwd);
+		exit_value = 0;
+		printf("exit\n");
+		exit(exit_value);
+	}
+	if (!check_arg(args[1]))
+	{
+		printf("exit\n");
+		wrerror("Turboshell: exit: ");
+		wrerror(args[1]);
+		wrerror(": numeric argument required\n");
+		exit_value = 255;
+		exit(exit_value);
+	}
+	if (args[2])
+	{
+		wrerror("Turboshell: exit: too many arguments\n");
+		exitstatus(1, 1);
+		return (0);
+	}
+	printf("exit\n");
+	exit_value = ft_atoi(args[1]);
 	rad_malloc(0, 1, 0);
 	free(env->pwd);
-	exit(0);
+	exit(exit_value);
 }
