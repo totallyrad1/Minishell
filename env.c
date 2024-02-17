@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/14 16:36:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 12:30:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	**env_to_arr(t_env *env)
 	t_env *curr;	
 
 	curr = env;
-	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, COMMAND);
+	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, ENV);
 	if (!env_arr)
 		return (NULL);
 	i = 0;

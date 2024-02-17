@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 20:47:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 12:28:21 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,5 +263,6 @@ int main(int ac, char **av, char **env)
 			add_history(command);
 		if(onlyspaces(command) == 1)
 			handle_input(&cmd, command, env_lst);
+		// rad_malloc(0, 1, COMMAND);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 21:54:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 12:16:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void make_args_node(t_cmd **args, char *buffer, int spaceafter, int *flag, int e
 	t_cmd *new;
 	t_cmd *curr;
 
-	new = malloc(sizeof(t_cmd));
+	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if(!new)
 		return;
 	new->spaceafter = spaceafter;
@@ -208,13 +208,13 @@ int	one_command_execution(t_tree *node, t_env *env)
 	new = new_cmd_list(node->next, env);
 	lst_args = make_args_lst(new, env);
 	new_joinedargs = joined_args(lst_args);
-	t_cmd *temp;
-	temp = lst_args;
-	while(temp)
-	{
-		printf("{%s} [%d] [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expandheredoc, temp->heredocfd);
-		temp = temp->next;
-	}
+	// t_cmd *temp;
+	// temp = lst_args;
+	// while(temp)
+	// {
+	// 	printf("{%s} [%d] [%d] [%d]\n", temp->cmd, temp->spaceafter, temp->expandheredoc, temp->heredocfd);
+	// 	temp = temp->next;
+	// }
 	// return (0);
 	
 	args = get_all_wildcards(new_joinedargs);

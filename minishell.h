@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 21:46:42 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 12:10:14 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_gc
 	void		*mallocedptr;
 	int			type;
 	struct s_gc	*next;
+	struct s_gc	*prev;
 }				t_gc;
 
 enum e_garbagecollector

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 18:29:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 12:24:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,16 @@ static void	free_type(t_gc **gc, int type)
 	t_gc	*curr;
 
 	curr = *gc;
+	while(curr->next)
+		curr =	curr->next;
 	while (curr)
 	{
 		if (curr->type == type)
+		{
 			free(curr->mallocedptr);
-		curr->mallocedptr = NULL;
-		curr = curr->next;
+			curr->mallocedptr = NULL;
+		}
+		curr = curr->prev;
 	}
 }
 
@@ -64,6 +68,7 @@ static void	addmallocedptr(void *ptr, t_gc **gc, int flag, int type)
 		while (curr->next)
 			curr = curr->next;
 		curr->next = new;
+		new->prev = curr;
 		curr->type = type;
 	}
 }
@@ -88,6 +93,7 @@ void	*rad_malloc(size_t size, int flag, int type)
 		if (!gc)
 			return (NULL);
 		gc->next = NULL;
+		gc->prev = NULL;
 		addmallocedptr(ptr, &gc, first_iter, type);
 		first_iter = 1;
 	}

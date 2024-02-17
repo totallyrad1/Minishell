@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 21:58:08 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 10:52:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,15 @@ int getlastinfile(t_cmd *cmd, t_env *env)
 				fd = curr->heredocfd;
 		}
 		else if(curr->cmd[0] == '<' && curr->cmd[1] == '\0')
-			fd = open(curr->next->cmd , O_RDONLY);
-		if (curr->next && array_len(wildcard(curr->next)))
 		{
-			wrerror("turboshell: ");
-			wrerror(curr->next->cmd);
-			wrerror(": ambiguous redirection\n");	
+			fd = open(curr->next->cmd , O_RDONLY);
+			if (curr->next && array_len(wildcard(curr->next)))
+			{
+				wrerror("turboshell: ");
+				wrerror(curr->next->cmd);
+				wrerror(": ambiguous redirection\n");	
+			}
+			
 		}
 		else if(fd == -1 && (curr->cmd[0] == '<' && curr->cmd[1] == '\0'))
 		{
