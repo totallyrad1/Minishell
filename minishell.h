@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 22:36:25 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 22:46:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_cmd
 	int				heredocfd;
 	int				expandheredoc;
 	int				expandwildcard;
+	int				ambiguous;
 	struct s_cmd	*next;
 }				t_cmd;
 
@@ -144,6 +145,17 @@ typedef struct s_gc
 	struct s_gc	*next;
 	struct s_gc	*prev;
 }				t_gc;
+
+typedef struct s_make_args
+{
+	char *buffer;
+	int spaceafter;
+	int flag;
+	int expand;
+	int heredocfd;
+	int heredocexpand;
+	int ambiguos;
+}				t_make_args;
 
 enum e_garbagecollector
 {
@@ -335,6 +347,9 @@ void	lst_add_node(t_list **lst, void *data);
 int		count_len_list(t_list *lst);
 t_list	*fill_lst(t_cmd *args);
 t_list	*get_dirent(void);
+
+t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
+void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);
 
 void	skip_redirections(t_cmd **temp);
 

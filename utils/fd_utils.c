@@ -3,72 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 16:14:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 22:58:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int getlastinfile(t_cmd *cmd, t_env *env)
+void get_infile(t_cmd *curr, t_env *env, int *infile)
 {
-	int		fd;
-	t_cmd	*curr;
-
-	curr = cmd;
-	fd = 0;
-	while(curr && fd != -1)
+	if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<')
 	{
-		if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<')
+		if(curr->expandheredoc == 0)
+			*infile = heredoc_expanded(curr->heredocfd, env);
+		else
+			*infile = curr->heredocfd;
+	}
+	else if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
+	{
+		*infile = open(curr->next->cmd , O_RDONLY);
+		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next)))
 		{
-			if(curr->expandheredoc == 0)
-				fd = heredoc_expanded(curr->heredocfd, env);
-			else
-				fd = curr->heredocfd;
+			wrerror("turboshell: ");
+			wrerror(curr->next->cmd);
+			wrerror(": ambiguous redirection\n");	
 		}
-		else if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
-		{
-			fd = open(curr->next->cmd , O_RDONLY);
-			if (curr->next && array_len(wildcard(curr->next)))
-			{
-				wrerror("turboshell: ");
-				wrerror(curr->next->cmd);
-				wrerror(": ambiguous redirection\n");	
-			}
-		}
-		else if(fd == -1 && (curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0'))
+		else if(*infile == -1 && curr->next->ambiguous != 1 && (curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0'))
 		{
 			wrerror("turboshell: ");
 			wrerror(curr->next->cmd);
 			wrerror(": No such file or directory\n");
 		}
-		curr = curr->next;
 	}
-	return fd;
 }
 
-int getlastoutfile(t_cmd *cmd)
+void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 {
-	int		fd;
 	t_cmd	*curr;
 
-	fd = 1;
 	curr = cmd;
-	while (curr)
+	while(curr && *infile != -1 && *outfile != -1 && curr->ambiguous != 1)
 	{
-		if (curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '>')
-		{
-			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
-		}
+		if(curr->cmd && curr->cmd[0] == '<')
+			get_infile(curr, env, infile);
+		else if (curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '>')
+			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
 		else if(curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
-		{
-			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		}
+			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		curr = curr->next;
 	}
-	return fd;
 }
 
 void changeinfile(int fd)
