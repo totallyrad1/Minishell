@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 22:17:48 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 14:34:51 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 21:43:17 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,33 @@ int	is_full_n(char *str)
 	if (!str[i] || str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
 		return (1);
 	return (0);
+}
+
+void	print_tilde(t_env *env)
+{
+	if (!get_value_env(env, "HOME") || get_value_env(env, "HOME")[0] == '\0')
+	{
+		ft_putstr("/home/");
+		ft_putstr(get_value_env(env, "USER"));
+	}
+	else
+		ft_putstr(get_value_env(env, "HOME"));
+}
+
+void	print_args(char **args, int j, t_env *env, int flag)
+{
+	while (args[j])
+	{
+		if (!ft_strcmp(args[j], "~"))
+			print_tilde(env);
+		else
+			write(1, args[j], ft_strlen(args[j]));
+		if (args[j + 1])
+			write(1, " ", 1);
+		j++;
+	}
+	if (flag == 1)
+		write(1, "\n", 1);
 }
 
 int	ft_echo(char **args, t_env **env)
@@ -43,25 +70,6 @@ int	ft_echo(char **args, t_env **env)
 	}
 	if (flag && j > 1)
 		j--;
-	while(args[j])
-	{
-		if (!ft_strcmp(args[j], "~"))
-		{
-			if (!get_value_env(*env, "HOME"))
-			{
-				write(1, "/home/", 6);
-				write(1, get_value_env(*env, "USERNAME"), ft_strlen(get_value_env(*env, "USERNAME")));
-			}
-			else
-				write(1, get_value_env(*env, "HOME"), ft_strlen(get_value_env(*env, "HOME")));
-		}
-		else
-			write(1, args[j], ft_strlen(args[j]));
-		if (args[j + 1])
-			write(1, " ", 1);
-		j++;
-	}		
-	if (flag == 1)
-		write(1, "\n", 1);
+	print_args(args, j, *env, flag);
 	return (0);
 }

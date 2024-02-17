@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 16:39:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 21:52:03 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	exec_builtin(char **args, t_env **envp)
 		return (ft_export(args, envp));
 	if (!ft_strcmp(args[0], "env"))
 	{
-		print_env(*envp);
+		print_env(*envp, 1);
 		return (0);
 	}
 	if (!ft_strcmp(args[0], "pwd"))

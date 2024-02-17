@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   get_env_null.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 22:12:49 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 22:20:42 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+t_env	*get_env(void)
 {
-	env = env->next;
-	while (env)
-	{
-		if (flag)
-		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
-		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
-	}
+	t_env	*env;
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	env = make_env(NULL, NULL);
+	env->pwd = pwd;
+	add_env(&env, ft_strdup("PWD"), ft_strdup(env->pwd));
+	add_env(&env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	add_env(&env, ft_strdup("SHLVL"), ft_strdup("1"));
+	return (env);
 }

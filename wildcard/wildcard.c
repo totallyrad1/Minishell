@@ -3,86 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:15:06 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 12:16:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:37:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <dirent.h>
+#include "../minishell.h"
 
-static t_list	*lst_make_node(void *data)
+static int	malloc_len_arr(t_list *lst, char *before, char *after)
 {
-	t_list	*node;
-
-	node = rad_malloc(sizeof(t_list), 0, COMMAND);
-	if (!node)
-		return (NULL);
-	node->data = data;
-	node->next = NULL;
-	node->prev = NULL;
-	return (node);
-}
-
-static void	lst_add_node(t_list **lst, void *data)
-{
-	t_list	*new;
-	t_list	*tmp;
-
-	new = lst_make_node(data);
-	if (!new)
-		return ;
-	if (!lst)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		(*lst)->size = 1;
-		return ;
-	}
-	tmp = *lst;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
-	(*lst)->size++;
-}
-
-static char	*get_before_wildcard(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && str[i] != '*' && str[i] != '\n')
-		i++;
-	return (ft_strdup_len(str, i));
-}
-
-static char	*get_after_wildcard(char *str)
-{
-	if (!str)
-		return (NULL);
-	while (*str && *str != '*' && *str != '\n')
-		str++;
-	if (*str == '*')
-		str++;
-	return (ft_strdup(str));
-}
-
-static char	**get_wildcard(t_list *lst, char *before, char *after, char *str)
-{
-	char	**ret;
-	int		count;
-	t_list	*head;
-	int		after_check;
-	int		before_check;
+	int	after_check;
+	int	before_check;
+	int	count;
 
 	count = 0;
-	head = lst;
 	while (lst)
 	{
 		after_check = 0;
@@ -99,20 +35,16 @@ static char	**get_wildcard(t_list *lst, char *before, char *after, char *str)
 			count++;
 		lst = lst->next;
 	}
-	if (count == 0)
-	{
-		ret = rad_malloc(sizeof(char *) * 2, 0, COMMAND);
-		if (!ret)
-			return (NULL);
-		ret[0] = ft_strdup(str);
-		ret[1] = NULL;
-		return (ret);
-	}
-	ret = rad_malloc(sizeof(char *) * (count + 1), 0, COMMAND);
-	if (!ret)
-		return (NULL);
-	lst = head;
-	count = 0;
+	return (count);
+}
+
+static void	fill_array(t_list *lst, char *before, char *after, char **ret)
+{
+	int	after_check;
+	int	before_check;
+	int	i;
+
+	i = 0;
 	while (lst)
 	{
 		after_check = 0;
@@ -126,35 +58,26 @@ static char	**get_wildcard(t_list *lst, char *before, char *after, char *str)
 		else if (!ft_strncmp_rev(after, (char *)lst->data, ft_strlen(after)))
 			after_check = 1;
 		if (before_check && after_check && *(char *)lst->data != '.')
-			ret[count++] = ft_strdup((char *)lst->data);
+			ret[i++] = ft_strdup((char *)lst->data);
 		lst = lst->next;
 	}
-	ret[count] = NULL;
-	return (ret);
+	ret[i] = NULL;
 }
 
-static t_list	*get_dirent()
+static char	**get_wildcard(t_list *lst, char *before, char *after, char *str)
 {
-	DIR				*dir;
-	struct dirent	*dp;
-	t_list			*lst;
+	char	**ret;
+	int		count;
 
-	dir = opendir(".");
-	dp = readdir(dir);
-	lst = NULL;
-	if (dp)
-	{
-		lst = lst_make_node((void *)dp->d_name);
-		lst->size = 1;
-	}
-	while (dp)
-	{
-		dp = readdir(dir);
-		if (dp)
-			lst_add_node(&lst, (void *)dp->d_name);
-	}
-	closedir(dir);
-	return (lst);
+	count = malloc_len_arr(lst, before, after);
+	if (count == 0)
+		return (ret_same(str));
+	ret = rad_malloc(sizeof(char *) * (count + 1), 0, COMMAND);
+	if (!ret)
+		return (NULL);
+	count = 0;
+	fill_array(lst, before, after, ret);
+	return (ret);
 }
 
 char	**wildcard(t_cmd *args)
@@ -180,44 +103,24 @@ char	**wildcard(t_cmd *args)
 	return (ret);
 }
 
-int	array_len(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i])
-		i++;
-	return (i);
-}
-
 char	**get_all_wildcards(t_cmd *args)
 {
 	t_list	*lst;
 	int		i;
+	int		j;
 	char	**ret;
-	t_list	*head;
 	int		count;
 
 	i = 0;
-	lst = NULL;
-	while (args)
-	{
-		lst_add_node(&lst, (void *)wildcard(args));
-		args = args->next;
-	}
-	head = lst;
-	count = 0;
-	while (lst)
-	{
-		count += array_len((char **)lst->data);
-		lst = lst->next;
-	}
-	lst = head;
+	lst = fill_lst(args);
+	count = count_len_list(lst);
 	ret = rad_malloc(sizeof(char *) * (count + 1), 0, COMMAND);
+	if (!ret)
+		return (NULL);
 	i = 0;
 	while (i < count)
 	{
-		int	j = 0;
+		j = 0;
 		while (((char **)lst->data)[j])
 			ret[i++] = ft_strdup(((char **)lst->data)[j++]);
 		lst = lst->next;

@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   get_points.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 20:51:39 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 20:51:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+char	*get_points(char *str)
 {
-	env = env->next;
-	while (env)
-	{
-		if (flag)
-		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
-		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
-	}
+	int		i;
+	int		j;
+
+	i = 0;
+	while (str[i] && str[i] != '.')
+		i++;
+	j = i;
+	while (str[j] && str[j] == '.')
+		j++;
+	return (ft_substr(str, i, j - i));
 }

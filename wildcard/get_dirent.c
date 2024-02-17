@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   get_dirent.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 22:28:58 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 22:36:15 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+t_list	*get_dirent(void)
 {
-	env = env->next;
-	while (env)
+	DIR				*dir;
+	struct dirent	*dp;
+	t_list			*lst;
+
+	dir = opendir(".");
+	dp = readdir(dir);
+	lst = NULL;
+	if (dp)
 	{
-		if (flag)
-		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
-		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
+		lst = lst_make_node((void *)dp->d_name);
+		lst->size = 1;
 	}
+	while (dp)
+	{
+		dp = readdir(dir);
+		if (dp)
+			lst_add_node(&lst, (void *)dp->d_name);
+	}
+	closedir(dir);
+	return (lst);
 }

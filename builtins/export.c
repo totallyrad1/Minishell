@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 16:41:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 22:00:25 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,6 @@ static char	*get_value(char *line)
 	return (value);
 }
 
-static void	printfenv(t_env **env)
-{
-	t_env	*tmp;
-
-	tmp = *env;
-	tmp = tmp->next;
-	while (tmp)
-	{
-		write(1, "declare -x ", 11);
-		write(1, tmp->key, ft_strlen(tmp->key));
-		if (tmp->value)
-		{
-			write(1, "=\"", 2);
-			write(1, tmp->value, ft_strlen(tmp->value));
-			write(1, "\"", 1);
-		}
-		write(1, "\n", 1);
-		tmp = tmp->next;
-	}
-}
-
 static int	check_arg(char *str)
 {
 	int	i;
@@ -81,61 +60,56 @@ static int	check_arg(char *str)
 	return (1);
 }
 
-int	ft_export(char **args, t_env **env)
+void	exec_export(char **args, t_env **env, int i)
 {
 	char	*key;
 	char	*value;
 	t_env	*tmp;
+
+	key = get_key(args[i]);
+	value = get_value(args[i]);
+	if (value || ft_strchr(args[i], '='))
+	{
+		tmp = *env;
+		while (tmp)
+		{
+			if (!ft_strcmp(key, tmp->key))
+			{
+				if (ft_strchr(args[i], '+'))
+					tmp->value = ft_strjoin(tmp->value, value);
+				else
+					tmp->value = ft_strdup(value);
+				break ;
+			}
+			tmp = tmp->next;
+		}
+	}
+	if (!key_exist_env(*env, key))
+		add_env(env, ft_strdup(key), ft_strdup(value));
+}
+
+int	ft_export(char **args, t_env **env)
+{
 	int		i;
-	int		flag;
 	int		arg_fail;
 
 	i = 1;
 	arg_fail = 0;
 	if (!args[i])
-		printfenv(env);
+		print_env(*env, 0);
 	while (args[i])
 	{
-		flag = 0;
 		if (!check_arg(args[i]))
 		{
 			write(2, "export: `", 9);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 26);
-			arg_fail++;
+			arg_fail = 1;
 		}
 		else
-		{
-			key = get_key(args[i]);
-			value = get_value(args[i]);
-			if (value || ft_strchr(args[i], '='))
-			{
-				tmp = *env;
-				while (tmp)
-				{
-					if (!ft_strcmp(key, tmp->key))
-					{
-						if (ft_strchr(args[i], '+'))
-							tmp->value = ft_strjoin(tmp->value, value);
-						else
-						{
-							// free(tmp->value);
-							tmp->value = ft_strdup(value);
-						}
-						flag = 1;
-						break ;
-					}
-					tmp = tmp->next;
-				}
-			}
-			if (!flag)
-				add_env(env, ft_strdup(key), ft_strdup(value));
-		}
+			exec_export(args, env, i);
 		i++;
 	}
-	if (!arg_fail)
-		exitstatus(0, 1);
-	else
-		exitstatus(1, 1);
+	exitstatus(arg_fail, 1);
 	return (0);
 }

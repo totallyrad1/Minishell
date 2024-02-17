@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 22:08:50 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 22:09:04 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+void	add_env(t_env **env, char *key, char *value)
 {
-	env = env->next;
-	while (env)
+	t_env	*new;
+	t_env	*tmp;
+
+	new = make_env(key, value);
+	if (!new)
+		return ;
+	if (!*env)
 	{
-		if (flag)
-		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
-		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
+		*env = new;
+		return ;
 	}
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	new->prev = tmp;
+	(*env)->size++;
 }

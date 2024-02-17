@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   env_to_arr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 22:06:34 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 22:20:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+char	**env_to_arr(t_env *env)
 {
-	env = env->next;
-	while (env)
+	int		i;
+	char	**env_arr;
+	char	*tmp;
+	t_env	*curr;	
+
+	curr = env->next;
+	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, ENV);
+	if (!env_arr)
+		return (NULL);
+	i = 0;
+	while (i < env->size && curr)
 	{
-		if (flag)
-		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
-		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
+		tmp = ft_strjoin(ft_strdup(curr->key), "=");
+		tmp = ft_strjoin(tmp, curr->value);
+		env_arr[i] = ft_strdup(tmp);
+		i++;
+		curr = curr->next;
 	}
+	env_arr[i] = NULL;
+	return (env_arr);
 }

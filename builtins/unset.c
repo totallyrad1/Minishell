@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:27:25 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 16:53:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 21:57:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	unset(char **args, t_env **envp)
 			write(2, "unset: `", 8);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 26);
-			args_failed++;
+			args_failed = 1;
 		}
 		else
 		{
@@ -52,9 +52,6 @@ int	unset(char **args, t_env **envp)
 		}
 		i++;
 	}
-	if (args_failed)
-		exitstatus(1, 1);
-	else
-		exitstatus(0, 1);
+	exitstatus(args_failed, 1);
 	return (0);
 }

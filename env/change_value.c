@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_env.c                                        :+:      :+:    :+:   */
+/*   change_value.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 21:51:21 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/17 22:04:17 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/17 22:04:38 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_env(t_env *env, int flag)
+void	change_value_env(t_env **env, char *key, char *value)
 {
-	env = env->next;
-	while (env)
+	t_env	*tmp;
+	int		flag;
+
+	flag = 0;
+	tmp = *env;
+	while (tmp)
 	{
-		if (flag)
+		if (!ft_strcmp(tmp->key, key))
 		{
-			if (env->value)
-			{
-				printf("%s=", env->key);
-				printf("%s\n", env->value);
-			}
+			tmp->value = value;
+			flag = 1;
+			break ;
 		}
-		else
-		{
-			printf("declare -x %s", env->key);
-			if (env->value)
-			{
-				printf("=\"%s\"", env->value);
-			}
-			printf("\n");
-		}
-		env = env->next;
+		tmp = tmp->next;
 	}
+	if (!flag)
+		add_env(env, key, value);
 }

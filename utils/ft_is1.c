@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:02:47 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/15 17:04:09 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:02:29 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	is_builtin(char *cmd)
 {
-	
 	if (!ft_strcmp(cmd, "cd"))
 		return (1);
 	if (!ft_strcmp(cmd, "echo"))

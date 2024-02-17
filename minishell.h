@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 18:33:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 22:36:25 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 enum e_type
 {
@@ -164,6 +165,7 @@ int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
 int		ft_dollarsign(t_token **cmd, t_vars *vars);
 //tools.c
+int		array_len(char **arr);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
@@ -176,7 +178,6 @@ int		ft_isalpha(int c);
 void	wrerror(char *str);
 int		ft_isalnum(int c);
 int		ft_atoi(const char *str);
-
 //parsing.c
 int		ft_char(t_token **cmd, t_vars *vars);
 void	give_state_and_type(t_token **cmd);
@@ -240,14 +241,15 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 // ft_strchr.c
 char	*ft_strchr(const char *str, int c);
+// ft_putstr.c
+void	ft_putstr(char *str);
 // free_array.c
 void	ft_free_array(char **array);
 void free_env(t_env *env);
 // pwd.c
 void	get_pwd(t_env *env);
-// print_env.c
-void	print_env(t_env *env);
-// env.c
+// env
+void	print_env(t_env *env, int flag);
 t_env	*arr_to_env(char **env);
 void	add_env(t_env **env, char *key, char *value);
 char	**env_to_arr(t_env *env);
@@ -256,12 +258,16 @@ void	change_value_env(t_env **env, char *key, char *value);
 void	del_node_env(t_env **env, char *key);
 t_env	*get_node_env(t_env *env, char *key);
 int		key_exist_env(t_env *env, char *key);
+t_env	*make_env(char *key, char *value);
+t_env	*get_env();
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c
 int	unset(char **args, t_env **envp);
 //export.c
 int		ft_export(char **args, t_env **env);
+//get_points.c
+char	*get_points(char *str);
 //cd.c 
 int		ft_cd(char **args, t_env **env);
 //echo.c
@@ -318,10 +324,17 @@ int heredoc_expanded(int fd, t_env *env);
 t_cmd *get_command_start(t_cmd *node);
 int builtinexec(char **args, t_env **env, int infile, int outfile);
 int ft_exit(char **args, t_env *env);
-//wildcard.c
+//wildcard
 char	**get_all_wildcards(t_cmd *args);
 char	**wildcard(t_cmd *args);
-int		array_len(char **array);
+char	*get_before_wildcard(char *str);
+char	*get_after_wildcard(char *str);
+char	**ret_same(char *str);
+t_list	*lst_make_node(void *data);
+void	lst_add_node(t_list **lst, void *data);
+int		count_len_list(t_list *lst);
+t_list	*fill_lst(t_cmd *args);
+t_list	*get_dirent(void);
 
 void	skip_redirections(t_cmd **temp);
 
