@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 12:28:21 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 14:17:38 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 			free(str);
 			new = join_heredocargs(*cmd);
 			give_state_and_type(&new);
-			if(check_syntax_error(&new) == 1)
+			if(check_syntax_error(&new, env) == 1)
 			{
 				while(new->next)
 					new = new->next;
@@ -230,7 +230,7 @@ int main(int ac, char **av, char **env)
 	struct sigaction	sa;
 	t_env				*env_lst;
 
-	// atexit(f);
+	atexit(f);
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);

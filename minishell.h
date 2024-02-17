@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 12:10:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 14:17:25 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,17 @@ typedef struct s_vars
 	t_env			*env;
 }				t_vars;
 
+typedef struct s_syntax
+{
+	int initflag;
+	int openc;
+	int closedc;
+	int flag;
+	int flag1;
+	int flag2;
+	int flag3;
+}				t_syntax;
+
 typedef struct s_gc
 {
 	void		*mallocedptr;
@@ -147,8 +158,7 @@ void	*rad_malloc(size_t size, int flag, int type);
 //minishell.c
 void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
-int bracketssyntax(t_token *cmd);
-int check_syntax_error(t_token **cmd);
+int check_syntax_error(t_token **cmd, t_env *env);
 //parsing.c
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -275,7 +285,6 @@ char	*expand(t_env *env, char *key);
 
 int improvedpipeexecution(t_tree *node, t_env *env);
 int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save);
-int exitstatus(int nestatus, int flag);
 //ft_itoa.c
 char	*ft_itoa(int n);
 //QUOTE.C
