@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 14:17:25 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 16:45:17 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ t_token	*init_token();
 int		ft_isalpha(int c);
 void	wrerror(char *str);
 int		ft_isalnum(int c);
+int		ft_atoi(const char *str);
 
 //parsing.c
 int		ft_char(t_token **cmd, t_vars *vars);
@@ -254,6 +255,7 @@ char	*get_value_env(t_env *env, char *key);
 void	change_value_env(t_env **env, char *key, char *value);
 void	del_node_env(t_env **env, char *key);
 t_env	*get_node_env(t_env *env, char *key);
+int		key_exist_env(t_env *env, char *key);
 // expand.c
 char	*expand(t_env *env, char *key);
 // unset.c

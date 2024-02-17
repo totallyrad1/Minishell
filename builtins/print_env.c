@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/30 20:37:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/17 16:57:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	print_env(t_env *env)
 	env = env->next;
 	while (env)
 	{
-		printf("%s=", env->key);
 		if (env->value)
+		{
+			printf("%s=", env->key);
 			printf("%s", env->value);
-		printf("\n");
+			printf("\n");
+		}
 		env = env->next;
 	}
 }

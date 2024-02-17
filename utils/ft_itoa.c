@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:28:46 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:32:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 15:47:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,43 @@ char	*ft_itoa(int n)
 		return (NULL);
 	putitoa(neg, len, str, nb);
 	return (str);
+}
+
+static int	check_sign(const char *str, int *i)
+{
+	int	sign;
+
+	sign = 1;
+	if (str[*i] == '-' || str[*i] == '+')
+	{
+		if (str[*i] == '-')
+			sign = -1;
+		(*i)++;
+	}
+	return (sign);
+}
+
+int	ft_atoi(const char *str)
+{
+	int		i;
+	int		sign;
+	long	res;
+	long	tmp;
+
+	i = 0;
+	res = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	sign = check_sign(str, &i);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		tmp = (res * 10) + (str[i] - '0');
+		if (res > tmp && sign == 1)
+			return (-1);
+		else if (res > tmp && sign == -1)
+			return (0);
+		res = tmp;
+		i++;
+	}
+	return (res * sign);
 }

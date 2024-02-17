@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:00:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 12:30:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 16:44:37 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,30 @@ static t_env	*get_env()
 	return (env);
 }
 
+static int is_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	if (str[i] && (str[i] == '-' || str[i] == '+'))
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
+		i++;
+	if (str[i])
+		return (0);
+	return (1);
+}
+
 t_env	*arr_to_env(char **env)
 {
 	int		i;
 	t_env	*env_lst;
 	int		len;
+	char	*key;
+	char	*value;
+	int		tmp;
 
 	i = 0;
 	if (!*env)
@@ -89,7 +108,26 @@ t_env	*arr_to_env(char **env)
 		while (env[i])
 		{
 			len = ft_strlen_till(env[i], '=');
-			add_env(&env_lst, ft_strdup_len(env[i], len), ft_strdup(env[i] + len + 1));
+			key = ft_strdup_len(env[i], len);
+			value = ft_strdup(env[i] + len + 1);
+			if (!ft_strcmp(key, "SHLVL"))
+			{
+				if (is_number(value))
+				{
+					tmp = ft_atoi(value);
+					if (tmp == 999)
+						value = NULL;
+					else if (tmp > 999)
+						value = ft_itoa(1);
+					else if (tmp < 0)
+						value = ft_itoa(0);
+					else
+						value = ft_itoa(tmp + 1);
+				}
+				else
+					value = ft_itoa(1);
+			}
+			add_env(&env_lst, key, value);
 			i++;
 		}
 	}
@@ -103,7 +141,7 @@ char	**env_to_arr(t_env *env)
 	char	*tmp;
 	t_env *curr;	
 
-	curr = env;
+	curr = env->next;
 	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, ENV);
 	if (!env_arr)
 		return (NULL);
@@ -121,6 +159,17 @@ char	**env_to_arr(t_env *env)
 	}
 	env_arr[i] = NULL;
 	return (env_arr);
+}
+
+int	key_exist_env(t_env *env, char *key)
+{
+	while (env)
+	{
+		if (!ft_strcmp(env->key, key))
+			return (1);
+		env = env->next;
+	}
+	return (0);
 }
 
 char	*get_value_env(t_env *env, char *key)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 12:08:37 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 16:41:12 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	check_arg(char *str)
 	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (0);
 	i++;
-	while (str[i] && str[i] != '=' && (str[i] != '+' && str[i + 1] != '='))
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
@@ -88,8 +88,10 @@ int	ft_export(char **args, t_env **env)
 	t_env	*tmp;
 	int		i;
 	int		flag;
+	int		arg_fail;
 
 	i = 1;
+	arg_fail = 0;
 	if (!args[i])
 		printfenv(env);
 	while (args[i])
@@ -100,7 +102,7 @@ int	ft_export(char **args, t_env **env)
 			write(2, "export: `", 9);
 			write(2, args[i], ft_strlen(args[i]));
 			write(2, "': not a valid identifier\n", 26);
-			exitstatus(1, 1);
+			arg_fail++;
 		}
 		else
 		{
@@ -131,6 +133,9 @@ int	ft_export(char **args, t_env **env)
 		}
 		i++;
 	}
-	exitstatus(0, 1);
+	if (!arg_fail)
+		exitstatus(0, 1);
+	else
+		exitstatus(1, 1);
 	return (0);
 }

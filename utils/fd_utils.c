@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 10:52:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/17 16:14:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int getlastinfile(t_cmd *cmd, t_env *env)
 	fd = 0;
 	while(curr && fd != -1)
 	{
-		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
+		if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<')
 		{
 			if(curr->expandheredoc == 0)
 				fd = heredoc_expanded(curr->heredocfd, env);
 			else
 				fd = curr->heredocfd;
 		}
-		else if(curr->cmd[0] == '<' && curr->cmd[1] == '\0')
+		else if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 		{
 			fd = open(curr->next->cmd , O_RDONLY);
 			if (curr->next && array_len(wildcard(curr->next)))
@@ -37,9 +37,8 @@ int getlastinfile(t_cmd *cmd, t_env *env)
 				wrerror(curr->next->cmd);
 				wrerror(": ambiguous redirection\n");	
 			}
-			
 		}
-		else if(fd == -1 && (curr->cmd[0] == '<' && curr->cmd[1] == '\0'))
+		else if(fd == -1 && (curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0'))
 		{
 			wrerror("turboshell: ");
 			wrerror(curr->next->cmd);
@@ -59,11 +58,11 @@ int getlastoutfile(t_cmd *cmd)
 	curr = cmd;
 	while (curr)
 	{
-		if (curr->cmd[0] == '>' && curr->cmd[1] == '>')
+		if (curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '>')
 		{
 			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
 		}
-		else if(curr->cmd[0] == '>' && curr->cmd[1] == '\0')
+		else if(curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
 		{
 			fd = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		}
