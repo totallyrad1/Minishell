@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:07:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:15:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int check_limiterssyntax(t_token *curr, int initflag)
 	if((islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) // valid delimiter
 		|| (islimiter1(curr->cmd[0]) && !curr->next) // delimiter flkhr
 		|| (islimiter2(curr->cmd[0]) && initflag == 0) // limiter flbdya 
+		|| (islimiter2(curr->cmd[0]) && islimiter2(curr->next->cmd[0])) //delimiter mora delimier
 		|| (isredirection(curr->cmd[0]) && isredirection(curr->next->cmd[0])) //redirection after reidr
 		|| (isredirection(curr->cmd[0]) && islimiter1(curr->next->cmd[0])) // redirection moraha delimiter
 		|| (isredirection(curr->cmd[0]) && (curr->next->cmd[0] == ')' || curr->next->cmd[0] == '(')))  //redir moraha bracket
