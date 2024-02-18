@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:59:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 12:43:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 	{
 		wrerror("turboshell: ");
 		wrerror((*curr)->cmd);
-		wrerror(": ambiguous redirection1\n");
+		wrerror(": ambiguous redirection\n");
 		(*vars)->ambiguous = 1;
 		(*vars)->buffer = NULL;
 	}

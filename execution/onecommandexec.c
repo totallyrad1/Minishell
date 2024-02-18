@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 01:21:45 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 12:46:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,18 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	char	**envp;
 
 	envp = env_to_arr(env);
-	if (access(args[0], X_OK) != 0)
+	if (access(args[0], F_OK) != 0)
 		absolutepath = get_working_path(envp, args[0]);
 	else
 		absolutepath = ft_strdup(args[0]);
+	if(access(absolutepath, F_OK) == 0 && access(absolutepath, X_OK) != 0)
+	{
+		wrerror("turboshell :permission denied: ");
+		wrerror(args[0]);
+		wrerror("\n");
+		exitstatus(126, 1);
+		return (126);
+	}
 	id = fork();
 	if (id == -1)
 	{
