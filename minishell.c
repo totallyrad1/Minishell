@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 18:47:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:28:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int main(int ac, char **av, char **env)
 		if(onlyspaces(command) == 1)
 			handle_input(&cmd, command, env_lst);
 		else
-		 	free(command);
+			free(command);
 		// rad_malloc(0, 1, COMMAND);
 	}
 }

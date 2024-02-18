@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:06:34 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 16:38:43 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:28:22 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ char	**env_to_arr(t_env *env)
 	if (!env_arr)
 		return (NULL);
 	i = 0;
-	while (i < env->size && curr)
+	while (curr)
 	{
 		tmp = ft_strjoin(ft_strdup(curr->key), "=");
 		tmp = ft_strjoin(tmp, curr->value);
 		env_arr[i] = ft_strdup(tmp);
+		if (!env_arr)
+			return (NULL);
 		i++;
 		curr = curr->next;
 	}

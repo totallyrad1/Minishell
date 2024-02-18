@@ -5,23 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 22:27:59 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 16:40:55 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/18 19:08:54 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/18 19:33:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_list	*lst_make_node(void *data)
+static t_list	*lst_make_node(void *data)
 {
 	t_list	*node;
 
 	node = rad_malloc(sizeof(t_list), 0, COMMAND);
 	if (!node)
 		return (NULL);
-	node->data = data;
-	node->next = NULL;
 	node->prev = NULL;
+	node->next = NULL;
+	node->data = data;
 	return (node);
 }
 
@@ -33,23 +33,20 @@ void	lst_add_node(t_list **lst, void *data)
 	new = lst_make_node(data);
 	if (!new)
 		return ;
-	if (!lst)
-		return ;
 	if (!*lst)
 	{
 		*lst = new;
-		(*lst)->size = 1;
+		new->size = 1;
 		return ;
 	}
 	tmp = *lst;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
-	new->prev = tmp;
 	(*lst)->size++;
 }
 
-int	count_len_list(t_list *lst)
+int	len_arr_list(t_list *lst)
 {
 	int	count;
 
@@ -60,17 +57,4 @@ int	count_len_list(t_list *lst)
 		lst = lst->next;
 	}
 	return (count);
-}
-
-t_list	*fill_lst(t_cmd *args)
-{
-	t_list	*lst;
-
-	lst = NULL;
-	while (args)
-	{
-		lst_add_node(&lst, (void *)wildcard(args));
-		args = args->next;
-	}
-	return (lst);
 }

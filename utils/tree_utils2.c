@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:42:40 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/01/27 10:08:57 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:30:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,42 +57,4 @@ t_token	*skip_brackets_prev(t_token *token)
 		}
 	}
 	return (token);
-}
-
-static void	free_cmd(t_cmd **cmd)
-{
-	t_cmd	*tmp;
-
-	if (!cmd)
-		return ;
-	if (!*cmd)
-	{
-		free(*cmd);
-		return ;
-	}
-	while (*cmd)
-	{
-		tmp = *cmd;
-		*cmd = (*cmd)->next;
-		free(tmp->cmd);
-		free(tmp);
-	}
-}
-
-void	free_tree(t_tree **root)
-{
-	t_tree	*tmp;
-
-	tmp = *root;
-	if (!tmp)
-		return ;
-	if (tmp->next)
-		free_cmd(&tmp->next);
-	free(tmp->data);
-	if (tmp->left)
-		free_tree(&tmp->left);
-	if (tmp->right)
-		free_tree(&tmp->right);
-	free(tmp);
-	*root = NULL;
 }

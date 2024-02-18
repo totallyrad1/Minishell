@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 16:36:46 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:28:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static char	*get_value(char *line)
 	i = 0;
 	while (line[i] && line[i] != '=')
 		i++;
-	i++;
+	if (line[i])
+		i++;
+	else
+		return (NULL);
 	tmp = i;
 	while (line[i])
 		i++;

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 22:28:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 16:40:50 by yzaazaa          ###   ########.fr       */
+/*   Created: 2024/02/18 19:06:36 by yzaazaa           #+#    #+#             */
+/*   Updated: 2024/02/18 19:33:48 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,21 @@ t_list	*get_dirent(void)
 	struct dirent	*dp;
 	t_list			*lst;
 
-	dir = opendir(".");
-	dp = readdir(dir);
 	lst = NULL;
-	if (dp)
+	dir = opendir(".");
+	if (!dir)
 	{
-		lst = lst_make_node((void *)dp->d_name);
-		lst->size = 1;
+		wrerror("Turboshell: ");
+		perror("");
+		exitstatus(1, 1);
+		return (NULL);	
 	}
+	dp = readdir(dir);
 	while (dp)
 	{
-		dp = readdir(dir);
-		if (dp)
+		if (dp->d_name[0] != '.')
 			lst_add_node(&lst, (void *)dp->d_name);
+		dp = readdir(dir);
 	}
-	closedir(dir);
 	return (lst);
 }

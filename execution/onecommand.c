@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 18:07:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:28:36 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	exec_builtin(char **args, t_env **envp)
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, envp));
 	if (!ft_strcmp(args[0], "echo"))
-		return (ft_echo(args, envp));
+		return (ft_echo(args));
 	if (!ft_strcmp(args[0], "export"))
 		return (ft_export(args, envp));
 	if (!ft_strcmp(args[0], "env"))

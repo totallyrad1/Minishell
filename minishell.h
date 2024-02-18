@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 16:41:42 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:30:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ char	*get_points(char *str);
 //cd.c 
 int		ft_cd(char **args, t_env **env);
 //echo.c
-int		ft_echo(char **args, t_env **env);
+int		ft_echo(char **args);
 // signal.c
 void	signal_handler(int signum);
 // start_message.c
@@ -359,16 +359,11 @@ t_cmd *get_command_start(t_cmd *node);
 int builtinexec(char **args, t_env **env, int infile, int outfile);
 int ft_exit(char **args, t_env *env);
 //wildcard
-char	**get_all_wildcards(t_cmd *args);
-char	**wildcard(t_cmd *args);
-char	*get_before_wildcard(char *str);
-char	*get_after_wildcard(char *str);
-char	**ret_same(char *str);
-t_list	*lst_make_node(void *data);
 void	lst_add_node(t_list **lst, void *data);
-int		count_len_list(t_list *lst);
-t_list	*fill_lst(t_cmd *args);
 t_list	*get_dirent(void);
+int	len_arr_list(t_list *lst);
+char	**wildcard(t_cmd *args, t_list *dirent);
+char	**get_all_wildcards(t_cmd *args);
 
 t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
 void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);
