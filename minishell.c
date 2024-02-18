@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:28:55 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:52:47 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int main(int ac, char **av, char **env)
 	struct sigaction	sa;
 	t_env				*env_lst;
 
-	// atexit(f);
+	atexit(f);
 	if (!isatty(ttyslot()))
 		return (printf("tty required!\n"), 1);
 	(void)ac;
@@ -258,14 +258,6 @@ int main(int ac, char **av, char **env)
 		}
 		if (!ft_strncmp(command, "clear", 5))
 			write(1, "\033[H\033[J", 7);
-		if (!ft_strncmp(command, "exit", 5))
-		{
-			printf("exit\n");
-			rad_malloc(0, 1, 0);
-			free(command);
-			free(env_lst->pwd);
-			exit(0);
-		}
 		if (command[0])
 			add_history(command);
 		if(onlyspaces(command) == 1)

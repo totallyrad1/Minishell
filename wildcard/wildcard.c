@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 20:18:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 20:34:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,5 @@ char	**get_all_wildcards(t_cmd *args)
 		lst = lst->next;
 	}
 	ret[i] = NULL;
-	i = 0;
-	while (ret[i])
-		printf("%s\n", ret[i++]);
 	return (ret);
 }

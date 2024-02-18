@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rad_gc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 12:24:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:59:44 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static void	free_type(t_gc **gc, int type)
 	{
 		if (curr->type == type)
 		{
-			free(curr->mallocedptr);
+			if (curr->mallocedptr)
+				free(curr->mallocedptr);
 			curr->mallocedptr = NULL;
 		}
 		curr = curr->prev;
@@ -37,13 +38,15 @@ static void	rad_free(t_gc **gc, int type)
 
 	if (!type)
 	{
+		while ((*gc)->next)
+			*gc = (*gc)->next;
 		while ((*gc))
 		{
 			last = *gc;
 			last_malloced_ptr = (*gc)->mallocedptr;
-			(*gc) = (*gc)->next;
-			free(last);
+			(*gc) = (*gc)->prev;
 			free(last_malloced_ptr);
+			free(last);
 		}
 	}
 	else

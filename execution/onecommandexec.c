@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 19:02:00 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 20:55:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,12 @@ int	one_command_execution(t_tree *node, t_env *env)
 	int		outfile;
 	t_cmd	*lst_args;
 	t_cmd	*new_joinedargs;
+	t_cmd	*new;
 
 	infile = 0;
 	outfile = 1;
-	lst_args = make_args_lst(new_cmd_list(node->next, env), env);
+	new = new_cmd_list(node->next, env);
+	lst_args = make_args_lst(new, env);
 	new_joinedargs = joined_args(lst_args, env);
 	args = get_all_wildcards(new_joinedargs);
 	getfds(lst_args, env, &infile, &outfile);
