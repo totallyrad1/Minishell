@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:46:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:33:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 		absolutepath = get_working_path(envp, args[0]);
 	else
 		absolutepath = ft_strdup(args[0]);
-	if(access(absolutepath, F_OK) == 0 && access(absolutepath, X_OK) != 0)
+	if (access(absolutepath, F_OK) == 0 && access(absolutepath, X_OK) != 0)
 	{
 		wrerror("turboshell :permission denied: ");
 		wrerror(args[0]);

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 01:08:20 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:45:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:31:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	make_args_node1(t_cmd **args, t_jn_args **vars)
 		return ;
 	new->spaceafter = (*vars)->spaceafter;
 	new->cmd = (*vars)->buffer;
+	new->word = (*vars)->word;
 	new->expandwildcard = (*vars)->expand;
 	new->next = NULL;
 	if ((*vars)->flag == 1)
@@ -62,6 +63,15 @@ void	joined_p2(t_cmd **args, t_jn_args **vars)
 	*args = (*args)->next;
 }
 
+void	set_word_space(t_cmd *args, t_jn_args **vars)
+{
+	if (args)
+	{
+		(*vars)->word = args->word;
+		(*vars)->spaceafter = args->spaceafter;
+	}
+}
+
 t_cmd	*joined_args(t_cmd *args, t_env *env)
 {
 	t_jn_args	*vars;
@@ -77,8 +87,7 @@ t_cmd	*joined_args(t_cmd *args, t_env *env)
 	{
 		skip_redirections(&args);
 		vars->expand = 0;
-		if (args)
-			vars->spaceafter = args->spaceafter;
+		set_word_space(args, &vars);
 		if (args && args->cmd && isredirection(args->cmd[0]) == 0)
 			joined_p1(&args, &vars);
 		else if (args && args->cmd)

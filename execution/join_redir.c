@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:45:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:33:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,14 @@ void	new_cmdpart1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 	new_cmd_node(new, vars);
 }
 
+void	set_word(t_ncmdlst **vars, t_cmd *curr)
+{
+	if ((curr->cmd[0] == '<' && curr->cmd[1] == '<'))
+		(*vars)->word = 0;
+	else
+		(*vars)->word = 1;
+}
+
 t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 {
 	t_ncmdlst	*vars;
@@ -102,10 +110,7 @@ t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 		else
 		{
 			vars->save = curr;
-			if (curr->cmd[1] != '<')
-				vars->word = 1;
-			else
-				vars->word = 0;
+			set_word(&vars, curr);
 			vars->buffer = ft_strdup(curr->cmd);
 			new_cmd_node(&new, &vars);
 			curr = curr->next;
