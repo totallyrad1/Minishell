@@ -6,13 +6,13 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 22:55:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 00:59:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	new_cmd_node(int *flag, t_cmd **cmd, char *buffer, t_cmd *save, int ambiguos)
+void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 {
 	t_cmd	*new;
 	t_cmd	*curr;
@@ -21,15 +21,15 @@ void	new_cmd_node(int *flag, t_cmd **cmd, char *buffer, t_cmd *save, int ambiguo
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!new)
 		return ;
-	new->cmd = buffer;
+	new->cmd = (*vars)->buffer;
 	new->next = NULL;
-	new->heredocfd = save->heredocfd;
-	new->expandheredoc = save->expandheredoc;
-	new->spaceafter = save->spaceafter;
-	new->ambiguous = ambiguos;
-	if (*flag == 1)
+	new->heredocfd = (*vars)->save->heredocfd;
+	new->expandheredoc = (*vars)->save->expandheredoc;
+	new->spaceafter = (*vars)->save->spaceafter;
+	new->ambiguous = (*vars)->ambiguous;
+	if ((*vars)->flag == 1)
 	{
-		*flag = 0;
+		(*vars)->flag = 0;
 		*cmd = new;
 	}
 	else
@@ -40,70 +40,68 @@ void	new_cmd_node(int *flag, t_cmd **cmd, char *buffer, t_cmd *save, int ambiguo
 	}
 }
 
-void	new_cmdpart1(t_cmd **curr, int *flag, t_cmd **new, t_env *env)
+void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 {
-	t_cmd	*save;
-	t_cmd	*save1;
-	char	*buffer;
-	int		ambiguous;
-
-	buffer = NULL;
-	save = *curr;
-	save1 = *curr;
-	buffer = ft_strdup((*curr)->cmd);
-	new_cmd_node(flag, new, buffer, save, 0);
-	buffer = NULL;
-	(*curr) = (*curr)->next;
-	printf("%s\n", save->cmd);
-	save = *curr;
-	(*curr)->spaceafter = 0;
-	ambiguous = 0;
-	while (*curr && (*curr)->spaceafter != 1
-		&& (*curr)->cmd[0] != '>' && (*curr)->cmd[0] != '<')
+	if ((*vars)->save1->cmd[1] != '<'
+		&& (*curr)->cmd[0] == '$' && (*curr)->cmd[1]
+		&& (array_len(var_toarray((*curr)->cmd, env)) > 1
+			|| array_len(var_toarray((*curr)->cmd, env)) == 0))
 	{
-		if(save1->cmd[1] != '<' && (*curr)->cmd[0] == '$' &&  (*curr)->cmd[1] && (array_len(var_toarray((*curr)->cmd, env)) > 1 || array_len(var_toarray((*curr)->cmd, env)) == 0))
-		{
-			wrerror("turboshell: ");
-			wrerror((*curr)->cmd);
-			wrerror(": ambiguous redirection1\n");
-			ambiguous = 1;
-			buffer = NULL;
-		}
-		else {
-			buffer = ft_strjoin(buffer, argextraction(*curr, env));
-		}
-		if(buffer == NULL)
-			buffer = ft_strdup("");
-		*curr = (*curr)->next;
+		wrerror("turboshell: ");
+		wrerror((*curr)->cmd);
+		wrerror(": ambiguous redirection1\n");
+		(*vars)->ambiguous = 1;
+		(*vars)->buffer = NULL;
 	}
-	new_cmd_node(flag, new, buffer, save, ambiguous);
+	else
+		(*vars)->buffer = ft_strjoin((*vars)->buffer,
+				argextraction(*curr, env));
+	if ((*vars)->buffer == NULL)
+		(*vars)->buffer = ft_strdup("");
+	*curr = (*curr)->next;
 }
 
-t_cmd	*new_cmd_list(t_cmd *root, t_env *env)
+void	new_cmdpart1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 {
-	t_cmd	*new;
-	t_cmd	*curr;
-	char	*buffer;
-	t_cmd	*save;
-	int		flag;
+	(*vars)->buffer = NULL;
+	(*vars)->save = *curr;
+	(*vars)->save1 = *curr;
+	(*vars)->buffer = ft_strdup((*curr)->cmd);
+	new_cmd_node(new, vars);
+	(*vars)->buffer = NULL;
+	(*curr) = (*curr)->next;
+	(*vars)->save = *curr;
+	(*curr)->spaceafter = 0;
+	(*vars)->ambiguous = 0;
+	while (*curr && (*curr)->spaceafter != 1
+		&& (*curr)->cmd[0] != '>' && (*curr)->cmd[0] != '<')
+		new_cmdpart1_1(vars, curr, env);
+	new_cmd_node(new, vars);
+}
 
-	flag = 1;
-	buffer = NULL;
-	curr = root;
+t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
+{
+	t_ncmdlst	*vars;
+	t_cmd		*new;
+
+	vars = rad_malloc(sizeof(t_ncmdlst), 0, COMMAND);
+	if (!vars)
+		ft_exit(NULL, env);
+	vars->flag = 1;
+	vars->buffer = NULL;
 	while (curr)
 	{
-		if (curr->cmd && ((curr->cmd[0] == '<' && !curr->cmd[1]) || curr->cmd[0] == '>'))
-			new_cmdpart1(&curr, &flag, &new, env);
+		if (curr->cmd && ((curr->cmd[0] == '<'
+					&& !curr->cmd[1]) || curr->cmd[0] == '>'))
+			new_cmdpart1(&curr, &vars, &new, env);
 		else
 		{
-			save = curr;
-			buffer = ft_strdup(curr->cmd);
-			new_cmd_node(&flag, &new, buffer, save, 0);
+			vars->save = curr;
+			vars->buffer = ft_strdup(curr->cmd);
+			new_cmd_node(&new, &vars);
 			curr = curr->next;
 		}
-		if (!curr)
-			break ;
-		buffer = NULL;
+		vars->buffer = NULL;
 	}
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 14:23:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 00:07:38 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int check_limiterssyntax(t_token *curr, int initflag)
 	if((islimiter2(curr->cmd[0]) == 1 && initflag == 0) 
 		|| (isredirection(curr->cmd[0]) == 1 
 		&& curr->next && islimiter1(curr->next->cmd[0]) == 1) 
+		|| (islimiter2(curr->cmd[0]) && curr->next && islimiter2(curr->next->cmd[0]))
 		|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
 		|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
 		|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')

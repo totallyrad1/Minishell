@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 22:59:12 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 01:21:45 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,82 +53,9 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	return (status);
 }
 
-void make_args_node1(t_cmd **args, char *buffer, int spaceafter, int *flag, int expand)
-{
-	t_cmd *new;
-	t_cmd *curr;
-
-	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
-	if(!new)
-		return;
-	new->spaceafter = spaceafter;
-	new->cmd = buffer;
-	new->expandwildcard = expand;
-	new->next = NULL;
-	if(*flag == 1)
-	{
-		*args = new;
-		*flag = 0;
-	}
-	else {
-		curr = *args;
-		while(curr->next)
-			curr = curr->next;
-		curr->next = new;
-	}
-}
-
-t_cmd *joined_args(t_cmd *args)
-{
-	t_cmd	*new;
-	int		flag;
-	int		expand;
-	char	*buffer;
-	int		spaceafter;
-	
-	flag = 1;
-	expand = 0;
-	buffer = NULL;
-	while(args)
-	{
-		skip_redirections(&args);
-		expand = 0;
-		if(args)
-			spaceafter = args->spaceafter;
-		if(args && args->cmd && isredirection(args->cmd[0]) == 0)
-		{
-			args->spaceafter = 0;
-			while(args && args->spaceafter != 1)
-			{
-				if(args->cmd && isredirection(args->cmd[0]) == 1)
-					break;
-				if(args->cmd && ft_strchr(args->cmd, '*'))
-					expand = args->expandwildcard;
-				if(args->cmd)
-					buffer = ft_strjoin(buffer, args->cmd);
-				args = args->next;
-			}
-		}
-		else if(args && args->cmd)
-		{
-			if(args->cmd && ft_strchr(args->cmd, '*'))
-					expand = args->expandwildcard;
-			if(args->cmd)
-				buffer = ft_strjoin(buffer, args->cmd);
-			args = args->next;
-		}
-		else if (args)
-			args = args->next;
-		make_args_node1(&new, buffer, spaceafter, &flag, expand);
-		buffer = NULL;
-	}
-	return new;
-}
-
 int	one_command_execution(t_tree *node, t_env *env)
 {
 	char	**args;
-	t_cmd	*new;
 	int		infile;
 	int		outfile;
 	t_cmd	*lst_args;
@@ -136,33 +63,12 @@ int	one_command_execution(t_tree *node, t_env *env)
 
 	infile = 0;
 	outfile = 1;
-	new = new_cmd_list(node->next, env);
-	t_cmd *temp;
-	temp = new;
-	while(temp)
-	{
-		printf("1======={%s} [%d] heredoc[%d] fd[%d] {%d}\n", temp->cmd, temp->spaceafter, temp->expandheredoc, temp->heredocfd, temp->ambiguous);
-		temp = temp->next;
-	}
-	lst_args = make_args_lst(new, env);
-	temp = lst_args;
-	while(temp)
-	{
-		printf("2======={%s} [%d] heredoc[%d] fd[%d] {%d}\n", temp->cmd, temp->spaceafter, temp->expandheredoc, temp->heredocfd, temp->ambiguous);
-		temp = temp->next;
-	}
-	new_joinedargs = joined_args(lst_args);
-	temp = new_joinedargs;
-	while(temp)
-	{
-		printf("3======={%s} [%d] heredoc[%d] fd[%d] {%d}\n", temp->cmd, temp->spaceafter, temp->expandheredoc, temp->heredocfd, temp->ambiguous);
-		temp = temp->next;
-	}
+	lst_args = make_args_lst(new_cmd_list(node->next, env), env);
+	new_joinedargs = joined_args(lst_args, env);
 	args = get_all_wildcards(new_joinedargs);
 	getfds(lst_args, env, &infile, &outfile);
 	if (outfile == -1 || infile == -1)
 		return (1);
-	// args = join_args1(get_command_start(new), env);
 	if (!args || !args[0])
 		return (0);
 	if (is_builtin(args[0]))

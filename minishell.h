@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 22:46:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 01:21:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ typedef struct s_gc
 	struct s_gc	*prev;
 }				t_gc;
 
-typedef struct s_make_args
+typedef struct s_margs
 {
 	char *buffer;
 	int spaceafter;
@@ -155,7 +155,24 @@ typedef struct s_make_args
 	int heredocfd;
 	int heredocexpand;
 	int ambiguos;
-}				t_make_args;
+}				t_margs;
+
+typedef struct s_ncmdlst
+{
+	char *buffer;
+	t_cmd *save;
+	int ambiguous;
+	int flag;
+	t_cmd *save1;
+}				t_ncmdlst;
+
+typedef struct s_jn_args
+{
+	int		flag;
+	int		expand;
+	char	*buffer;
+	int		spaceafter;
+}				t_jn_args;
 
 enum e_garbagecollector
 {
@@ -351,7 +368,11 @@ t_list	*get_dirent(void);
 t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
 void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);
 
+void make_args_node(t_cmd **args, t_margs **vars);
 void	skip_redirections(t_cmd **temp);
+void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
+void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
+t_cmd *joined_args(t_cmd *args, t_env *env);
 
 void	print2D(t_tree *root);
 #endif
