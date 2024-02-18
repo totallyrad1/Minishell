@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:07:38 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:07:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,12 @@ int delimitercheck(char *token)
 
 int check_limiterssyntax(t_token *curr, int initflag)
 {
-	if((islimiter2(curr->cmd[0]) == 1 && initflag == 0) 
-		|| (isredirection(curr->cmd[0]) == 1 
-		&& curr->next && islimiter1(curr->next->cmd[0]) == 1) 
-		|| (islimiter2(curr->cmd[0]) && curr->next && islimiter2(curr->next->cmd[0]))
-		|| (curr->cmd[0] != '$' && islimiter(curr->cmd[0]) &&  !curr->next) 
-		|| (islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) 
-		|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '>')
-		|| (curr->cmd[0] == '>' && curr->next && curr->next->cmd[0] == '<')
-		|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>')
-		|| (curr->cmd[0] == '<' && curr->next && curr->next->cmd[0] == '>'))
+	if((islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0) // valid delimiter
+		|| (islimiter1(curr->cmd[0]) && !curr->next) // delimiter flkhr
+		|| (islimiter2(curr->cmd[0]) && initflag == 0) // limiter flbdya 
+		|| (isredirection(curr->cmd[0]) && isredirection(curr->next->cmd[0])) //redirection after reidr
+		|| (isredirection(curr->cmd[0]) && islimiter1(curr->next->cmd[0])) // redirection moraha delimiter
+		|| (isredirection(curr->cmd[0]) && (curr->next->cmd[0] == ')' || curr->next->cmd[0] == '(')))  //redir moraha bracket
 		{
 			exitstatus(258, 1);
 			return (printf("turboshell: parse error near `%s'\n", curr->cmd), 0);
@@ -74,7 +70,7 @@ void init_vars(t_syntax **vars, t_env *env)
 
 void set_flags(t_token *curr, t_syntax **vars)
 {
-	if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && isredirection(curr->cmd[0]) == 0)
+	if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->cmd &&  isredirection(curr->cmd[0]) == 0 && islimiter2(curr->cmd[0]) == 0)
 			(*vars)->initflag = 1;
 	if(curr->type == TOKEN_CLOSED_BRACKET)
 	{
@@ -109,16 +105,16 @@ int check_syntax_error(t_token **cmd, t_env *env)
 	init_vars(&vars, env);
 	while(curr)
 	{
-		if(curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
-		{
-			curr->heredocfd = heredocshit(curr->next->cmd);
-			curr->for_heredoc = curr->next->for_heredoc; 
-		}	
 		set_flags(curr, &vars);
 		if(check_limiterssyntax(curr, vars->initflag) == 0)
 			return (0);
 		if(check_bracketssyntax(curr, vars) == 0)
 			return (0);
+		if( delimitercheck(curr->cmd) == 1 &&curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
+		{
+			curr->heredocfd = heredocshit(curr->next->cmd);
+			curr->for_heredoc = curr->next->for_heredoc; 
+		}	
 		curr = curr->next;
 	}
 	if(vars->openc != vars->closedc)

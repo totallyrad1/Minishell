@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 16:23:37 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 15:08:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_cmd(t_tree *root)
 	}
 }
 
-void new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer, int forheredoc)
+void	new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer, int forheredoc)
 {
 	t_token *new;
 	t_token *curr;
@@ -87,7 +87,7 @@ t_token *join_heredocargs(t_token *cmd)
 	forheredoc = 0;
 	while(curr)
 	{
-		if(curr->cmd[0] == '<' && curr->cmd[1] == '<')
+		if(curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->next && islimiter1(curr->next->cmd[0]) == 0)
 		{
 			spaceafter = curr->spaceafter;
 			buffer = ft_strdup(curr->cmd);
@@ -97,7 +97,7 @@ t_token *join_heredocargs(t_token *cmd)
 			spaceafter = curr->spaceafter;
 			curr->spaceafter = 0;
 			forheredoc = 0;
-			while(curr && curr->spaceafter != 1)
+			while(curr && curr->spaceafter != 1 && islimiter1(curr->cmd[0]) == 0)
 			{
 				if(curr->cmd[0] == '\'' || curr->cmd[0] == '"')
 				{
@@ -115,7 +115,8 @@ t_token *join_heredocargs(t_token *cmd)
 			}
 			new_node_heredoc(&new, &flag, spaceafter, buffer, forheredoc);
 		}
-		else {
+		else 
+		{
 			spaceafter = curr->spaceafter;
 			buffer = ft_strdup(curr->cmd);
 			new_node_heredoc(&new, &flag, spaceafter, buffer, forheredoc);
@@ -147,6 +148,13 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		{
 			free(str);
 			new = join_heredocargs(*cmd);
+			// t_token *curr;
+			// curr = new;
+			// while(curr)
+			// {
+			// 	printf("%s\n", curr->cmd);
+			// 	curr =curr->next;
+			// }
 			give_state_and_type(&new);
 			if(check_syntax_error(&new, env) == 1)
 			{

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 01:21:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 14:31:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_cmd
 {
 	char			*cmd;
 	int				fd[2];
+	int				word;
 	int				spaceafter;
 	int				heredocfd;
 	int				expandheredoc;
@@ -148,13 +149,14 @@ typedef struct s_gc
 
 typedef struct s_margs
 {
-	char *buffer;
-	int spaceafter;
-	int flag;
-	int expand;
-	int heredocfd;
-	int heredocexpand;
-	int ambiguos;
+	char	*buffer;
+	int		word;
+	int		spaceafter;
+	int		flag;
+	int		expand;
+	int		heredocfd;
+	int		heredocexpand;
+	int		ambiguos;
 }				t_margs;
 
 typedef struct s_ncmdlst
@@ -169,6 +171,7 @@ typedef struct s_ncmdlst
 typedef struct s_jn_args
 {
 	int		flag;
+	int		word;
 	int		expand;
 	char	*buffer;
 	int		spaceafter;
