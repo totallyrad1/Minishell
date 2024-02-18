@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/09 17:22:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:40:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	signal_handler(int signum)
 {
 	if (waitpid(-1, NULL, WNOHANG) == 0)
-	{
-		printf("\n");
 		return ;
-	}
 	if (signum == SIGINT)
 	{
 		exitstatus(1, 1);

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 22:17:48 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 21:43:17 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:36:31 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ int	ft_echo(char **args, t_env **env)
 	if (flag && j > 1)
 		j--;
 	print_args(args, j, *env, flag);
+	exitstatus(0, 1);
 	return (0);
 }

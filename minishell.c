@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:08:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:41:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,8 @@ int main(int ac, char **av, char **env)
 	t_env				*env_lst;
 
 	// atexit(f);
+	if (!isatty(ttyslot()))
+		return (printf("tty required!\n"), 1);
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);

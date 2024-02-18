@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 16:33:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 16:40:19 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 		changeoutfile(outfile);
 		execute_cmd(absolutepath, envp, args);
 	}
-	wait(&status);
+	while (wait(&status) != -1);
 	exitstatus(WEXITSTATUS(status), 1);
 	return (status);
 }

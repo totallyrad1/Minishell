@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:12:49 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 22:20:42 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:39:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_env	*get_env(void)
 	pwd = getcwd(NULL, 0);
 	env = make_env(NULL, NULL);
 	env->pwd = pwd;
+	env->env_null = 1;
+	add_env(&env, ft_strdup("OLDPWD"), NULL);
 	add_env(&env, ft_strdup("PWD"), ft_strdup(env->pwd));
 	add_env(&env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 	add_env(&env, ft_strdup("SHLVL"), ft_strdup("1"));

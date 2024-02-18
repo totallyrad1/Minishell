@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:07:12 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 22:16:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:38:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_env	*arr_to_env(char **env)
 		i = -1;
 		env_lst = make_env(NULL, NULL);
 		env_lst->pwd = getcwd(NULL, 0);
+		env_lst->env_null = 0;
 		while (env[++i])
 		{
 			len = ft_strlen_till(env[i], '=');
