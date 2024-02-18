@@ -37,3 +37,58 @@ exit code should be 1
 >_ Turboshell$ ls "<<<<"
 [1]    53974 segmentation fault  ./minishell
 
+
+
+_________________________
+bash-3.2$ ls < b
+bash: b: No such file or directory
+bash-3.2$ echo $?
+1
+bash-3.2$ 
+_________________________
+bash-3.2$ ./a 
+bash-3.2$ echo $?
+0
+bash-3.2$ ls | ./a || ls
+bash: ./a: Permission denied
+Makefile                execution               minishell.c             pipe.o                  utils
+README.md               expand.c                minishell.h             signals                 wildcard
+a                       expand.o                minishell.o             syntaxerror.c           youssef.txt
+builtins                garbage_collector       parsing                 syntaxerror.o
+env                     minishell               pipe.c                  t9abi
+bash-3.2$ chmod 777 a
+bash-3.2$ ls | ./a || ls
+bash-3.2$ 
+-------------------------
+
+Turboshell$ export > out | << end > out | cat out
+
+_________________________
+>_ Turboshell$ export ''a''
+=================================================================
+==52655==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x602000004532 at pc 0x0001083361cf bp 0x7ffee78d5f20 sp 0x7ffee78d5f18
+
+_______________________
+
+
+>_ Turboshell$ > a
+>_ Turboshell$ chmod 0 a
+>_ Turboshell$ ls > a
+>_ Turboshell$ 
+
+No permission
+
+_______________________
+
+echo $a-
+
+
+_______________________
+
+>_ Turboshell$ ls *
+=================================================================
+==38321==ERROR: AddressSanitizer: heap-use-after-free on address 0x625000000115 at pc 0x0001039950fc bp 0x7ffeec29ae90 sp 0x7ffeec29ae88
+
+
+_______________________
+

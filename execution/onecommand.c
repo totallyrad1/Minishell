@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 12:47:51 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 18:07:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ int	builtinexec(char **args, t_env **env, int infile, int outfile)
 	originlin = dup(STDIN_FILENO);
 	changeinfile(infile);
 	changeoutfile(outfile);
-	status = exec_builtin(args, env);
-	exitstatus(status, 1);
+	exec_builtin(args, env);
+	status = exitstatus(0, 0);
 	if (infile != 0)
 		dup2(originlin, STDIN_FILENO);
 	if (outfile != 1)

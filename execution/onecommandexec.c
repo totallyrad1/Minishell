@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 16:40:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 19:02:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// #include <cstddef>
 
 void	execute_cmd(char *abpath, char **envp, char **args)
 {
@@ -20,8 +19,8 @@ void	execute_cmd(char *abpath, char **envp, char **args)
 		wrerror("turboshell: command not found: ");
 		wrerror(args[0]);
 		wrerror("\n");
+		exit(127);
 	}
-	exit(127);
 }
 
 int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
