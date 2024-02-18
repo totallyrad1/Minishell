@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:52:47 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 21:09:00 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,6 +264,5 @@ int main(int ac, char **av, char **env)
 			handle_input(&cmd, command, env_lst);
 		else
 			free(command);
-		// rad_malloc(0, 1, COMMAND);
 	}
 }
