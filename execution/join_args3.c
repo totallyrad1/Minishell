@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:50:15 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:40:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:29:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	make_args_part3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
+	(*vars)->word = (*cmd)->word;
 	if ((*cmd)->cmd[0] == '\'' || (*cmd)->cmd[0] == '\"')
 		(*vars)->expand = 0;
 	else
@@ -35,6 +36,7 @@ void	set_varsforpart2_1(t_cmd **cmd, t_margs **vars, char *tmp)
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
+	(*vars)->word = (*cmd)->word;
 }
 
 void	set_spaceafter(t_margs **vars, t_cmd **cmd, t_env *env)

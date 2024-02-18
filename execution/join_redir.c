@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 12:43:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:45:54 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 	new->expandheredoc = (*vars)->save->expandheredoc;
 	new->spaceafter = (*vars)->save->spaceafter;
 	new->ambiguous = (*vars)->ambiguous;
+	new->word = (*vars)->word;
 	if ((*vars)->flag == 1)
 	{
 		(*vars)->flag = 0;
@@ -54,8 +55,10 @@ void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 		(*vars)->buffer = NULL;
 	}
 	else
+	{
 		(*vars)->buffer = ft_strjoin((*vars)->buffer,
 				argextraction(*curr, env));
+	}
 	if ((*vars)->buffer == NULL)
 		(*vars)->buffer = ft_strdup("");
 	*curr = (*curr)->next;
@@ -66,11 +69,13 @@ void	new_cmdpart1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 	(*vars)->buffer = NULL;
 	(*vars)->save = *curr;
 	(*vars)->save1 = *curr;
+	(*vars)->word = 0;
 	(*vars)->buffer = ft_strdup((*curr)->cmd);
 	new_cmd_node(new, vars);
 	(*vars)->buffer = NULL;
 	(*curr) = (*curr)->next;
 	(*vars)->save = *curr;
+	(*vars)->word = 1;
 	(*curr)->spaceafter = 0;
 	(*vars)->ambiguous = 0;
 	while (*curr && (*curr)->spaceafter != 1
@@ -97,6 +102,10 @@ t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 		else
 		{
 			vars->save = curr;
+			if (curr->cmd[1] != '<')
+				vars->word = 1;
+			else
+				vars->word = 0;
 			vars->buffer = ft_strdup(curr->cmd);
 			new_cmd_node(&new, &vars);
 			curr = curr->next;

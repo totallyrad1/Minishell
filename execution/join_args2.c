@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:38:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:44:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	setflag(int *flag, char *str)
 
 void	skip_redirections(t_cmd **temp)
 {
-	if (*temp && (*temp)->cmd
+	if (*temp && (*temp)->word != 1 && (*temp)->cmd
 		&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
 		while (*temp && (*temp)->cmd
 			&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
@@ -39,6 +39,7 @@ void	make_args_node(t_cmd **args, t_margs **vars)
 		return ;
 	new->spaceafter = (*vars)->spaceafter;
 	new->cmd = (*vars)->buffer;
+	new->word = (*vars)->word;
 	new->expandwildcard = (*vars)->expand;
 	new->expandheredoc = (*vars)->heredocexpand;
 	new->next = NULL;
@@ -68,6 +69,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
+	(*vars)->word = (*cmd)->word;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
 	make_args_node(new_lst, vars);
 	(*cmd) = (*cmd)->next;
@@ -79,6 +81,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
+	(*vars)->word = (*cmd)->word;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
 	make_args_node(new_lst, vars);
 	*cmd = (*cmd)->next;
@@ -90,6 +93,7 @@ void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
+	(*vars)->word = (*cmd)->word;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
 	if ((*cmd)->cmd[0] == '\'' || (*cmd)->cmd[0] == '\"')
 		(*vars)->expand = 0;

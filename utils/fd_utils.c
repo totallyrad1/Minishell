@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 23:58:13 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:39:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void get_infile(t_cmd *curr, t_env *env, int *infile)
 {
-	if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<')
+	if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<' && curr->cmd[1] == '<')
 	{
 		if(curr->expandheredoc == 0)
 			*infile = heredoc_expanded(curr->heredocfd, env);
 		else
 			*infile = curr->heredocfd;
 	}
-	else if(curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
+	else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 	{
 		*infile = open(curr->next->cmd , O_RDONLY);
 		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next)))
@@ -46,11 +46,11 @@ void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 	curr = cmd;
 	while(curr && *infile != -1 && *outfile != -1 && curr->ambiguous != 1)
 	{
-		if(curr->cmd && curr->cmd[0] == '<')
+		if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<')
 			get_infile(curr, env, infile);
-		else if (curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '>')
+		else if (curr->cmd && curr->word != 1 && curr->cmd[0] == '>' && curr->cmd[1] == '>')
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else if(curr->cmd && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
+		else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		curr = curr->next;
 	}

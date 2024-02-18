@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 14:31:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/18 15:20:48 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ typedef struct s_margs
 typedef struct s_ncmdlst
 {
 	char *buffer;
+	int		word;
 	t_cmd *save;
 	int ambiguous;
 	int flag;
