@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 18:45:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 21:43:20 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	if (!s1 && !s2)
-		return (ft_exit(NULL), NULL);
+		return (NULL);
 	if (!s1 || s1[0] == '\0')
 		return (ft_strdup(s2));
 	if (!s2)
