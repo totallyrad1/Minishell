@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 21:09:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 01:13:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ t_token *join_heredocargs(t_token *cmd)
 	return (new);
 }
 
-void handle_input(t_token **cmd, char *str, t_env *env)
+void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction *sa)
 {
 	t_tree	*root;
 	t_vars *vars;
@@ -153,8 +153,9 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 			// 	curr =curr->next;
 			// }
 			give_state_and_type(&new);
-			if(check_syntax_error(&new, env) == 1)
+			if(check_syntax_error(&new, env, sa) == 1)
 			{
+				sa->sa_handler = (void (*)(int))signal_handler;
 				while(new->next)
 					new = new->next;
 				root = search_logical_operator(new);
@@ -232,23 +233,23 @@ int main(int ac, char **av, char **env)
 {
 	t_token				*cmd;
 	char				*command;
-	struct sigaction	sa;
 	t_env				*env_lst;
-
-	atexit(f);
+	struct sigaction	sa;
+	
+	// atexit(f);
 	if (!isatty(ttyslot()))
 		return (printf("tty required!\n"), 1);
 	(void)ac;
 	(void)av;
 	env_lst = arr_to_env(env);
 	rl_catch_signals = 0;
-	sa.sa_handler = signal_handler;
+	sa.sa_handler = (void (*)(int))signal_handler;
 	while (420)
 	{
 		if (sigaction(SIGINT, &sa, NULL) == -1)
-			exit(1);
+			wrerror("SIGACTION ERROR!\n");
 		if (sigaction(SIGQUIT, &sa, NULL) == -1)
-			exit(1);
+			wrerror("SIGACTION ERROR!\n");
 		cmd = init_token();
 		command = readline(">_ Turboshell$ ");
 		if (!command)
@@ -261,7 +262,7 @@ int main(int ac, char **av, char **env)
 		if (command[0])
 			add_history(command);
 		if(onlyspaces(command) == 1)
-			handle_input(&cmd, command, env_lst);
+			handle_input(&cmd, command, env_lst, &sa);
 		else
 			free(command);
 	}

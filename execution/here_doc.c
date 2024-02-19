@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/16 19:50:09 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 01:48:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,20 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-void	ft_readheredoc(int fd, char *delimiter)
+void	ft_readheredoc(int fd, char *delimiter, int *flag)
 {
 	char	*str;
 	char	*temp;
 
 	while (1)
 	{
+		if (*flag == 1)
+		{
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+			break ;
+		}
 		str = readline("> ");
 		temp = str;
 		if (!str || ft_strcmp(str, delimiter) == 0)
@@ -34,19 +41,24 @@ void	ft_readheredoc(int fd, char *delimiter)
 	}
 }
 
-int	heredocshit(char *delimiter)
+int	heredocshit(char *delimiter, struct sigaction *sa)
 {
 	static int	hdcount;
 	int			fd;
 	int			fdtoreturn;
 	char		*filename;
+	int			flag = 0;
 
+	signal_handler_heredoc(-22, &flag);
+	sa->sa_handler = (void (*)(int))signal_handler_heredoc;
+	if (sigaction(SIGINT, sa, NULL) == -1)
+		wrerror("SIGACTION ERROR!");
 	hdcount++;
 	filename = ft_strjoin(ft_strdup(".heredoc"), ft_itoa(hdcount));
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
 	unlink(filename);
-	ft_readheredoc(fd, delimiter);
+	ft_readheredoc(fd, delimiter, &flag);
 	close(fd);
 	return (fdtoreturn);
 }

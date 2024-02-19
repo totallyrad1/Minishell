@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 20:34:16 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 23:18:14 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	is_full_asterisk(char *str)
 	i = 0;
 	while (str && str[i] && str[i] == '*')
 		i++;
-	if (!str[i])
+	if (str && !str[i])
 		return (1);
 	return (0);
 }

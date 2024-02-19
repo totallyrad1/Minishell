@@ -6,11 +6,25 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 16:40:33 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 01:47:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	signal_handler_heredoc(int signum, int *ptr)
+{
+	static int	*flag;
+
+	if (signum == -22)
+		flag = ptr;
+	if (signum == SIGINT)
+	{
+		exitstatus(1, 1);
+		*flag = 1;
+		printf("\n");
+	}
+}
 
 void	signal_handler(int signum)
 {

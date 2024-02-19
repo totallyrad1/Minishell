@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:30:43 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 01:12:53 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,9 @@ enum e_garbagecollector
 void	*rad_malloc(size_t size, int flag, int type);
 
 //minishell.c
-void handle_input(t_token **cmd, char *str, t_env *env);
+void handle_input(t_token **cmd, char *str, t_env *env, struct sigaction *sa);
 //syntaxerror.c
-int check_syntax_error(t_token **cmd, t_env *env);
+int check_syntax_error(t_token **cmd, t_env *env, struct sigaction *sa);
 //parsing.c
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -308,6 +308,7 @@ int		ft_cd(char **args, t_env **env);
 int		ft_echo(char **args);
 // signal.c
 void	signal_handler(int signum);
+void	signal_handler_heredoc(int signum, int *ptr);
 // start_message.c
 void	print_start_message(void);
 // clone_env.c
@@ -352,7 +353,7 @@ void ft_secondit(t_cmd *token, int *i, t_env *env, char **args);
 //join_args2.c
 char	**join_args1(t_cmd *root, t_env *env);
 //here_doc.c
-int heredocshit(char *delimiter);
+int heredocshit(char *delimiter, struct sigaction *sa);
 int heredoc_expanded(int fd, t_env *env);
 //onecommandeec.c
 t_cmd *get_command_start(t_cmd *node);

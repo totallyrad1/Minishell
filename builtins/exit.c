@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:32:41 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:52:17 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/18 22:28:00 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ static int	check_arg(char *str)
 	return (0);
 }
 
-void	exit_no_args(void)
+void	exit_no_args(t_env *env)
 {
+	free(env->pwd);
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");
 	exit(0);
@@ -50,7 +51,7 @@ int	ft_exit(char **args, t_env *env)
 
 	(void)env;
 	if (!args[1])
-		exit_no_args();
+		exit_no_args(env);
 	if (!check_arg(args[1]))
 	{
 		wrerror("exit\n");
@@ -69,7 +70,7 @@ int	ft_exit(char **args, t_env *env)
 	}
 	wrerror("exit\n");
 	exit_value = ft_atoi(args[1]);
+	free(env->pwd);
 	rad_malloc(0, 1, 0);
-	// free(env->pwd);
 	exit(exit_value);
 }
