@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 18:26:27 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:39:34 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	pipe_part1(t_tree *node, t_env *env, t_tree *save)
 	}
 	if (id == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		close(save->fd[1]);
 		dup2(save->fd[0], STDIN_FILENO);
 		close(save->fd[0]);
@@ -55,6 +57,8 @@ int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	}
 	if (id == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		close(save->fd[1]);
 		dup2(save->fd[0], STDIN_FILENO);
 		close(save->fd[0]);
@@ -64,7 +68,7 @@ int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	}
 	close(save->fd[1]);
 	close(save->fd[0]);
-	while (wait(&status) != -1)
+	while (waitpid(-1, &status, 0) != -1)
 		;
 	status = exitstatus(WEXITSTATUS(status), 1);
 	return (status);
@@ -96,6 +100,8 @@ int	improvedpipeexecution(t_tree *node, t_env *env)
 	}
 	if (id == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		close(node->fd[0]);
 		dup2(node->fd[1], STDOUT_FILENO);
 		close(node->fd[1]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxerror.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 18:27:08 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:07:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int check_limiterssyntax(t_token *curr, int initflag)
 		|| (islimiter2(curr->cmd[0]) && islimiter2(curr->next->cmd[0])) //delimiter mora delimier
 		|| (isredirection(curr->cmd[0]) && isredirection(curr->next->cmd[0])) //redirection after reidr
 		|| (isredirection(curr->cmd[0]) && islimiter1(curr->next->cmd[0])) // redirection moraha delimiter
+		|| (islimiter1(curr->cmd[0]) && (curr->next->cmd[0] == ')')) // delimiter morah closed bracket
 		|| (isredirection(curr->cmd[0]) && (curr->next->cmd[0] == ')' || curr->next->cmd[0] == '(')))  //redir moraha bracket
 		{
 			exitstatus(258, 1);

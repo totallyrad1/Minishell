@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 19:08:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:29:51 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ void	skip_redirections(t_cmd **temp)
 		&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
 		while (*temp && (*temp)->cmd
 			&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
-			(*temp) = (*temp)->next->next;
+			{
+				(*temp) = (*temp)->next;
+				if (*temp)
+					(*temp) = (*temp)->next;
+			}
 }
 
 void	make_args_node(t_cmd **args, t_margs **vars)
@@ -90,6 +94,8 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 {
 	(*vars)->buffer = argextraction(*cmd, env);
+	if((*vars)->buffer && !(*vars)->buffer[0])
+		(*vars)->buffer = NULL;
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:28:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 20:54:31 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*argextraction(t_cmd *token, t_env *env)
 		|| (token->cmd[0] == '$' && !token->cmd[1]
 			&& token->next && token->next->spaceafter == 1))
 		return (ft_strdup(token->cmd));
+	else if (token->cmd[0] != '$' && !token->cmd[1] && !token->next)
+		return (ft_strdup(token->cmd));
 	return (NULL);
 }
 
@@ -34,7 +36,9 @@ char	**var_toarray(char *token, t_env *env)
 	if (!key)
 		return (NULL);
 	res = ft_split(key, 32);
-	return (res);
+	if(res[0])
+		return (res);
+	return (NULL);
 }
 
 int	count_var_args(char *token, t_env *env)

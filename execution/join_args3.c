@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:50:15 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 18:26:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 20:57:03 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,10 @@ t_cmd	*make_args_lst(t_cmd *cmd, t_env *env)
 	vars->buffer = NULL;
 	while (cmd)
 	{
+		vars->buffer = NULL;
 		if (cmd->cmd && (cmd->cmd[0] == '<' || cmd->cmd[0] == '>'))
 			makearpart1(&cmd, &new, &vars, env);
-		else if (cmd->cmd && cmd->cmd[0] == '$')
+		else if (cmd->cmd && cmd->cmd[0] == '$' && cmd->cmd[1])
 		{
 			make_args_part2_1(&cmd, &new, &vars, env);
 			cmd = cmd->next;
