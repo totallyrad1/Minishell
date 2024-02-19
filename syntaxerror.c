@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 22:54:50 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 16:29:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void set_flags(t_token *curr, t_syntax **vars)
 	}
 }
 
-int check_syntax_error(t_token **cmd, t_env *env, struct sigaction *sa)
+int check_syntax_error(t_token **cmd, t_env *env)
 {
 	t_token *curr;
 	t_syntax *vars;
@@ -113,7 +113,7 @@ int check_syntax_error(t_token **cmd, t_env *env, struct sigaction *sa)
 			return (0);
 		if( delimitercheck(curr->cmd) == 1 &&curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
 		{
-			curr->heredocfd = heredocshit(curr->next->cmd, sa);
+			curr->heredocfd = heredocshit(curr->next->cmd);
 			curr->for_heredoc = curr->next->for_heredoc; 
 		}	
 		curr = curr->next;

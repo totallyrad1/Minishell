@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 01:48:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 17:07:02 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-void	ft_readheredoc(int fd, char *delimiter, int *flag)
+void	ft_readheredoc(int fd, char *delimiter)
 {
 	char	*str;
 	char	*temp;
 
 	while (1)
 	{
-		if (*flag == 1)
+		if(exitstatus(0, 0) == -1)
 		{
-			rl_replace_line("", 0);
-			rl_on_new_line();
-			rl_redisplay();
-			break ;
+			exitstatus(1, 1);
+			break;
 		}
 		str = readline("> ");
 		temp = str;
@@ -41,24 +39,23 @@ void	ft_readheredoc(int fd, char *delimiter, int *flag)
 	}
 }
 
-int	heredocshit(char *delimiter, struct sigaction *sa)
+int	heredocshit(char *delimiter)
 {
 	static int	hdcount;
 	int			fd;
 	int			fdtoreturn;
 	char		*filename;
-	int			flag = 0;
 
-	signal_handler_heredoc(-22, &flag);
-	sa->sa_handler = (void (*)(int))signal_handler_heredoc;
-	if (sigaction(SIGINT, sa, NULL) == -1)
-		wrerror("SIGACTION ERROR!");
+	
 	hdcount++;
 	filename = ft_strjoin(ft_strdup(".heredoc"), ft_itoa(hdcount));
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
 	unlink(filename);
-	ft_readheredoc(fd, delimiter, &flag);
+	signal_handler_heredoc(-22, fd);
+	signal(SIGINT, (void (*)(int))signal_handler_heredoc);
+	ft_readheredoc(fd, delimiter);
+	signal(SIGINT, signal_handler);
 	close(fd);
 	return (fdtoreturn);
 }
