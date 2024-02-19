@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 19:06:24 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 23:19:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	heredocshit(char *delimiter)
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
 	unlink(filename);
-	signal_handler_heredoc(-22, fd);
 	signal(SIGINT, (void (*)(int))signal_handler_heredoc);
 	ft_readheredoc(fd, delimiter);
 	signal(SIGINT, signal_handler);

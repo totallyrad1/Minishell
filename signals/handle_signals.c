@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:10:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 23:33:53 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	signal_handler_heredoc(int signum, int fd)
+int heredocendedwith_c(int state, int flag)
 {
-	static int fd2;
+	static int	ret;
 
-	if (signum == -22)
-		fd2 = fd;
+	if(flag == 1)
+		ret = state;
+	return (ret);
+}
+
+void	signal_handler_heredoc(int signum)
+{
 	if (signum == SIGINT)
 	{
+		heredocendedwith_c(1, 1);
 		exitstatus(-1, 1);
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	}

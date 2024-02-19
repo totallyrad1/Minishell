@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 22:44:20 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 23:31:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 			// 	curr =curr->next;
 			// }
 			give_state_and_type(&new);
-			if(check_syntax_error(&new) == 1)
+			if(check_syntax_error(&new) == 1 && heredocendedwith_c(0, 0) == 0)
 			{
 				while(new->next)
 					new = new->next;
@@ -213,6 +213,7 @@ int main(int ac, char **av, char **env)
 			handle_input(&cmd, command, env_lst);
 		else
 			free(command);
+		heredocendedwith_c(0, 1);
 	}
 	return (0);
 }

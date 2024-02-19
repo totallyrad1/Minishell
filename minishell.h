@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 21:48:02 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 23:21:01 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,7 +310,8 @@ int		ft_cd(char **args, t_env **env);
 int		ft_echo(char **args);
 // signal.c
 void	signal_handler(int signum);
-void	signal_handler_heredoc(int signum, int fd);
+void	signal_handler_heredoc(int signum);
+int		heredocendedwith_c(int state, int flag);
 // start_message.c
 void	print_start_message(void);
 // clone_env.c

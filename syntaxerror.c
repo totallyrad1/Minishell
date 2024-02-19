@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:07:06 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 23:23:30 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int check_syntax_error(t_token **cmd)
 
 	curr = *cmd;
 	init_vars(&vars);
-	while(curr)
+	while(curr && heredocendedwith_c(0, 0) == 0)
 	{
 		set_flags(curr, &vars);
 		if(check_limiterssyntax(curr, vars->initflag) == 0)
