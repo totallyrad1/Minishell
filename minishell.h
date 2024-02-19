@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 18:48:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 21:48:02 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct s_list
 {
 	void			*data;
 	struct s_list	*next;
-	struct s_list	*prev;
 	int				size;
 }				t_list;
 

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:08:54 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:14:20 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:55:41 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ static t_list	*lst_make_node(void *data)
 	node = rad_malloc(sizeof(t_list), 0, COMMAND);
 	if (!node)
 		return (ft_exit(NULL), NULL);
-	node->prev = NULL;
-	node->next = NULL;
 	node->data = data;
+	node->next = NULL;
 	return (node);
 }
 
@@ -31,8 +30,6 @@ void	lst_add_node(t_list **lst, void *data)
 	t_list	*tmp;
 
 	new = lst_make_node(data);
-	if (!new)
-		return ;
 	if (!*lst)
 	{
 		*lst = new;

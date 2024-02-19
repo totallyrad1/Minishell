@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:58:31 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 22:44:20 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,16 +199,14 @@ int main(int ac, char **av, char **env)
 		return (printf("tty required!\n"), 1);
 	env_lst = arr_to_env(env);
 	rl_catch_signals = 0;
-	while (isatty(STDIN_FILENO))
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+	while (420)
 	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, SIG_IGN);
 		cmd = init_token();
 		command = readline(">_ Turboshell$ ");
 		if (!command)
 			ft_exit(NULL);
-		if (!ft_strncmp(command, "clear", 5))
-			write(1, "\033[H\033[J", 7);
 		if (command[0])
 			add_history(command);
 		if(onlyspaces(command) == 1)
