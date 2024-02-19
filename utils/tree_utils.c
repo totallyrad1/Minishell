@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:25:29 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/14 16:36:19 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:13:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_tree	*make_node(t_token **cmd, int flag)
 
 	newnode = rad_malloc(sizeof(t_tree), 0, COMMAND);
 	if (!newnode)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	newnode->next = NULL;
 	newnode->left = NULL;
 	newnode->right = NULL;

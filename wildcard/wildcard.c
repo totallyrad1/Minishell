@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 23:18:14 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:15:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,18 @@ char	**wildcard(t_cmd *args, t_list *dir_entries)
 	{
 		ret = rad_malloc(sizeof(char *) * 2, 0, COMMAND);
 		if (!ret)
-			return (NULL);
+			return (ft_exit(NULL), NULL);
 		ret[0] = ft_strdup(args->cmd);
 		ret[1] = NULL;
 		return (ret);
 	}
 	ret = rad_malloc(sizeof(char *) * (dirent->size + 1), 0, COMMAND);
 	if (!ret)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	i = 0;
 	while (dirent)
 	{
-		ret[i] = ft_strdup((char *)dirent->data);
-		if (!ret[i++])
-			return (NULL);
+		ret[i++] = ft_strdup((char *)dirent->data);
 		dirent = dirent->next;
 	}
 	ret[i] = NULL;
@@ -77,17 +75,13 @@ char	**get_all_wildcards(t_cmd *args)
 	}
 	ret = rad_malloc(sizeof(char *) * (len_arr_list(lst) + 1), 0, COMMAND);
 	if (!ret)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	i = 0;
 	while (lst)
 	{
 		j = 0;
 		while (((char **)lst->data)[j])
-		{
-			ret[i] = ft_strdup(((char **)lst->data)[j++]);
-			if (!ret[i++])
-				return (NULL);
-		}
+			ret[i++] = ft_strdup(((char **)lst->data)[j++]);
 		lst = lst->next;
 	}
 	ret[i] = NULL;

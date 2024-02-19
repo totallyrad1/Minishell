@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 17:14:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:28:09 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,12 @@ int	one_command_execution(t_tree *node, t_env *env)
 	t_cmd	*lst_args;
 	t_cmd	*new_joinedargs;
 	t_cmd	*new;
-	t_cmd *temp;
 
 	infile = 0;
 	outfile = 1;
 	new = new_cmd_list(node->next, env);
 	lst_args = make_args_lst(new, env);
-	new_joinedargs = joined_args(lst_args, env);
+	new_joinedargs = joined_args(lst_args);
 	args = get_all_wildcards(new_joinedargs);
 	getfds(lst_args, env, &infile, &outfile);
 	if (outfile == -1 || infile == -1)

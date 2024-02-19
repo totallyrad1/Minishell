@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:44:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:08:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	make_args_node(t_cmd **args, t_margs **vars)
 
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!new)
-		return ;
+		return (ft_exit(NULL));
 	new->spaceafter = (*vars)->spaceafter;
 	new->cmd = (*vars)->buffer;
 	new->word = (*vars)->word;

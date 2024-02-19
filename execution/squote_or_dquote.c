@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   squote_or_dquote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 01:23:57 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:07:01 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ char	*heredoc_expanding(char *str, t_env *env)
 	i = 0;
 	tmp = i;
 	new_str = ft_strdup("");
-	if (!new_str)
-		return (NULL);
 	while (str[i])
 	{
 		while (str[i] == '$'

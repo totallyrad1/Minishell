@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:28:36 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:55:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exec_builtin(char **args, t_env **envp)
 	if (!ft_strcmp(args[0], "unset"))
 		return (unset(args, envp));
 	if (!ft_strcmp(args[0], "exit"))
-		return (ft_exit(args, *envp));
+		return (ft_exit(args), 0);
 	return (0);
 }
 

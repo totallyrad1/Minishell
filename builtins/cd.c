@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 22:31:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:47:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,31 +32,19 @@ static int	chdir_home(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
-		(*env)->pwd = getcwd(NULL, 0);
+		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
+		if (!(*env)->pwd)
+			ft_exit(NULL);
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		return (1);
 	}
 	return (0);
 }
 
-char	*get_first_dir(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '/')
-		i++;
-	if (!str[i])
-		return (NULL);
-	return (ft_strdup_len(str, i));
-}
-
-static int	dir_not_found(char **args, t_env **env)
+static int	dir_not_found(char **args)
 {
 	DIR		*dir;
 
-	(void)env;
 	dir = opendir(args[1]);
 	if (!dir)
 	{
@@ -95,7 +83,6 @@ static int	dir_removed(char **args, t_env **env, char *dir)
 		points = get_points(args[1]);
 		dir = ft_strjoin(dir, points);
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
 		(*env)->pwd = dir;
 		change_value_env(env, "PWD", ft_strdup(dir));
 		return (1);
@@ -122,8 +109,9 @@ static int	chdir_dash(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
-		(*env)->pwd = getcwd(NULL, 0);
+		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
+		if (!(*env)->pwd)
+			ft_exit(NULL);
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		get_pwd(*env);
 		return (1);
@@ -146,9 +134,9 @@ int	ft_cd(char **args, t_env **env)
 		return (0);
 	if (chdir_dash(args, env))
 		return (0);
-	if (dir_not_found(args, env))
+	if (dir_not_found(args))
 		return (0);
-	dir = getcwd(NULL, 0);
+	dir = ft_strdup_del(getcwd(NULL, 0));
 	if (dir_removed(args, env, dir))
 		return (0);
 	if (!ft_strcmp(dir, (*env)->pwd))
@@ -157,7 +145,6 @@ int	ft_cd(char **args, t_env **env)
 		return (0);
 	}
 	change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-	free((*env)->pwd);
 	(*env)->pwd = dir;
 	change_value_env(env, "PWD", ft_strdup(dir));
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:05:06 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 00:25:31 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:13:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	ft_quote(t_token **cmd, t_vars *vars)
 			if(save == '"')
 				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), hasspaceafter(vars->cmd, vars->tmp - 1));
 			else
-			 	ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), hasspaceafter(vars->cmd, vars->tmp - 1));
+				ft_newnode(cmd, ft_substr(vars->cmd, vars->tmp, vars->i - vars->tmp), hasspaceafter(vars->cmd, vars->tmp - 1));
 		}
 		return (ft_switch(cmd, vars));
 	}

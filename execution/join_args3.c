@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:50:15 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 15:29:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 18:26:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_cmd	*make_args_lst(t_cmd *cmd, t_env *env)
 
 	vars = rad_malloc(sizeof(t_margs), 0, COMMAND);
 	if (!vars)
-		ft_exit(NULL, env);
+		ft_exit(NULL);
 	vars->flag = 1;
 	vars->buffer = NULL;
 	while (cmd)

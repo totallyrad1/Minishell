@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:32:41 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 22:28:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:55:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,35 @@ static int	check_arg(char *str)
 	return (0);
 }
 
-void	exit_no_args(t_env *env)
+static void	exit_no_args(void)
 {
-	free(env->pwd);
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");
 	exit(0);
 }
 
-int	ft_exit(char **args, t_env *env)
+static void	exit_failure(void)
+{
+	rad_malloc(0, 1, 0);
+	wrerror("exit\n");
+	exit(1);
+}
+
+static void	exit_with_value(int value)
+{
+	rad_malloc(0, 1, 0);
+	wrerror("exit\n");
+	exit(value);
+}
+
+void	ft_exit(char **args)
 {
 	int	exit_value;
 
-	(void)env;
+	if (!args)
+		exit_failure();
 	if (!args[1])
-		exit_no_args(env);
+		exit_no_args();
 	if (!check_arg(args[1]))
 	{
 		wrerror("exit\n");
@@ -66,11 +80,8 @@ int	ft_exit(char **args, t_env *env)
 		wrerror("exit\n");
 		wrerror("Turboshell: exit: too many arguments\n");
 		exitstatus(1, 1);
-		return (0);
+		return ;
 	}
-	wrerror("exit\n");
 	exit_value = ft_atoi(args[1]);
-	free(env->pwd);
-	rad_malloc(0, 1, 0);
-	exit(exit_value);
+	exit_with_value(exit_value);
 }

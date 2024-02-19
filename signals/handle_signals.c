@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 17:06:54 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:10:35 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	signal_handler_heredoc(int signum, int fd)
 
 void	signal_handler(int signum)
 {
-	// if (waitpid(-1, NULL, WNOHANG) == 0)
-	// 	return ;
 	if (signum == SIGINT)
 	{
 		exitstatus(1, 1);

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 16:29:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:27:08 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int check_bracketssyntax(t_token *curr, t_syntax *vars)
 	return 1;
 }
 
-void init_vars(t_syntax **vars, t_env *env)
+void init_vars(t_syntax **vars)
 {
 	*vars = rad_malloc(sizeof(t_syntax), 0, COMMAND);
 	if(!*vars)
-		ft_exit(NULL, env);
+		ft_exit(NULL);
 	(*vars)->closedc = 0;
 	(*vars)->openc = 0;
 	(*vars)->flag = 0;
@@ -97,13 +97,13 @@ void set_flags(t_token *curr, t_syntax **vars)
 	}
 }
 
-int check_syntax_error(t_token **cmd, t_env *env)
+int check_syntax_error(t_token **cmd)
 {
 	t_token *curr;
 	t_syntax *vars;
 
 	curr = *cmd;
-	init_vars(&vars, env);
+	init_vars(&vars);
 	while(curr)
 	{
 		set_flags(curr, &vars);

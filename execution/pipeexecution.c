@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 12:46:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 18:26:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	if (id == -1)
 	{
 		wrerror("turboshell: fork: Resource temporarily unavailable\n");
-		ft_exit(NULL, env);
+		ft_exit(NULL);
 	}
 	if (id == 0)
 	{
@@ -86,7 +86,7 @@ int	improvedpipeexecution(t_tree *node, t_env *env)
 	if (pipe(node->fd) == -1)
 	{
 		wrerror("pipe failed\n");
-		ft_exit(NULL, env);
+		ft_exit(NULL);
 	}
 	id = fork();
 	if (id == -1)

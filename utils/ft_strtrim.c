@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:52:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/14 16:34:34 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:12:40 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (ft_strdup(""));
 	trimmedstring = (char *)rad_malloc((len + 1) * sizeof(char), 0, OTHERS);
 	if (trimmedstring == NULL)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	ft_strlcpy(trimmedstring, s1 + trimstart, len + 1);
 	return (trimmedstring);
 }

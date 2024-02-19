@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:40:31 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/14 16:34:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 18:47:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strdup(char *s1)
 		i++;
 	cpy = rad_malloc(i + 1, 0, OTHERS);
 	if (!cpy)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	while (j < i)
 	{
 		cpy[j] = s1[j];
@@ -46,12 +46,37 @@ char	*ft_strdup_len(char *s1, int len)
 	i = 0;
 	cpy = rad_malloc(len + 1, 0, OTHERS);
 	if (!cpy)
-		return (NULL);
+		return (ft_exit(NULL), NULL);
 	while (i < len)
 	{
 		cpy[i] = s1[i];
 		i++;
 	}
 	cpy[i] = '\0';
+	return (cpy);
+}
+
+char	*ft_strdup_del(char *s1)
+{
+	int		i;
+	int		j;
+	char	*cpy;
+
+	if (!s1)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+		i++;
+	cpy = rad_malloc(i + 1, 0, OTHERS);
+	if (!cpy)
+		return (ft_exit(NULL), NULL);
+	while (j < i)
+	{
+		cpy[j] = s1[j];
+		j++;
+	}
+	cpy[j] = '\0';
+	free(s1);
 	return (cpy);
 }

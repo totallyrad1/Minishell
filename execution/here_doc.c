@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 17:07:02 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:06:24 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,22 @@ int	heredocshit(char *delimiter)
 	return (fdtoreturn);
 }
 
-char	*heredocread(int fd, t_env *env)
+char	*heredocread(int fd)
 {
 	char	*everything;
 	char	*buffer;
 	int		bytes_read;
 
 	buffer = rad_malloc(100, 0, COMMAND);
+	if (!buffer)
+		return (ft_exit(NULL), NULL);
 	everything = NULL;
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, 99);
 		if (bytes_read == -1)
-			ft_exit(NULL, env);
+			ft_exit(NULL);
 		buffer[bytes_read] = '\0';
 		everything = ft_strjoin(everything, buffer);
 	}
@@ -87,7 +89,7 @@ int	heredoc_expanded(int fd, t_env *env)
 	char	*everything;
 	char	*new;
 
-	everything = heredocread(fd, env);
+	everything = heredocread(fd);
 	new = heredoc_expanding(everything, env);
 	newfd = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
 	fdtoreturn = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);

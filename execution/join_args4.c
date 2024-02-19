@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args4.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 01:08:20 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 16:31:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:08:47 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	make_args_node1(t_cmd **args, t_jn_args **vars)
 
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!new)
-		return ;
+		return (ft_exit(NULL));
 	new->spaceafter = (*vars)->spaceafter;
 	new->cmd = (*vars)->buffer;
 	new->word = (*vars)->word;
@@ -72,14 +72,14 @@ void	set_word_space(t_cmd *args, t_jn_args **vars)
 	}
 }
 
-t_cmd	*joined_args(t_cmd *args, t_env *env)
+t_cmd	*joined_args(t_cmd *args)
 {
 	t_jn_args	*vars;
 	t_cmd		*new;
 
 	vars = rad_malloc(sizeof(t_jn_args), 0, COMMAND);
 	if (!vars)
-		ft_exit(NULL, env);
+		ft_exit(NULL);
 	vars->flag = 1;
 	vars->expand = 0;
 	vars->buffer = NULL;

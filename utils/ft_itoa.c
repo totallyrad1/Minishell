@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:28:46 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 15:47:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 19:11:40 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_itoa(int n)
 		len += 1;
 	str = (char *)rad_malloc((len + 1) * sizeof(char), 0, OTHERS);
 	if (!str)
-		return (NULL);
+		ft_exit(NULL);
 	putitoa(neg, len, str, nb);
 	return (str);
 }

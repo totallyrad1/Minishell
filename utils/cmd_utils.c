@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:32:03 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/16 21:48:00 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/19 19:10:59 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd	*make_cmd(t_token *token)
 
 	cmd = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!cmd)
-		return (NULL);
+		ft_exit(NULL);
 	cmd->cmd = ft_strdup(token->cmd);
 	cmd->fd[0] = -1;
 	cmd->fd[1] = -1;
@@ -35,8 +35,6 @@ void	add_cmd(t_cmd **cmd, t_token *token)
 	t_cmd	*tmp;
 
 	new = make_cmd(token);
-	if (!new)
-		return ;
 	tmp = *cmd;
 	while (tmp->next)
 		tmp = tmp->next;

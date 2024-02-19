@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 16:38:58 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 18:48:58 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	*rad_malloc(size_t size, int flag, int type);
 //minishell.c
 void handle_input(t_token **cmd, char *str, t_env *env);
 //syntaxerror.c
-int check_syntax_error(t_token **cmd, t_env *env);
+int check_syntax_error(t_token **cmd);
 //parsing.c
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -205,6 +205,7 @@ size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
 char	*ft_strdup(char *s1);
 char	*ft_strdup_len(char *s1, int len);
+char	*ft_strdup_del(char *s1);
 size_t	ft_strlen(const char *s);
 void	ft_newnode(t_token **cmd, char *value, int spaceafter);
 void	ft_free_cmd(t_token *lst);
@@ -290,6 +291,7 @@ void	add_env(t_env **env, char *key, char *value);
 char	**env_to_arr(t_env *env);
 char	*get_value_env(t_env *env, char *key);
 void	change_value_env(t_env **env, char *key, char *value);
+void	change_value_env_check_null(t_env **env, char *key, char *value);
 void	del_node_env(t_env **env, char *key);
 t_env	*get_node_env(t_env *env, char *key);
 int		key_exist_env(t_env *env, char *key);
@@ -359,7 +361,7 @@ int heredoc_expanded(int fd, t_env *env);
 //onecommandeec.c
 t_cmd *get_command_start(t_cmd *node);
 int builtinexec(char **args, t_env **env, int infile, int outfile);
-int ft_exit(char **args, t_env *env);
+void	ft_exit(char **args);
 //wildcard
 void	lst_add_node(t_list **lst, void *data);
 t_list	*get_dirent(void);
@@ -374,7 +376,7 @@ void make_args_node(t_cmd **args, t_margs **vars);
 void	skip_redirections(t_cmd **temp);
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
-t_cmd *joined_args(t_cmd *args, t_env *env);
+t_cmd *joined_args(t_cmd *args);
 
 void	print2D(t_tree *root);
 #endif
