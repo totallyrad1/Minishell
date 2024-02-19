@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:31:26 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/19 14:38:23 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int checkreadpermissions(char *str, int *infile)
+{
+	if (access(str, F_OK) == 0 && access(str, R_OK) != 0)
+	{
+		wrerror("bash: ");
+		wrerror(str);
+		wrerror(": Permission denied\n");
+		*infile = -1;
+		return (0);
+	}
+	return (1);
+}
+
+int checkwritepermissions(char *str, int *outfile)
+{
+	if (access(str, F_OK) == 0 && access(str, W_OK) != 0)
+	{
+		wrerror("bash: ");
+		wrerror(str);
+		wrerror(": Permission denied\n");
+		*outfile = -1;
+		return (0);
+	}
+	return (1);
+}
 
 void get_infile(t_cmd *curr, t_env *env, int *infile)
 {
@@ -23,6 +49,8 @@ void get_infile(t_cmd *curr, t_env *env, int *infile)
 	}
 	else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 	{
+		if(checkreadpermissions(curr->next->cmd, infile) == 0)
+			return ;
 		*infile = open(curr->next->cmd , O_RDONLY);
 		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next, NULL)))
 		{
@@ -49,9 +77,19 @@ void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 		if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<')
 			get_infile(curr, env, infile);
 		else if (curr->cmd && curr->word != 1 && curr->cmd[0] == '>' && curr->cmd[1] == '>')
+		{
+			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
+				break;
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
+		}
 		else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
+		{
+			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
+				break;
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		}
+		if(*outfile == -1 || *infile == -1)
+			break;
 		curr = curr->next;
 	}
 }
