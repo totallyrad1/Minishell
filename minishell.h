@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:48:00 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:19:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,9 @@ typedef struct s_args
 typedef struct s_list
 {
 	void			*data;
+	int				is_matching;
 	struct s_list	*next;
+	struct s_list	*prev;
 	int				size;
 }				t_list;
 
@@ -189,6 +191,16 @@ typedef struct s_jn_args
 	char	*buffer;
 	int		spaceafter;
 }				t_jn_args;
+
+typedef struct s_pattern
+{
+	int	i;
+	int	j;
+	int	last_asterisk;
+	int	match;
+	int	len_pattern;
+	int	len_str;
+}				t_pattern;
 
 enum e_garbagecollector
 {
@@ -376,9 +388,12 @@ void	ft_exit(char **args);
 //wildcard
 void	lst_add_node(t_list **lst, void *data);
 t_list	*get_dirent(void);
-int	len_arr_list(t_list *lst);
-char	**wildcard(t_cmd *args, t_list *dirent);
+int		len_arr_list(t_list *lst);
+char	**wildcard(t_cmd *args);
 char	**get_all_wildcards(t_cmd *args);
+int		is_match(char *str, char *pattern);
+t_list	*sort_list(t_list* lst, int (*cmp)(const char *, const char *));
+void	free_list(t_list **lst);
 
 t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
 void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);

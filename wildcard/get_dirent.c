@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:06:36 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:58:03 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:12:11 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ t_list	*get_dirent(void)
 	dp = readdir(dir);
 	while (dp)
 	{
-		if (dp->d_name[0] != '.')
-			lst_add_node(&lst, (void *)ft_strdup(dp->d_name));
+		lst_add_node(&lst, (void *)ft_strdup(dp->d_name));
 		dp = readdir(dir);
 	}
+	lst = sort_list(lst, ft_strcmp);
 	closedir(dir);
 	return (lst);
 }

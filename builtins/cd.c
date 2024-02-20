@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 18:47:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:15:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	chdir_home(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
+		free((*env)->pwd);
 		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
 		if (!(*env)->pwd)
 			ft_exit(NULL);
@@ -83,6 +84,7 @@ static int	dir_removed(char **args, t_env **env, char *dir)
 		points = get_points(args[1]);
 		dir = ft_strjoin(dir, points);
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
+		free((*env)->pwd);
 		(*env)->pwd = dir;
 		change_value_env(env, "PWD", ft_strdup(dir));
 		return (1);
@@ -110,6 +112,7 @@ static int	chdir_dash(char **args, t_env **env)
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
 		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
+		free((*env)->pwd);
 		if (!(*env)->pwd)
 			ft_exit(NULL);
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
@@ -145,6 +148,7 @@ int	ft_cd(char **args, t_env **env)
 		return (0);
 	}
 	change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
+	free((*env)->pwd);
 	(*env)->pwd = dir;
 	change_value_env(env, "PWD", ft_strdup(dir));
 	return (0);

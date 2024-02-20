@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 21:42:49 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:17:00 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void get_infile(t_cmd *curr, t_env *env, int *infile)
 			return ;
 		*infile = open(curr->next->cmd , O_RDONLY);
 		addfd(*infile, 1);
-		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next, NULL)))
+		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next)))
 		{
 			wrerror("turboshell: ");
 			wrerror(curr->next->cmd);

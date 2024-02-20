@@ -6,39 +6,74 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:57:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:12:18 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	is_full_asterisk(char *str)
+static int	count_len_matching(char *str, t_list *dirent)
 {
-	int	i;
-
-	i = 0;
-	while (str && str[i] && str[i] == '*')
-		i++;
-	if (str && !str[i])
+	int	count;
+	
+	count = 0;
+	while (dirent)
 	{
-		return (1);
+		if (is_match((char *)dirent->data, str))
+		{
+			dirent->is_matching = 1;
+			count++;
+		}
+		dirent = dirent->next;
 	}
-	return (0);
+	return (count);
 }
 
-char	**wildcard(t_cmd *args, t_list *dir_entries)
+void	join_dirent(t_list *dirent)
+{
+	while (dirent)
+	{
+		dirent->data = (void *)ft_strjoin("./", (char *)dirent->data);
+		dirent = dirent->next;
+	}
+}
+
+t_list	*remove_hidden(t_list *dirent)
+{
+	t_list	*new_list;
+	t_list	*head;
+
+	new_list = NULL;
+	head = dirent;
+	while (dirent)
+	{
+		if (((char *)dirent->data)[0] != '.')
+			lst_add_node(&new_list, ft_strdup((char *)dirent->data));
+		dirent = dirent->next;
+	}
+	free_list(&head);
+	return (new_list);
+}
+
+char	**wildcard(t_cmd *args)
 {
 	char	*str;
 	char	**ret;
 	int		i;
 	t_list	*dirent;
+	int		len_ret;
 
-	if (!dir_entries)
-		dirent = get_dirent();
-	else
-		dirent = dir_entries;
+	dirent = get_dirent();
 	str = args->cmd;
-	if (!is_full_asterisk(str) || !args->expandwildcard)
+	if (str[0] == '.' && str[1] == '/')
+	{
+		dirent = remove_hidden(dirent);
+		join_dirent(dirent);
+	}
+	else if (str[0] != '.')
+		dirent = remove_hidden(dirent);
+	len_ret = count_len_matching(str, dirent);
+	if (!ft_strchr(str, '*') || !args->expandwildcard || len_ret == 0)
 	{
 		ret = rad_malloc(sizeof(char *) * 2, 0, COMMAND);
 		if (!ret)
@@ -47,32 +82,60 @@ char	**wildcard(t_cmd *args, t_list *dir_entries)
 		ret[1] = NULL;
 		return (ret);
 	}
-	ret = rad_malloc(sizeof(char *) * (dirent->size + 1), 0, COMMAND);
+	ret = rad_malloc(sizeof(char *) * (len_ret + 1), 0, COMMAND);
 	if (!ret)
 		return (ft_exit(NULL), NULL);
 	i = 0;
 	while (dirent)
 	{
-		ret[i++] = ft_strdup((char *)dirent->data);
+		if (dirent->is_matching)
+			ret[i++] = ft_strdup((char *)dirent->data);
 		dirent = dirent->next;
 	}
 	ret[i] = NULL;
 	return (ret);
 }
 
+char	**args_to_arr(t_cmd *args)
+{
+	int		len;
+	t_cmd	*head;
+	char	**ret;
+
+	len = 0;
+	head = args;
+	while (args)
+	{
+		len++;
+		args = args->next;
+	}
+	ret = rad_malloc(sizeof(char *) * (len + 1), 0, COMMAND);
+	if (!ret)
+		return (ft_exit(NULL), NULL);
+	args = head;
+	len = 0;
+	while (args)
+	{
+		ret[len++] = ft_strdup(args->cmd);
+		args = args->next;
+	}
+	ret[len] = NULL;
+	return (ret);
+}
+
 char	**get_all_wildcards(t_cmd *args)
 {
-	t_list	*dirent;
 	t_list	*lst;
 	char	**ret;
 	int		i;
 	int		j;
 
-	dirent = get_dirent();
+	if (!ft_strcmp(args->cmd, "export"))
+		return (args_to_arr(args));
 	lst = NULL;
 	while (args)
 	{
-		lst_add_node(&lst, (void *)wildcard(args, dirent));
+		lst_add_node(&lst, (void *)wildcard(args));
 		args = args->next;
 	}
 	ret = rad_malloc(sizeof(char *) * (len_arr_list(lst) + 1), 0, COMMAND);
