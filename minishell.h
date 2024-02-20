@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 14:21:15 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:21:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,12 @@ typedef struct s_ncmdlst
 	int flag;
 	t_cmd *save1;
 }				t_ncmdlst;
+
+typedef struct s_fd_list
+{
+	int fd;
+	struct s_fd_list *next;
+}				t_fd_list;
 
 typedef struct s_jn_args
 {
@@ -377,11 +383,13 @@ char	**get_all_wildcards(t_cmd *args);
 t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
 void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);
 
-void make_args_node(t_cmd **args, t_margs **vars);
+void	make_args_node(t_cmd **args, t_margs **vars);
 void	skip_redirections(t_cmd **temp);
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
-t_cmd *joined_args(t_cmd *args);
+t_cmd	*joined_args(t_cmd *args);
+
+void addfd(int fd, int flag);
 
 void	print2D(t_tree *root);
 #endif

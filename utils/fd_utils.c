@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 14:38:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:24:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ void get_infile(t_cmd *curr, t_env *env, int *infile)
 			*infile = heredoc_expanded(curr->heredocfd, env);
 		else
 			*infile = curr->heredocfd;
+		addfd(*infile, 1);
 	}
 	else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '<' && curr->cmd[1] == '\0')
 	{
 		if(checkreadpermissions(curr->next->cmd, infile) == 0)
 			return ;
 		*infile = open(curr->next->cmd , O_RDONLY);
+		addfd(*infile, 1);
 		if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next, NULL)))
 		{
 			wrerror("turboshell: ");
@@ -81,12 +83,14 @@ void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
 				break;
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_APPEND, 0644);
+			addfd(*outfile, 1);
 		}
 		else if(curr->cmd && curr->word != 1 && curr->cmd[0] == '>' && curr->cmd[1] == '\0')
 		{
 			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
 				break;
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			addfd(*outfile, 1);
 		}
 		if(*outfile == -1 || *infile == -1)
 			break;

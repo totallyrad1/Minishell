@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 19:03:31 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:33:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,15 @@ int	heredocshit(char *delimiter)
 	char		*filename;
 
 	
-	hdcount++;
+	hdcount += delimiter[0];
 	exitstatus(0, 1);
 	filename = ft_strjoin(ft_strdup(".heredoc"), ft_itoa(hdcount));
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
+	if (fd == -1 || fdtoreturn == -1)
+		ft_exit(NULL);
+	addfd(fd, 1);
+	addfd(fdtoreturn, 1);
 	unlink(filename);
 	signal(SIGINT, (void (*)(int))signal_handler_heredoc);
 	ft_readheredoc(fd, delimiter);
@@ -91,10 +95,14 @@ int	heredoc_expanded(int fd, t_env *env)
 
 	everything = heredocread(fd);
 	new = heredoc_expanding(everything, env);
-	newfd = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
-	fdtoreturn = open("dasdasdas", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	newfd = open(".hdexpanded999", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fdtoreturn = open(".hdexpanded999", O_CREAT | O_RDWR | O_TRUNC, 0644);
+	if (newfd == -1 || fdtoreturn == -1)
+		ft_exit(NULL);
+	addfd(newfd, 1);
+	addfd(fdtoreturn, 1);
 	write(newfd, new, ft_strlen(new));
-	unlink("dasdasdas");
+	unlink(".hdexpanded999");
 	close(newfd);
 	return (fdtoreturn);
 }

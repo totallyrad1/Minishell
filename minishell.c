@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 16:46:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:26:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ int main(int ac, char **av, char **env)
 			free(command);
 		heredocendedwith_c(0, 1);
 		rad_malloc(0, 1, COMMAND);
+		addfd(0, 0);
 	}
 	return (0);
 }
