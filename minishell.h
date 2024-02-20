@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 23:21:01 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:21:15 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,12 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
-#include <sys/ioctl.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+
+# define FORK_ERROR "turboshell: fork: Resource temporarily unavailable\n"
+# define PIPE_ERROR "pipe failed\n"
+
 
 enum e_type
 {

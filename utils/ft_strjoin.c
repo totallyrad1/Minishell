@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 21:43:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 12:28:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		newstring[i++] = s2[j++];
 	newstring[i] = '\0';
-	return ( newstring);
+	return (newstring);
 }

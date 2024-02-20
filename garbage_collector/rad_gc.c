@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rad_gc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:59:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 14:41:02 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,15 @@ static void	rad_free(t_gc **gc, int type)
 
 static void	addmallocedptr(void *ptr, t_gc **gc, int flag, int type)
 {
-	t_gc	*curr;
-	t_gc	*new;
+	t_gc		*curr;
+	t_gc		*new;
+	static t_gc	*last;
 
 	if (flag == 0)
+	{
 		(*gc)->mallocedptr = ptr;
+		last = *gc;
+	}
 	else
 	{
 		curr = *gc;
@@ -68,11 +72,10 @@ static void	addmallocedptr(void *ptr, t_gc **gc, int flag, int type)
 			return ;
 		new->mallocedptr = ptr;
 		new->next = NULL;
-		while (curr->next)
-			curr = curr->next;
-		curr->next = new;
 		new->prev = curr;
-		curr->type = type;
+		new->type = type;
+		last->next = new;
+		last = new;
 	}
 }
 

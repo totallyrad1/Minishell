@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:39:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:54:14 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,36 @@ void	execute_cmd(char *abpath, char **envp, char **args)
 	}
 }
 
+int getabpath(char **envp, char *command , char **abpath)
+{
+	struct stat	filestat;
+	
+	if (access(command, F_OK) != 0)
+		*abpath = get_working_path(envp, command);
+	else
+	{
+		*abpath = ft_strdup(command);
+		if (stat(*abpath, &filestat) == 0)
+		{
+       		if (S_ISDIR(filestat.st_mode))
+          	{
+				wrerror(*abpath);
+				wrerror(" :is a Directory\n");
+				return (exitstatus(126, 1));
+			}
+		}
+	}
+	if (access(*abpath, F_OK) == 0 && access(*abpath, X_OK) != 0)
+	{
+		wrerror("permission denied: ");
+		wrerror(command);
+		wrerror("\n");
+		return (exitstatus(126, 1));
+	}
+	return (exitstatus(0, 0));
+}
+
+
 int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 {
 	pid_t	id;
@@ -33,33 +63,21 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	char	**envp;
 
 	envp = env_to_arr(env);
-	if (access(args[0], F_OK) != 0)
-		absolutepath = get_working_path(envp, args[0]);
-	else
-		absolutepath = ft_strdup(args[0]);
-	if (access(absolutepath, F_OK) == 0 && access(absolutepath, X_OK) != 0)
-	{
-		wrerror("turboshell :permission denied: ");
-		wrerror(args[0]);
-		wrerror("\n");
-		exitstatus(126, 1);
-		return (126);
-	}
+	if(getabpath(envp, args[0], &absolutepath) != 0)
+		return (exitstatus(0, 0));
 	id = fork();
 	if (id == -1)
-	{
-		wrerror("turboshell: fork: Resource temporarily unavailable\n");
-		return (127);
-	}
+		return (wrerror(FORK_ERROR), ft_exit(NULL), 0);
 	if (id == 0)
 	{
 		changeinfile(infile);
 		changeoutfile(outfile);
 		execute_cmd(absolutepath, envp, args);
 	}
-	while (waitpid(-1, &status, 0) != -1);
+	while (waitpid(-1, &status, 0) != -1)
+		;
 	exitstatus(WEXITSTATUS(status), 1);
-	return (status);
+	return (exitstatus(0, 0));
 }
 
 int	one_command_execution(t_tree *node, t_env *env)

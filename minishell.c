@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 23:31:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:55:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 				signal(SIGINT, SIG_IGN);
 				andorexecution(root, env);
 				signal(SIGINT, signal_handler);
-				signal(SIGQUIT, SIG_DFL);
+				signal(SIGQUIT, SIG_IGN);
 			}
 		}
     }
@@ -214,6 +214,7 @@ int main(int ac, char **av, char **env)
 		else
 			free(command);
 		heredocendedwith_c(0, 1);
+		rad_malloc(0, 1, COMMAND);
 	}
 	return (0);
 }
