@@ -6,11 +6,39 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 14:41:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 15:57:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// static void	free_type(t_gc **gc, int type)
+// {
+// 	t_gc	*curr;
+// 	t_gc	*rightcurr;
+// 	t_gc	*leftcurr;
+
+// 	curr = *gc;
+// 	while(curr->next)
+// 		curr =	curr->next;
+// 	while (curr)
+// 	{
+// 		if (curr->type == type)
+// 		{
+// 			rightcurr = curr->next;
+// 			leftcurr = curr->prev;
+// 			if(rightcurr)
+// 				rightcurr->prev = leftcurr;
+// 			if(leftcurr)
+// 				leftcurr->next = rightcurr;
+// 			if(curr->mallocedptr)
+// 				free(curr->mallocedptr);
+// 			curr = leftcurr;
+// 		}
+// 		else
+// 			curr = curr->prev;
+// 	}
+// }
 
 static void	free_type(t_gc **gc, int type)
 {

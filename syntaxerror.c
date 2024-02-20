@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 23:23:30 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:43:18 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,12 @@ int check_syntax_error(t_token **cmd)
 			curr->for_heredoc = curr->next->for_heredoc; 
 		}	
 		curr = curr->next;
+		if(vars->openc != vars->closedc)
+		{
+			exitstatus(258, 1);
+			return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);
+		}
 	}
-	if(vars->openc != vars->closedc)
-	{
-		exitstatus(258, 1);
-		return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);
-	}
+	printf("Here\n");
 	return (1);
 }
