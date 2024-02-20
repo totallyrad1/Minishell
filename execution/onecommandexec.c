@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 14:54:14 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:04:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int getabpath(char **envp, char *command , char **abpath)
 		wrerror("\n");
 		return (exitstatus(126, 1));
 	}
-	return (exitstatus(0, 0));
+	return (exitstatus(0, 1));
 }
 
 
@@ -76,7 +76,16 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	}
 	while (waitpid(-1, &status, 0) != -1)
 		;
-	exitstatus(WEXITSTATUS(status), 1);
+	if (WIFSIGNALED(status))
+    {
+        if (WTERMSIG(status) == 3)
+            printf("Quit: 3\n");
+        else
+            printf("\n");
+        exitstatus(WTERMSIG(status) + 128, 1);
+    }
+	else
+        exitstatus(WEXITSTATUS(status), 1);
 	return (exitstatus(0, 0));
 }
 

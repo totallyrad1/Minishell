@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 23:19:24 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:03:31 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	heredocshit(char *delimiter)
 
 	
 	hdcount++;
+	exitstatus(0, 1);
 	filename = ft_strjoin(ft_strdup(".heredoc"), ft_itoa(hdcount));
 	fd = open(filename, O_CREAT | O_RDWR, 0644);
 	fdtoreturn = open(filename, O_CREAT | O_RDWR, 0644);
