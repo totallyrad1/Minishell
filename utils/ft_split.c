@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 17:44:50 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 19:12:02 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:57:53 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*getword(size_t *i, char const *s, char c)
 	while (s[*i] && s[*i] != c)
 		(*i)++;
 	currwordsize = *i - tpos;
-	res = (char *)rad_malloc((currwordsize + 1) * sizeof(char),0, OTHERS);
+	res = (char *)rad_malloc((currwordsize + 1) * sizeof(char), 0, OTHERS);
 	if (res == NULL)
 		return (ft_exit(NULL), NULL);
 	while (tpos + j < *i)

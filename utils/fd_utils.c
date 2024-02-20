@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 23:17:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:44:59 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 		{
 			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
 				break;
-			if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next, NULL)))
+			if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next)))
 			{
 				wrerror("turboshell: ");
 				wrerror(curr->next->cmd);
@@ -96,7 +96,7 @@ void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile)
 			if(checkwritepermissions(curr->next->cmd, outfile) == 0)
 				break;
 			*outfile = open(curr->next->cmd , O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next, NULL)))
+			if (curr->next && ft_strchr(curr->next->cmd, '*') && array_len(wildcard(curr->next)))
 			{
 				wrerror("turboshell: ");
 				wrerror(curr->next->cmd);

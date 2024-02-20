@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:15:43 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:43:48 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	chdir_home(char **args, t_env **env)
+int	chdir_home(char **args, t_env **env)
 {
 	if (!args[1] || !ft_strcmp(args[1], "~"))
 	{
@@ -34,15 +34,13 @@ static int	chdir_home(char **args, t_env **env)
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
 		free((*env)->pwd);
 		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
-		if (!(*env)->pwd)
-			ft_exit(NULL);
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		return (1);
 	}
 	return (0);
 }
 
-static int	dir_not_found(char **args)
+int	dir_not_found(char **args)
 {
 	DIR		*dir;
 
@@ -54,7 +52,7 @@ static int	dir_not_found(char **args)
 		wrerror(": ");
 		perror("");
 		exitstatus(1, 1);
-		return (1);	
+		return (1);
 	}
 	else
 		closedir(dir);
@@ -70,13 +68,12 @@ static int	dir_not_found(char **args)
 	return (0);
 }
 
-static int	dir_removed(char **args, t_env **env, char *dir)
+int	dir_removed(char **args, t_env **env, char *dir)
 {
 	char	*points;
 
 	if (!dir)
 	{
-		
 		wrerror("Turboshell: cd: getcwd: cannot access parent directories: ");
 		perror("");
 		exitstatus(1, 1);
@@ -92,7 +89,7 @@ static int	dir_removed(char **args, t_env **env, char *dir)
 	return (0);
 }
 
-static int	chdir_dash(char **args, t_env **env)
+int	chdir_dash(char **args, t_env **env)
 {
 	if (!ft_strcmp(args[1], "-"))
 	{
@@ -111,10 +108,8 @@ static int	chdir_dash(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
 		free((*env)->pwd);
-		if (!(*env)->pwd)
-			ft_exit(NULL);
+		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		get_pwd(*env);
 		return (1);
@@ -126,18 +121,7 @@ int	ft_cd(char **args, t_env **env)
 {
 	char	*dir;
 
-	if (args[1] && args[1][0] == '\0')
-		return (0);
-	if (args[1] && args[2])
-	{
-		exitstatus(1, 1);
-		return (wrerror("Turboshell: cd: too many arguments\n"), 0);
-	}
-	if (chdir_home(args, env))
-		return (0);
-	if (chdir_dash(args, env))
-		return (0);
-	if (dir_not_found(args))
+	if (!treat_special_cases(args, env))
 		return (0);
 	dir = ft_strdup_del(getcwd(NULL, 0));
 	if (dir_removed(args, env, dir))

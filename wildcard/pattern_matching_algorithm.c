@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 19:33:29 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 19:50:27 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:35:38 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	init_data(t_pattern *data)
 
 static int	check(t_pattern *data, char *str, char *pattern)
 {
-	if (data->j < data->len_pattern && (pattern[data->j] == '?' || pattern[data->j] == str[data->i]))
+	if (data->j < data->len_pattern
+		&& (pattern[data->j] == '?' || pattern[data->j] == str[data->i]))
 	{
 		data->i++;
 		data->j++;

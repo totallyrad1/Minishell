@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:08:54 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:01:37 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:35:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	len_arr_list(t_list *lst)
 	return (count);
 }
 
-t_list	*sort_list(t_list* lst, int (*cmp)(const char *, const char *))
+t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *))
 {
-	int swapped;
-	t_list *cur;
+	int		swapped;
+	t_list	*cur;
 	char	*tmp;
 
 	swapped = 1;

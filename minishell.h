@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 23:19:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:44:22 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,12 @@ int	unset(char **args, t_env **envp);
 int		ft_export(char **args, t_env **env);
 //get_points.c
 char	*get_points(char *str);
-//cd.c 
+//cd.c
+int		chdir_home(char **args, t_env **env);
+int		dir_not_found(char **args);
+int		dir_removed(char **args, t_env **env, char *dir);
+int		chdir_dash(char **args, t_env **env);
+int		treat_special_cases(char **args, t_env **env);
 int		ft_cd(char **args, t_env **env);
 //echo.c
 int		ft_echo(char **args);
@@ -394,6 +399,10 @@ char	**get_all_wildcards(t_cmd *args);
 int		is_match(char *str, char *pattern);
 t_list	*sort_list(t_list* lst, int (*cmp)(const char *, const char *));
 void	free_list(t_list **lst);
+int		count_len_matching(char *str, t_list *dirent);
+t_list	*remove_hidden(t_list *dirent);
+void	join_dirent(t_list *dirent);
+char	**args_to_arr(t_cmd *args);
 
 t_cmd *make_args_lst(t_cmd *cmd, t_env *env);
 void getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);

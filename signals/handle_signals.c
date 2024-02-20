@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:37:35 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 23:33:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:33:39 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int heredocendedwith_c(int state, int flag)
+int	heredocendedwith_c(int state, int flag)
 {
 	static int	ret;
 
-	if(flag == 1)
+	if (flag == 1)
 		ret = state;
 	return (ret);
 }

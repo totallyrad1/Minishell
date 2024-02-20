@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 19:13:38 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 00:02:22 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	ft_free_cmd(t_token *lst)
 	}
 }
 
-t_token	*init_token()
+t_token	*init_token(void)
 {
 	t_token	*cmd;
-	
-	cmd = rad_malloc(sizeof(t_token), 0, COMMAND); 
+
+	cmd = rad_malloc(sizeof(t_token), 0, COMMAND);
 	if (!cmd)
 		ft_exit(NULL);
 	cmd->visited = 0;
@@ -64,8 +64,8 @@ t_token	*init_token()
 	return (cmd);
 }
 
-void wrerror(char *str)
+void	wrerror(char *str)
 {
-	if(str)
-		write(2, str, ft_strlen(str));	
+	if (str)
+		write(2, str, ft_strlen(str));
 }

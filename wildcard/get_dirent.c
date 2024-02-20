@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:06:36 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:12:11 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:33:57 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_list	*get_dirent(void)
 		wrerror("Turboshell: ");
 		perror("");
 		exitstatus(1, 1);
-		return (NULL);	
+		return (NULL);
 	}
 	dp = readdir(dir);
 	while (dp)

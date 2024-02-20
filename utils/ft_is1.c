@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:02:47 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/17 22:02:29 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 23:57:12 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	is_builtin(char *cmd)
 
 int	isredirection(int c)
 {
-	if ( c == '>' || c == '<')
+	if (c == '>' || c == '<')
 		return (1);
 	return (0);
 }
 
 int	islimiter2(int c)
 {
-	if ( c == '|' || c == '&')
+	if (c == '|' || c == '&')
 		return (1);
 	return (0);
 }
