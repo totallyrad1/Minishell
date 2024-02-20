@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:54:31 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:27:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**var_toarray(char *token, t_env *env)
 	if (!key)
 		return (NULL);
 	res = ft_split(key, 32);
-	if(res[0])
+	if (res[0])
 		return (res);
 	return (NULL);
 }

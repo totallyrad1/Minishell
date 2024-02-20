@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:29:51 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:35:15 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ void	skip_redirections(t_cmd **temp)
 {
 	if (*temp && (*temp)->word != 1 && (*temp)->cmd
 		&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
+	{
 		while (*temp && (*temp)->cmd
 			&& ((*temp)->cmd[0] == '>' || (*temp)->cmd[0] == '<'))
-			{
+		{
+			(*temp) = (*temp)->next;
+			if (*temp)
 				(*temp) = (*temp)->next;
-				if (*temp)
-					(*temp) = (*temp)->next;
-			}
+		}
+	}
 }
 
 void	make_args_node(t_cmd **args, t_margs **vars)
@@ -41,14 +43,7 @@ void	make_args_node(t_cmd **args, t_margs **vars)
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
 	if (!new)
 		return (ft_exit(NULL));
-	new->spaceafter = (*vars)->spaceafter;
-	new->cmd = (*vars)->buffer;
-	new->word = (*vars)->word;
-	new->expandwildcard = (*vars)->expand;
-	new->expandheredoc = (*vars)->heredocexpand;
-	new->next = NULL;
-	new->heredocfd = (*vars)->heredocfd;
-	new->ambiguous = (*vars)->ambiguos;
+	setvars_argsnode(vars, &new);
 	if ((*vars)->flag == 1)
 	{
 		*args = new;
@@ -94,7 +89,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 {
 	(*vars)->buffer = argextraction(*cmd, env);
-	if((*vars)->buffer && !(*vars)->buffer[0])
+	if ((*vars)->buffer && !(*vars)->buffer[0])
 		(*vars)->buffer = NULL;
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;

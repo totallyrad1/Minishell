@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 20:33:12 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:27:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	ft_readheredoc(int fd, char *delimiter)
 
 	while (1)
 	{
-		if(exitstatus(0, 0) == -1)
+		if (exitstatus(0, 0) == -1)
 		{
 			exitstatus(1, 1);
-			break;
+			break ;
 		}
 		str = readline("> ");
 		temp = str;
@@ -46,7 +46,6 @@ int	heredocshit(char *delimiter)
 	int			fdtoreturn;
 	char		*filename;
 
-	
 	hdcount += delimiter[0];
 	exitstatus(0, 1);
 	filename = ft_strjoin(ft_strdup(".heredoc"), ft_itoa(hdcount));

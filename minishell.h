@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 20:21:24 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:48:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,6 +388,8 @@ void	skip_redirections(t_cmd **temp);
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 t_cmd	*joined_args(t_cmd *args);
+void	setvars_argsnode(t_margs **vars, t_cmd **newlst);
+void	setexit(int status);
 
 void addfd(int fd, int flag);
 

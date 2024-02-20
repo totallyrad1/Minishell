@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 19:04:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:32:00 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	execute_cmd(char *abpath, char **envp, char **args)
 	}
 }
 
-int getabpath(char **envp, char *command , char **abpath)
+int	getabpath(char **envp, char *command, char **abpath)
 {
 	struct stat	filestat;
-	
+
 	if (access(command, F_OK) != 0)
 		*abpath = get_working_path(envp, command);
 	else
@@ -36,8 +36,8 @@ int getabpath(char **envp, char *command , char **abpath)
 		*abpath = ft_strdup(command);
 		if (stat(*abpath, &filestat) == 0)
 		{
-       		if (S_ISDIR(filestat.st_mode))
-          	{
+			if (S_ISDIR(filestat.st_mode))
+			{
 				wrerror(*abpath);
 				wrerror(" :is a Directory\n");
 				return (exitstatus(126, 1));
@@ -54,6 +54,19 @@ int getabpath(char **envp, char *command , char **abpath)
 	return (exitstatus(0, 1));
 }
 
+void	setexit(int status)
+{
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 3)
+			printf("Quit: 3\n");
+		else
+			printf("\n");
+		exitstatus(WTERMSIG(status) + 128, 1);
+	}
+	else
+		exitstatus(WEXITSTATUS(status), 1);
+}
 
 int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 {
@@ -63,7 +76,7 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	char	**envp;
 
 	envp = env_to_arr(env);
-	if(getabpath(envp, args[0], &absolutepath) != 0)
+	if (getabpath(envp, args[0], &absolutepath) != 0)
 		return (exitstatus(0, 0));
 	id = fork();
 	if (id == -1)
@@ -76,16 +89,7 @@ int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 	}
 	while (waitpid(-1, &status, 0) != -1)
 		;
-	if (WIFSIGNALED(status))
-    {
-        if (WTERMSIG(status) == 3)
-            printf("Quit: 3\n");
-        else
-            printf("\n");
-        exitstatus(WTERMSIG(status) + 128, 1);
-    }
-	else
-        exitstatus(WEXITSTATUS(status), 1);
+	setexit(status);
 	return (exitstatus(0, 0));
 }
 
@@ -96,12 +100,10 @@ int	one_command_execution(t_tree *node, t_env *env)
 	int		outfile;
 	t_cmd	*lst_args;
 	t_cmd	*new_joinedargs;
-	t_cmd	*new;
 
 	infile = 0;
 	outfile = 1;
-	new = new_cmd_list(node->next, env);
-	lst_args = make_args_lst(new, env);
+	lst_args = make_args_lst(new_cmd_list(node->next, env), env);
 	new_joinedargs = joined_args(lst_args);
 	args = get_all_wildcards(new_joinedargs);
 	getfds(lst_args, env, &infile, &outfile);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   squote_or_dquote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 19:07:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/20 22:44:25 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ char	*quotes_toexpression(char *str, t_env *env)
 	save = str[i++];
 	tmp = i;
 	new_str = ft_strdup("");
-	if (!new_str)
-		return (NULL);
 	while (str[i] && str[i] != save)
 	{
 		while (str[i] == '$'

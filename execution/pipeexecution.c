@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 14:55:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:32:10 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	pipe_part1(t_tree *node, t_env *env, t_tree *save)
 {
 	pid_t	id;
 
-	if(pipe(node->fd) == -1)
+	if (pipe(node->fd) == -1)
 		return (wrerror(PIPE_ERROR), ft_exit(NULL), 0);
 	id = fork();
 	if (id == -1)
@@ -63,7 +63,7 @@ int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	close(save->fd[0]);
 	while (waitpid(id, &status, 0) != -1)
 		;
-	status = exitstatus(WEXITSTATUS(status), 1);
+	setexit(status);
 	return (exitstatus(0, 0));
 }
 
@@ -97,4 +97,16 @@ int	improvedpipeexecution(t_tree *node, t_env *env)
 	}
 	save = node;
 	return (improvedpipeexecution1(node->right, env, save));
+}
+
+void	setvars_argsnode(t_margs **vars, t_cmd **newlst)
+{
+	(*newlst)->spaceafter = (*vars)->spaceafter;
+	(*newlst)->cmd = (*vars)->buffer;
+	(*newlst)->word = (*vars)->word;
+	(*newlst)->expandwildcard = (*vars)->expand;
+	(*newlst)->expandheredoc = (*vars)->heredocexpand;
+	(*newlst)->next = NULL;
+	(*newlst)->heredocfd = (*vars)->heredocfd;
+	(*newlst)->ambiguous = (*vars)->ambiguos;
 }

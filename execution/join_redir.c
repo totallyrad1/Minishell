@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 20:50:54 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:30:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 	if ((*vars)->save1->cmd[1] != '<'
 		&& (*curr)->cmd[0] == '$' && (*curr)->cmd[1]
 		&& (array_len(var_toarray((*curr)->cmd, env)) > 1
-			|| array_len(var_toarray((*curr)->cmd, env)) == 0))
+			|| (array_len(var_toarray((*curr)->cmd, env)) == 0
+				&& (*vars)->buffer == NULL)))
 	{
 		wrerror("turboshell: ");
 		wrerror((*curr)->cmd);

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 17:03:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:56:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	builtinexec(char **args, t_env **env, int infile, int outfile)
 		dup2(originlin, STDIN_FILENO);
 	if (outfile != 1)
 		dup2(originalout, STDOUT_FILENO);
+	addfd(originalout, 1);
+	addfd(originlin, 1);
 	return (status);
 }
 
