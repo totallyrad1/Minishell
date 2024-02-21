@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:49:44 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 15:22:16 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,6 @@ int check_limiterssyntax(t_token *curr, int initflag)
 	return 1;
 }
 
-int check_bracketssyntax(t_token *curr, t_syntax *vars)
-{
-	if(vars->closedc > vars->openc || (vars->flag == 1 && curr->type == TOKEN_CLOSED_BRACKET) 
-		|| (vars->flag1 == 1 && curr->type == TOKEN_OPEN_BRACKET) 
-		|| (vars->flag2 == 1 && curr->type == TOKEN_OPEN_BRACKET) 
-		|| (vars->flag3 == 1 && (curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)))
-		{
-			exitstatus(258, 1);
-			printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd);
-			return (0);
-		}
-	return 1;
-}
-
 void init_vars(t_syntax **vars)
 {
 	*vars = rad_malloc(sizeof(t_syntax), 0, COMMAND);
@@ -63,10 +49,6 @@ void init_vars(t_syntax **vars)
 		ft_exit(NULL);
 	(*vars)->closedc = 0;
 	(*vars)->openc = 0;
-	(*vars)->flag = 0;
-	(*vars)->flag1 = 0;
-	(*vars)->flag2 = 0;
-	(*vars)->flag3 = 0;
 	(*vars)->initflag = 0;
 }
 
@@ -75,27 +57,24 @@ void set_flags(t_token *curr, t_syntax **vars)
 	if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->cmd &&  isredirection(curr->cmd[0]) == 0 && islimiter2(curr->cmd[0]) == 0)
 			(*vars)->initflag = 1;
 	if(curr->type == TOKEN_CLOSED_BRACKET)
-	{
-		(*vars)->closedc++;
-		(*vars)->flag1 = 1;
-		(*vars)->flag3 = 1;
-	}		
+		(*vars)->closedc++;	
 	else if(curr->type == TOKEN_OPEN_BRACKET)
-	{
 		(*vars)->openc++;
-		(*vars)->flag = 1;
-	}
-	if(curr->type != TOKEN_CLOSED_BRACKET && curr->type != TOKEN_OPEN_BRACKET && curr->type != TOKEN_EXPR && curr->type != TOKEN_DOLLAR)
-	{
-		(*vars)->flag2 = 0;
-		(*vars)->flag1 = 0;
-		(*vars)->flag3 = 0;
-	}	
-	if(curr->type == TOKEN_EXPR || curr->type == TOKEN_DOLLAR)
-	{
-		(*vars)->flag2 = 1;
-		(*vars)->flag = 0;
-	}
+}
+
+int check_bracketssyntax(t_token *curr, t_syntax *vars)
+{
+	if((vars->initflag == 0 && curr->cmd[0] == ')') // closed bracket flowl
+		|| (isredirection(curr->cmd[0]) && curr->next && curr->next->cmd[0] == '(') //redirection moraha open bracket
+		|| (curr->cmd[0] == ')' && curr->next && islimiter1(curr->next->cmd[0]) == 0) // closed bracket mn mora word
+		|| (curr->cmd[0] == '(' && curr->next && islimiter2(curr->next->cmd[0])) // open bracket mn wraha limiter
+		|| (curr->cmd[0] == '(' && curr->next && curr->next->cmd[0] == ')')) // open bracket mn moraha closed bracket
+		{
+			exitstatus(258, 1);
+			printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd);
+			return (0);
+		}
+	return (1);
 }
 
 int check_syntax_error(t_token **cmd)
@@ -112,14 +91,14 @@ int check_syntax_error(t_token **cmd)
 			return (0);
 		if(check_bracketssyntax(curr, vars) == 0)
 			return (0);
-		if( delimitercheck(curr->cmd) == 1 &&curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
+		if(delimitercheck(curr->cmd) == 1 &&curr->cmd && curr->cmd[0] == '<' && curr->cmd[1] == '<' && curr->cmd[2] == '\0' && curr->next && curr->next->cmd)
 		{
 			curr->heredocfd = heredocshit(curr->next->cmd);
 			curr->for_heredoc = curr->next->for_heredoc; 
 		}	
 		curr = curr->next;
 	}
-	if(vars->openc != vars->closedc)
+	if(heredocendedwith_c(0, 0) == 1 && vars->openc != vars->closedc)
 	{
 		exitstatus(258, 1);
 		return (printf("turboshell: syntax error near unexpected token `)'\n"), 0);

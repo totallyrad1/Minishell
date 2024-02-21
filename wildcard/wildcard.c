@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:45:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 14:55:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static void	check_dots(char *str, t_list **dirent)
 {
-	if (str[0] == '.' && str[1] == '/')
+	if (str && str[0] == '.' && str[1] == '/')
 	{
 		*dirent = remove_hidden(*dirent);
 		join_dirent(*dirent);
 	}
-	else if (str[0] != '.')
+	else if (str && str[0] != '.')
 		*dirent = remove_hidden(*dirent);
 }
 

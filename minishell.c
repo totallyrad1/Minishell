@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 20:26:52 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 15:09:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_token *join_heredocargs(t_token *cmd)
 			spaceafter = curr->spaceafter;
 			curr->spaceafter = 0;
 			forheredoc = 0;
-			while(curr && curr->spaceafter != 1 && islimiter1(curr->cmd[0]) == 0)
+			while(curr && curr->spaceafter != 1 && islimiter1(curr->cmd[0]) == 0 && curr->cmd[0] != ')' && curr->cmd[0] != '(')
 			{
 				if(curr->cmd[0] == '\'' || curr->cmd[0] == '"')
 				{

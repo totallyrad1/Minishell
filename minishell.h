@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 23:44:22 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 15:22:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,10 +141,6 @@ typedef struct s_syntax
 	int initflag;
 	int openc;
 	int closedc;
-	int flag;
-	int flag1;
-	int flag2;
-	int flag3;
 }				t_syntax;
 
 typedef struct s_gc
