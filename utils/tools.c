@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:38:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:33:29 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,6 @@ void	ft_newnode(t_token **cmd, char *value, int spaceafter)
 		curr = curr->next;
 	curr->next = new_node;
 	new_node->prev = curr;
-}
-
-void	ft_free_cmd(t_token *lst)
-{
-	t_token	*curr;
-	t_token	*lastnode;
-
-	if (!lst)
-		return ;
-	curr = lst;
-	while (curr)
-	{
-		lastnode = curr;
-		if (curr)
-			curr = curr->next;
-		else
-			break ;
-	}
 }
 
 t_token	*init_token(void)

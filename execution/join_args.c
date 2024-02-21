@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:15:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:08:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,6 @@ char	**var_toarray(char *token, t_env *env)
 	if (res[0])
 		return (res);
 	return (NULL);
-}
-
-int	count_var_args(char *token, t_env *env)
-{
-	char	*key;
-	char	**res;
-	int		i;
-
-	key = ft_strdup(expand(env, &token[1]));
-	if (!key)
-		return (1);
-	res = ft_split_spaces(key);
-	i = 0;
-	while (res[i])
-		i++;
-	if (i != 0)
-		return (i);
-	else
-		return (0);
-}
-
-int	args_size(t_cmd *temp, t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (temp && temp->cmd)
-	{
-		if (temp->cmd[0] == '$')
-			i += count_var_args(temp->cmd, env);
-		else
-			i++;
-		temp = temp->next;
-	}
-	return (i);
 }
 
 int	check_expanded_var(char *str, t_env *env)

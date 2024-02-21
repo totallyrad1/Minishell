@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxerror.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:26:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:32:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	set_flags(t_token *curr, t_syntax **vars)
+static void	set_flags(t_token *curr, t_syntax **vars)
 {
 	if (curr->type != TOKEN_CLOSED_BRACKET
 		&& curr->type != TOKEN_OPEN_BRACKET
@@ -26,7 +26,7 @@ void	set_flags(t_token *curr, t_syntax **vars)
 		(*vars)->openc++;
 }
 
-int	check_bracketssyntax(t_token *curr, t_syntax *vars)
+static int	check_bracketssyntax(t_token *curr, t_syntax *vars)
 {
 	if ((vars->initflag == 0 && curr->cmd[0] == ')')
 		|| (isredirection(curr->cmd[0]) && curr->next
@@ -47,7 +47,7 @@ int	check_bracketssyntax(t_token *curr, t_syntax *vars)
 	return (1);
 }
 
-int	checkopenandclosed(t_syntax *vars)
+static int	checkopenandclosed(t_syntax *vars)
 {
 	if (heredocendedwith_c(0, 0) == 1 && vars->openc != vars->closedc)
 	{

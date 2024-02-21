@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:32:10 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:25:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	pipe_part1(t_tree *node, t_env *env, t_tree *save)
+static int	pipe_part1(t_tree *node, t_env *env, t_tree *save)
 {
 	pid_t	id;
 
@@ -40,7 +40,7 @@ int	pipe_part1(t_tree *node, t_env *env, t_tree *save)
 	return (improvedpipeexecution1(node->right, env, save));
 }
 
-int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
+static int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 {
 	int		status;
 	pid_t	id;
@@ -61,7 +61,7 @@ int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	}
 	close(save->fd[1]);
 	close(save->fd[0]);
-	while (waitpid(id, &status, 0) != -1)
+	while (waitpid(-1, &status, 0) != -1)
 		;
 	setexit(status);
 	return (exitstatus(0, 0));

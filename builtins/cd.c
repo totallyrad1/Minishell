@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:43:48 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:55:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	dir_not_found(char **args)
 	return (0);
 }
 
-int	dir_removed(char **args, t_env **env, char *dir)
+static int	dir_removed(char **args, t_env **env, char *dir)
 {
 	char	*points;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommand.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:56:06 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:16:01 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-int	exec_builtin(char **args, t_env **envp)
+static int	exec_builtin(char **args, t_env **envp)
 {
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(args, envp));
@@ -38,30 +38,6 @@ int	exec_builtin(char **args, t_env **envp)
 	if (!ft_strcmp(args[0], "exit"))
 		return (ft_exit(args), 0);
 	return (0);
-}
-
-t_cmd	*get_command_start(t_cmd *node)
-{
-	t_cmd	*curr;
-
-	curr = node;
-	if (curr->cmd[0] != '<' && curr->cmd[0] != '>')
-		return (curr);
-	else
-	{
-		while (curr)
-		{
-			if (curr->cmd[0] != '<' && curr->cmd[0] != '>'
-				&& curr->next && curr->next->cmd[0] != '<'
-				&& curr->next->cmd[0] != '>')
-			{
-				curr = curr->next;
-				return (curr);
-			}
-			curr = curr->next;
-		}
-	}
-	return (curr);
 }
 
 int	builtinexec(char **args, t_env **env, int infile, int outfile)

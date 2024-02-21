@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:36:49 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:06:44 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-void	ft_readheredoc(int fd, char *delimiter)
+static void	ft_readheredoc(int fd, char *delimiter)
 {
 	char	*str;
 	char	*temp;
@@ -63,7 +63,7 @@ int	heredocshit(char *delimiter)
 	return (fdtoreturn);
 }
 
-char	*heredocread(int fd)
+static char	*heredocread(int fd)
 {
 	char	*everything;
 	char	*buffer;

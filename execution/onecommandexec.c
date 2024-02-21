@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:03:49 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:17:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	execute_cmd(char *abpath, char **envp, char **args)
+static void	execute_cmd(char *abpath, char **envp, char **args)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -25,7 +25,7 @@ void	execute_cmd(char *abpath, char **envp, char **args)
 	}
 }
 
-int	getabpath(char **envp, char *command, char **abpath)
+static int	getabpath(char **envp, char *command, char **abpath)
 {
 	struct stat	filestat;
 
@@ -68,7 +68,7 @@ void	setexit(int status)
 		exitstatus(WEXITSTATUS(status), 1);
 }
 
-int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
+static int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
 {
 	pid_t	id;
 	int		status;

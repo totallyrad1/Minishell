@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 01:08:20 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:37:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:13:52 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	make_args_node1(t_cmd **args, t_jn_args **vars)
+static void	make_args_node1(t_cmd **args, t_jn_args **vars)
 {
 	t_cmd	*new;
 	t_cmd	*curr;
@@ -37,7 +37,7 @@ void	make_args_node1(t_cmd **args, t_jn_args **vars)
 	}
 }
 
-void	joined_p1(t_cmd **args, t_jn_args **vars)
+static void	joined_p1(t_cmd **args, t_jn_args **vars)
 {
 	(*args)->spaceafter = 0;
 	while (*args && (*args)->spaceafter != 1)
@@ -52,7 +52,7 @@ void	joined_p1(t_cmd **args, t_jn_args **vars)
 	}
 }
 
-void	joined_p2(t_cmd **args, t_jn_args **vars)
+static void	joined_p2(t_cmd **args, t_jn_args **vars)
 {
 	if ((*args)->cmd && ft_strchr((*args)->cmd, '*'))
 		(*vars)->expand = (*args)->expandwildcard;
@@ -61,7 +61,7 @@ void	joined_p2(t_cmd **args, t_jn_args **vars)
 	*args = (*args)->next;
 }
 
-void	set_word_space(t_cmd *args, t_jn_args **vars)
+static void	set_word_space(t_cmd *args, t_jn_args **vars)
 {
 	if (args)
 	{

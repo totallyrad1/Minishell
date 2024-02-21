@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   squote_or_dquote.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:04:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:19:19 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*joineexpandargs(char *str, t_env *env, int *i, int *tmp)
+static char	*joineexpandargs(char *str, t_env *env, int *i, int *tmp)
 {
 	char	*new_str;
 	char	*key;

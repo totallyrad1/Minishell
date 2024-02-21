@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:44:07 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:20:00 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_dollarsign(t_token **cmd, t_vars *vars)
+static int	ft_dollarsign(t_token **cmd, t_vars *vars)
 {
 	vars->tmp = vars->i;
 	if (vars->cmd[vars->i] == '$')

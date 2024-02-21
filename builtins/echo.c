@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/14 22:17:48 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/18 20:28:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:01:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_args(char **args, int i, int flag)
+static void	print_args(char **args, int i, int flag)
 {
 	while (args[i])
 	{

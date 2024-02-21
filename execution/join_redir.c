@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:37:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:47:05 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
+static void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 {
 	t_cmd	*new;
 	t_cmd	*curr;
@@ -39,7 +39,7 @@ void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 	}
 }
 
-void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
+static void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 {
 	if ((*vars)->save1->cmd[1] != '<'
 		&& (*curr)->cmd[0] == '$' && (*curr)->cmd[1]
@@ -63,7 +63,7 @@ void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 	*curr = (*curr)->next;
 }
 
-void	new_cmdpart1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
+static void	new_cmd1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 {
 	(*vars)->buffer = NULL;
 	(*vars)->save = *curr;
@@ -83,7 +83,7 @@ void	new_cmdpart1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 	new_cmd_node(new, vars);
 }
 
-void	set_word(t_ncmdlst **vars, t_cmd *curr)
+static void	set_word(t_ncmdlst **vars, t_cmd *curr)
 {
 	if ((curr->cmd[0] == '<' && curr->cmd[1] == '<'))
 		(*vars)->word = 0;
@@ -103,7 +103,7 @@ t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 	{
 		if (curr->cmd && ((curr->cmd[0] == '<'
 					&& !curr->cmd[1]) || curr->cmd[0] == '>'))
-			new_cmdpart1(&curr, &vars, &new, env);
+			new_cmd1(&curr, &vars, &new, env);
 		else
 		{
 			vars->save = curr;

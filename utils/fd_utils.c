@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:12:02 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:24:34 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	throwerror_forin(t_cmd *curr, int infile)
+static void	throwerror_forin(t_cmd *curr, int infile)
 {
 	if (curr->next && ft_strchr(curr->next->cmd, '*')
 		&& array_len(wildcard(curr->next)))
@@ -30,7 +30,7 @@ void	throwerror_forin(t_cmd *curr, int infile)
 	}
 }
 
-void	get_infile(t_cmd *curr, t_env *env, int *infile)
+static void	get_infile(t_cmd *curr, t_env *env, int *infile)
 {
 	if (curr->cmd && curr->word != 1
 		&& curr->cmd[0] == '<' && curr->cmd[1] == '<')
@@ -52,7 +52,7 @@ void	get_infile(t_cmd *curr, t_env *env, int *infile)
 	}
 }
 
-void	throwerrorfor_out(t_cmd *curr)
+static void	throwerrorfor_out(t_cmd *curr)
 {
 	if (curr->next && ft_strchr(curr->next->cmd, '*')
 		&& array_len(wildcard(curr->next)))

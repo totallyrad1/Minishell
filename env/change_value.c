@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:04:17 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:32:50 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:04:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,4 @@ void	change_value_env(t_env **env, char *key, char *value)
 	}
 	if (!flag)
 		add_env(env, key, value);
-}
-
-void	change_value_env_check_null(t_env **env, char *key, char *value)
-{
-	if (!value)
-		ft_exit(NULL);
-	change_value_env(env, key, value);
 }

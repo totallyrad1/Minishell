@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:50:15 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:36:55 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:45:53 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	make_args_part3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
+static void	make_args_3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 {
 	(*vars)->buffer = argextraction(*cmd, env);
 	(*vars)->expand = 1;
@@ -29,7 +29,7 @@ void	make_args_part3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 	*cmd = (*cmd)->next;
 }
 
-void	set_varsforpart2_1(t_cmd **cmd, t_margs **vars, char *tmp)
+static void	set_varsforpart2_1(t_cmd **cmd, t_margs **vars, char *tmp)
 {
 	(*vars)->buffer = ft_strdup(tmp);
 	(*vars)->expand = 1;
@@ -39,7 +39,7 @@ void	set_varsforpart2_1(t_cmd **cmd, t_margs **vars, char *tmp)
 	(*vars)->word = (*cmd)->word;
 }
 
-void	set_spaceafter(t_margs **vars, t_cmd **cmd, t_env *env)
+static void	set_spaceafter(t_margs **vars, t_cmd **cmd, t_env *env)
 {
 	if (check_expanded_var((*cmd)->cmd, env) == 1 || (*cmd)->spaceafter == 1)
 		(*vars)->spaceafter = 1;
@@ -47,7 +47,7 @@ void	set_spaceafter(t_margs **vars, t_cmd **cmd, t_env *env)
 		(*vars)->spaceafter = 0;
 }
 
-void	make_args_part2_1(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
+static void	make_args_2_1(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 {
 	int		j;
 	char	**tmp;
@@ -91,11 +91,11 @@ t_cmd	*make_args_lst(t_cmd *cmd, t_env *env)
 			makearpart1(&cmd, &new, &vars, env);
 		else if (cmd->cmd && cmd->cmd[0] == '$' && cmd->cmd[1])
 		{
-			make_args_part2_1(&cmd, &new, &vars, env);
+			make_args_2_1(&cmd, &new, &vars, env);
 			cmd = cmd->next;
 		}
 		else if (cmd->cmd)
-			make_args_part3(&cmd, &new, &vars, env);
+			make_args_3(&cmd, &new, &vars, env);
 	}
 	return (new);
 }

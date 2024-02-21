@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:24:54 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:02:57 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_export(t_env *env, t_env *head)
+static void	print_export(t_env *env, t_env *head)
 {
 	if (!ft_strcmp(env->key, "_") && !head->env_null)
 	{

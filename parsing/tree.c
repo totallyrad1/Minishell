@@ -6,13 +6,13 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 22:10:15 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/17 22:01:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:22:37 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_tree	*make_command(t_token *token)
+static t_tree	*make_command(t_token *token)
 {
 	t_tree	*node;
 	t_cmd	*cmd;

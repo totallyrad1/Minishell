@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:07:51 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 20:28:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:02:44 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	check_arg(char *str)
 	return (1);
 }
 
-void	exec_export(char **args, t_env **env, int i)
+static void	exec_export(char **args, t_env **env, int i)
 {
 	char	*key;
 	char	*value;

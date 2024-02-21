@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recursive_parsing1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 12:13:33 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/09 10:30:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:31:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,4 @@ int	getlimitertoken(char c, char f)
 		return (TOKEN_REDIR_OUT);
 	}
 	return (getlimitertoken1(c, f));
-}
-
-int	look_for_char(char *command, int i)
-{
-	int	flag;
-
-	flag = 0;
-	while (command[i] && islimiter1(command[i]) == 0 && command[i] != ')')
-	{
-		if (ft_isspace(command[i]) == 0)
-			flag = 1;
-		i++;
-	}
-	return (flag);
 }

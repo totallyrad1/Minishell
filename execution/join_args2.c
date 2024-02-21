@@ -6,19 +6,11 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:36:52 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 21:11:08 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	setflag(int *flag, char *str)
-{
-	if (!str)
-		*flag = 1;
-	else
-		*flag = 0;
-}
 
 void	skip_redirections(t_cmd **temp)
 {
