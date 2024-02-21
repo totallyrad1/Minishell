@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 21:27:26 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:36:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ char	*heredocread(int fd)
 	int		bytes_read;
 
 	buffer = rad_malloc(100, 0, COMMAND);
-	if (!buffer)
-		return (ft_exit(NULL), NULL);
 	everything = NULL;
 	bytes_read = 1;
 	while (bytes_read > 0)

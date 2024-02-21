@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 17:41:58 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:58:26 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:37:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s2)
 		return (newstring = ft_strdup(s1), newstring);
 	newstring = rad_malloc((ft_strlen(s1) + ft_strlen(s2) + 1), 0, OTHERS);
-	if (newstring == NULL)
-		return (ft_exit(NULL), NULL);
 	while (s1[i])
 	{
 		newstring[i] = s1[i];

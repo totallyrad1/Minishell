@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:06:34 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/18 20:28:22 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:36:36 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ char	**env_to_arr(t_env *env)
 
 	curr = env->next;
 	env_arr = rad_malloc(sizeof(char *) * (env->size + 1), 0, ENV);
-	if (!env_arr)
-		return (NULL);
 	i = 0;
 	while (curr)
 	{

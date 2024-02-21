@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:13:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:56:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:23 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void	new_node_heredoc(t_token **cmd, t_jnhargs **vars)
 	t_token	*curr;
 
 	new = rad_malloc(sizeof(t_token), 0, COMMAND);
-	if (!new)
-		return (ft_exit(NULL));
 	curr = *cmd;
 	new->cmd = (*vars)->buffer;
 	new->spaceafter = (*vars)->spaceafter;

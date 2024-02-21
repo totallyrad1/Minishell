@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:36:34 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:37:54 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:33 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ char	**args_to_arr(t_cmd *args)
 		args = args->next;
 	}
 	ret = rad_malloc(sizeof(char *) * (len + 1), 0, COMMAND);
-	if (!ret)
-		return (ft_exit(NULL), NULL);
 	args = head;
 	len = 0;
 	while (args)

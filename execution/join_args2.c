@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_args2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 21:35:15 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:36:52 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	make_args_node(t_cmd **args, t_margs **vars)
 	t_cmd	*curr;
 
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
-	if (!new)
-		return (ft_exit(NULL));
 	setvars_argsnode(vars, &new);
 	if ((*vars)->flag == 1)
 	{

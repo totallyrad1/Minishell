@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 22:25:29 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:13:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:26 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_tree	*make_node(t_token **cmd, int flag)
 	t_tree	*newnode;
 
 	newnode = rad_malloc(sizeof(t_tree), 0, COMMAND);
-	if (!newnode)
-		return (ft_exit(NULL), NULL);
 	newnode->next = NULL;
 	newnode->left = NULL;
 	newnode->right = NULL;

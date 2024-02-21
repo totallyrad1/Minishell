@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:44:46 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:28:08 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define FORK_ERROR "turboshell: fork: Resource temporarily unavailable\n"
 # define PIPE_ERROR "pipe failed\n"
-
 
 enum e_type
 {
@@ -63,14 +62,13 @@ enum e_tree_type
 	REDIR_APPEND,
 };
 
-
 typedef struct s_token
 {
 	char			*cmd;
 	int				type;
 	int				visited;
 	int				for_heredoc;
-	int 			heredocfd;
+	int				heredocfd;
 	int				spaceafter;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -138,9 +136,9 @@ typedef struct s_vars
 
 typedef struct s_syntax
 {
-	int initflag;
-	int openc;
-	int closedc;
+	int	initflag;
+	int	openc;
+	int	closedc;
 }				t_syntax;
 
 typedef struct s_gc
@@ -165,18 +163,18 @@ typedef struct s_margs
 
 typedef struct s_ncmdlst
 {
-	char *buffer;
+	char	*buffer;
 	int		word;
-	t_cmd *save;
-	int ambiguous;
-	int flag;
-	t_cmd *save1;
+	t_cmd	*save;
+	int		ambiguous;
+	int		flag;
+	t_cmd	*save1;
 }				t_ncmdlst;
 
 typedef struct s_fd_list
 {
-	int fd;
-	struct s_fd_list *next;
+	int					fd;
+	struct s_fd_list	*next;
 }				t_fd_list;
 
 typedef struct s_jn_args
@@ -215,7 +213,6 @@ enum e_garbagecollector
 };
 
 void	*rad_malloc(size_t size, int flag, int type);
-void	handle_input(t_token **cmd, char *str, t_env *env);
 int		check_syntax_error(t_token **cmd);
 int		checkdelimiter(int c);
 int		ft_bracket(t_token **cmd, t_vars *vars);
@@ -229,7 +226,7 @@ char	*ft_strdup_del(char *s1);
 size_t	ft_strlen(const char *s);
 void	ft_newnode(t_token **cmd, char *value, int spaceafter);
 void	ft_free_cmd(t_token *lst);
-t_token	*init_token();
+t_token	*init_token(void);
 int		ft_isalpha(int c);
 void	wrerror(char *str);
 int		ft_isalnum(int c);
@@ -275,7 +272,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_working_path(char **envp, char *command);
 char	*get_path_line(char **envp);
-void	ft_pipe(char **av, char **envp, char *command, char *command2, char **commandargs1, char **commandargs2);
 char	*ft_strtrim(char const *s1, char const *set);
 int		ft_strncmp_rev(const char *s1, const char *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -296,7 +292,7 @@ void	del_node_env(t_env **env, char *key);
 t_env	*get_node_env(t_env *env, char *key);
 int		key_exist_env(t_env *env, char *key);
 t_env	*make_env(char *key, char *value);
-t_env	*get_env();
+t_env	*get_env(void);
 char	*expand(t_env *env, char *key);
 int		unset(char **args, t_env **envp);
 int		ft_export(char **args, t_env **env);
@@ -317,19 +313,19 @@ int		heredoc(char *str);
 void	exec_heredoc(char *str);
 void	find_node_to_execute(t_tree *root, t_env *env);
 int		one_command_execution(t_tree *node, t_env *env);
-int 	andorexecution(t_tree *root, t_env *env);
+int		andorexecution(t_tree *root, t_env *env);
 int		pipe_execution(t_tree *node, t_env *env);
 int		pipeexecution1(t_tree *node, t_tree *save, t_env *env);
 char	*expand(t_env *env, char *key);
 int		improvedpipeexecution(t_tree *node, t_env *env);
 int		improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save);
-int 	checkwritepermissions(char *str, int *outfile);
+int		checkwritepermissions(char *str, int *outfile);
 int		checkreadpermissions(char *str, int *infile);
 char	*ft_itoa(int n);
 char	*quotes_toexpression(char *str, t_env *env);
 char	*heredoc_expanding(char *str, t_env *env);
 int		exitstatus(int newstatus, int flag);
-t_cmd	*new_cmd_list(t_cmd *root , t_env *env);
+t_cmd	*new_cmd_list(t_cmd *root, t_env *env);
 char	*argextraction(t_cmd *token, t_env *env);
 char	**var_toarray(char *token, t_env *env);
 int		count_var_args(char *token, t_env *env);
@@ -345,13 +341,14 @@ int		heredoc_expanded(int fd, t_env *env);
 t_cmd	*get_command_start(t_cmd *node);
 int		builtinexec(char **args, t_env **env, int infile, int outfile);
 void	ft_exit(char **args);
+void	exit_no_args(void);
 void	lst_add_node(t_list **lst, void *data);
 t_list	*get_dirent(void);
 int		len_arr_list(t_list *lst);
 char	**wildcard(t_cmd *args);
 char	**get_all_wildcards(t_cmd *args);
 int		is_match(char *str, char *pattern);
-t_list	*sort_list(t_list* lst, int (*cmp)(const char *, const char *));
+t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *));
 void	free_list(t_list **lst);
 int		count_len_matching(char *str, t_list *dirent);
 t_list	*remove_hidden(t_list *dirent);
@@ -374,6 +371,6 @@ void	init_vars(t_syntax **vars);
 int		onlyspaces(char *str);
 char	*removequotesfromheredocargs(char *str);
 void	new_node_heredoc(t_token **cmd, t_jnhargs **vars);
-t_token *join_heredocargs(t_token *curr);
+t_token	*join_heredocargs(t_token *curr);
 
 #endif

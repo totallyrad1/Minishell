@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:32:41 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/19 18:55:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:23:47 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_arg(char *str)
 	return (0);
 }
 
-static void	exit_no_args(void)
+void	exit_no_args(void)
 {
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rad_gc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:33:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:40:56 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:39:04 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	*rad_malloc(size_t size, int flag, int type)
 	{
 		ptr = malloc(size);
 		if (!ptr)
-			return (NULL);
+			return (ft_exit(NULL), NULL);
 	}
 	else if (flag == 1)
 		return (rad_free(&gc, type), NULL);

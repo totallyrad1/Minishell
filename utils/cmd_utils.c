@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:32:03 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/20 23:56:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:37:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_cmd	*make_cmd(t_token *token)
 	t_cmd	*cmd;
 
 	cmd = rad_malloc(sizeof(t_cmd), 0, COMMAND);
-	if (!cmd)
-		ft_exit(NULL);
 	cmd->cmd = ft_strdup(token->cmd);
 	cmd->fd[0] = -1;
 	cmd->fd[1] = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_spaces.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:34:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:35:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:37:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ static char	*getword(size_t *i, char const *s)
 		(*i)++;
 	currwordsize = *i - tpos;
 	res = (char *)rad_malloc((currwordsize + 1) * sizeof(char), 0, OTHERS);
-	if (res == NULL)
-		return (ft_exit(NULL), NULL);
 	while (tpos + j < *i)
 	{
 		res[j] = s[tpos + j];
@@ -72,8 +70,6 @@ char	**ft_split_spaces(char const *s)
 		return (NULL);
 	wc = wordscount(s);
 	res = (char **)rad_malloc((wc + 1) * sizeof(char *), 0, OTHERS);
-	if (!res)
-		return (ft_exit(NULL), NULL);
 	while (j < wc)
 	{
 		res[j] = getword(&i, s);

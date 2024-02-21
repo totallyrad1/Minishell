@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:14:48 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/19 19:03:23 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:36:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ t_env	*make_env(char *key, char *value)
 	t_env	*node;
 
 	node = rad_malloc(sizeof(t_env), 0, ENV);
-	if (!node)
-		return (ft_exit(NULL), NULL);
 	node->size = 0;
 	node->key = key;
 	node->value = value;

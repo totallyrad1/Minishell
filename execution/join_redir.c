@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:30:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:37:07 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 
 	curr = *cmd;
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
-	if (!new)
-		return (ft_exit(NULL));
 	new->cmd = (*vars)->buffer;
 	new->next = NULL;
 	new->heredocfd = (*vars)->save->heredocfd;
@@ -99,8 +97,6 @@ t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 	t_cmd		*new;
 
 	vars = rad_malloc(sizeof(t_ncmdlst), 0, COMMAND);
-	if (!vars)
-		ft_exit(NULL);
 	vars->flag = 1;
 	vars->buffer = NULL;
 	while (curr)

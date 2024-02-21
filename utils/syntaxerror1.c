@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxerror1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:16:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:20:17 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:13 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	check_limiterssyntax(t_token *curr, int initflag)
 void	init_vars(t_syntax **vars)
 {
 	*vars = rad_malloc(sizeof(t_syntax), 0, COMMAND);
-	if (!*vars)
-		ft_exit(NULL);
 	(*vars)->closedc = 0;
 	(*vars)->openc = 0;
 	(*vars)->initflag = 0;

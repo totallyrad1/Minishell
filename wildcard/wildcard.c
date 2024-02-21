@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:13:56 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/21 14:55:47 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:43 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ static char	**ret_same(char *str)
 	char	**ret;
 
 	ret = rad_malloc(sizeof(char *) * 2, 0, COMMAND);
-	if (!ret)
-		return (ft_exit(NULL), NULL);
 	ret[0] = ft_strdup(str);
 	ret[1] = NULL;
 	return (ret);
@@ -50,8 +48,6 @@ char	**wildcard(t_cmd *args)
 	if (!ft_strchr(str, '*') || !args->expandwildcard || len_ret == 0)
 		return (ret_same(str));
 	ret = rad_malloc(sizeof(char *) * (len_ret + 1), 0, COMMAND);
-	if (!ret)
-		return (ft_exit(NULL), NULL);
 	i = 0;
 	while (dirent)
 	{
@@ -70,8 +66,6 @@ static char	**get_final_arr(t_list *lst)
 	char	**ret;
 
 	ret = rad_malloc(sizeof(char *) * (len_arr_list(lst) + 1), 0, COMMAND);
-	if (!ret)
-		return (ft_exit(NULL), NULL);
 	i = 0;
 	while (lst)
 	{

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 00:02:22 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 18:38:19 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	ft_newnode(t_token **cmd, char *value, int spaceafter)
 	t_token	*curr;
 
 	new_node = rad_malloc(sizeof(t_token), 0, COMMAND);
-	if (!new_node)
-		ft_exit(NULL);
 	curr = *cmd;
 	new_node->visited = 0;
 	new_node->spaceafter = spaceafter;
@@ -54,8 +52,6 @@ t_token	*init_token(void)
 	t_token	*cmd;
 
 	cmd = rad_malloc(sizeof(t_token), 0, COMMAND);
-	if (!cmd)
-		ft_exit(NULL);
 	cmd->visited = 0;
 	cmd->spaceafter = 0;
 	cmd->next = NULL;
