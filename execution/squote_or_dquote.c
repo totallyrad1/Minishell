@@ -6,16 +6,28 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 22:44:25 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:04:04 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*quotes_toexpression(char *str, t_env *env)
+char	*joineexpandargs(char *str, t_env *env, int *i, int *tmp)
 {
 	char	*new_str;
 	char	*key;
+
+	while (str[*i] && (ft_alphanum(str[*i]) == 1 || str[*i] == '?'))
+		(*i)++;
+	key = ft_substr(str, *tmp, *i - *tmp);
+	new_str = expand(env, key);
+	*tmp = *i;
+	return (new_str);
+}
+
+char	*quotes_toexpression(char *str, t_env *env)
+{
+	char	*new_str;
 	int		i;
 	int		tmp;
 	char	save;
@@ -33,14 +45,9 @@ char	*quotes_toexpression(char *str, t_env *env)
 			new_str = ft_strjoin(new_str, ft_substr(str, tmp, i - tmp));
 			i++;
 			tmp = i;
-			while (str[i] && (ft_alphanum(str[i]) == 1 || str[i] == '?'))
-				i++;
-			key = ft_substr(str, tmp, i - tmp);
-			new_str = ft_strjoin(new_str, expand(env, key));
-			tmp = i;
+			new_str = ft_strjoin(new_str, joineexpandargs(str, env, &i, &tmp));
 		}
-		i++;
-		if (str[i] == save)
+		if (str[++i] == save)
 			new_str = ft_strjoin(new_str, ft_substr(str, tmp, i - tmp));
 	}
 	return (new_str);
@@ -49,7 +56,6 @@ char	*quotes_toexpression(char *str, t_env *env)
 char	*heredoc_expanding(char *str, t_env *env)
 {
 	char	*new_str;
-	char	*key;
 	int		i;
 	int		tmp;
 
@@ -65,11 +71,7 @@ char	*heredoc_expanding(char *str, t_env *env)
 			new_str = ft_strjoin(new_str, ft_substr(str, tmp, i - tmp));
 			i++;
 			tmp = i;
-			while (str[i] && (ft_alphanum(str[i]) == 1 || str[i] == '?'))
-				i++;
-			key = ft_substr(str, tmp, i - tmp);
-			new_str = ft_strjoin(new_str, expand(env, key));
-			tmp = i;
+			new_str = ft_strjoin(new_str, joineexpandargs(str, env, &i, &tmp));
 		}
 		i++;
 		if (str[i] == '\0')
