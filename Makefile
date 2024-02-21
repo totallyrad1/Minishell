@@ -16,13 +16,6 @@ ${NAME}: ${OBJECT}
 	@echo "Compiling $< ..."
 	@$(CC) $(COMPFLAGS) -c -I  $(LINKREADLINELIB1) $< -o $@ 
 
-#Compile Ubuntu
-# ${NAME}: ${OBJECT}
-# 	$(CC) -o $@ $^ -L $(LINKREADLINELIB) -lreadline
-
-# %.o: %.c minishell.h
-# 	$(CC) -c -I /usr/include $< -o $@
-
 clean:
 	@echo "Deleting object files ..."
 	@rm -f ${OBJECT}

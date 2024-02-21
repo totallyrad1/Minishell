@@ -6,13 +6,11 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:06:44 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 22:04:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <sys/fcntl.h>
-#include <unistd.h>
 
 static void	ft_readheredoc(int fd, char *delimiter)
 {

@@ -6,14 +6,11 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 10:15:51 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:16:01 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 22:04:37 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
-#include <sys/fcntl.h>
-#include <unistd.h>
 
 static int	exec_builtin(char **args, t_env **envp)
 {

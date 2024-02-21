@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   fd_collector.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 20:04:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:40:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:04:45 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <unistd.h>
 
 static void	new_fd_list_node(t_fd_list **list, int *it, int fd)
 {

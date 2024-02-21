@@ -6,11 +6,9 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:34:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:37:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 22:05:09 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../minishell.h"
 
 #include "../minishell.h"
 
