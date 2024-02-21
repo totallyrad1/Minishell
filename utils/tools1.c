@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:13:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:33:20 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:28:39 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ void	new_nodforquotes(t_token **cmd, t_vars *vars, char save)
 		ft_newnode(cmd, ft_substr(vars->cmd,
 				vars->tmp, vars->i - vars->tmp),
 			hasspaceafter(vars->cmd, vars->tmp - 1));
+}
+
+char	*expand(t_env *env, char *key)
+{
+	if (key[0] == '?' && !key[1])
+		return (ft_itoa(exitstatus(0, 0)));
+	while (env)
+	{
+		if (!ft_strcmp(key, env->key))
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (NULL);
 }

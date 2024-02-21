@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 15:09:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:31:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	new_node_heredoc(t_token **cmd, int *flag, int spaceafter ,char *buffer, in
 	}
 }
 
-
 char *removequotesfromheredocargs(char *str)
 {
 	int i;
@@ -73,13 +72,14 @@ char *removequotesfromheredocargs(char *str)
 
 t_token *join_heredocargs(t_token *cmd)
 {
-	t_token *new;
-	char *buffer;
-	t_token *curr;
-	int spaceafter;
-	int flag = 1;
-	int forheredoc;
+	t_token	*new;
+	char	*buffer;
+	t_token	*curr;
+	int		spaceafter;
+	int		flag;
+	int		forheredoc;
 
+	flag = 1;
 	curr = cmd;
 	forheredoc = 0;
 	while(curr)
@@ -126,14 +126,14 @@ t_token *join_heredocargs(t_token *cmd)
 	return (new);
 }
 
-void handle_input(t_token **cmd, char *str, t_env *env)
+void	handle_input(t_token **cmd, char *str, t_env *env)
 {
 	t_tree	*root;
-	t_vars *vars;
-	t_token *new;
+	t_vars	*vars;
+	t_token	*new;
 
 	vars = rad_malloc(sizeof(t_vars), 0, COMMAND);
-	if(!vars)
+	if (!vars)
 		ft_exit(NULL);
 	vars->flag = 1;
 	vars->i = 0;
@@ -145,15 +145,8 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 		{
 			free(str);
 			new = join_heredocargs(*cmd);
-			// t_token *curr;
-			// curr = new;
-			// while(curr)
-			// {
-			// 	printf("%s\n", curr->cmd);
-			// 	curr =curr->next;
-			// }
 			give_state_and_type(&new);
-			if(check_syntax_error(&new) == 1 && heredocendedwith_c(0, 0) == 0)
+			if (check_syntax_error(&new) == 1 && heredocendedwith_c(0, 0) == 0)
 			{
 				while(new->next)
 					new = new->next;
@@ -165,25 +158,6 @@ void handle_input(t_token **cmd, char *str, t_env *env)
 			}
 		}
     }
-}
-
-void f()
-{
-	system("leaks minishell > hh");
-}
-
-int onlyspaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isspace(str[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int main(int ac, char **av, char **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:02:47 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 23:57:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 17:31:15 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,19 @@ int	islimiter2(int c)
 {
 	if (c == '|' || c == '&')
 		return (1);
+	return (0);
+}
+
+int onlyspaces(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]) == 0)
+			return (1);
+		i++;
+	}
 	return (0);
 }

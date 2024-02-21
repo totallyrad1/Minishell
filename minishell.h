@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:50:27 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:31:35 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,6 +359,10 @@ t_cmd	*joined_args(t_cmd *args);
 void	setvars_argsnode(t_margs **vars, t_cmd **newlst);
 void	setexit(int status);
 void	new_nodforquotes(t_token **cmd, t_vars *vars, char save);
-void addfd(int fd, int flag);
+void	addfd(int fd, int flag);
+int		delimitercheck(char *token);
+int		check_limiterssyntax(t_token *curr, int initflag);
+void	init_vars(t_syntax **vars);
+int		onlyspaces(char *str);
 
 #endif
