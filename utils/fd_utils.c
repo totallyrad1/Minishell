@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 22:41:18 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:47:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	get_infile(t_cmd *curr, t_env *env, int *infile)
 			*infile = heredoc_expanded(curr->heredocfd, env);
 		else
 		{
-			if (*infile)
+			if (*infile > 2)
 				close(*infile);
 			*infile = curr->heredocfd;
 		}
@@ -50,7 +50,7 @@ static void	get_infile(t_cmd *curr, t_env *env, int *infile)
 	{
 		if (checkreadpermissions(curr->next->cmd, infile) == 0)
 			return ;
-		if (*infile)
+		if (*infile > 2)
 			close(*infile);
 		*infile = open(curr->next->cmd, O_RDONLY);
 		addfd(*infile, 1);
@@ -98,7 +98,10 @@ void	getfds(t_cmd *curr, t_env *env, int *infile, int *outfi)
 		}
 		else if (curr->cmd && curr->word != 1
 			&& curr->cmd[0] == '>' && curr->cmd[1] == '\0')
-			openoutfi(outfi, curr);
+		{
+			if (!openoutfi(outfi, curr))
+				break ;
+		}
 		curr = curr->next;
 	}
 }
