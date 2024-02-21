@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:00:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:12:53 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:41:13 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	checkreadpermissions(char *str, int *infile)
 		wrerror("bash: ");
 		wrerror(str);
 		wrerror(": Permission denied\n");
+		if (*infile > 2)
+			close(*infile);
 		*infile = -1;
 		return (0);
 	}
@@ -32,6 +34,8 @@ int	checkwritepermissions(char *str, int *outfile)
 		wrerror("bash: ");
 		wrerror(str);
 		wrerror(": Permission denied\n");
+		if (*outfile > 2)
+			close(*outfile);
 		*outfile = -1;
 		return (0);
 	}
@@ -54,4 +58,10 @@ void	changeoutfile(int fd)
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
+}
+
+void	closeoutfile(int outfi)
+{
+	if (outfi > 2)
+		close(outfi);
 }

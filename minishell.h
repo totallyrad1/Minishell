@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 22:01:26 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/21 22:41:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,5 +337,6 @@ void	init_vars(t_syntax **vars);
 int		onlyspaces(char *str);
 void	new_node_heredoc(t_token **cmd, t_jnhargs **vars);
 t_token	*join_heredocargs(t_token *curr);
+void	closeoutfile(int outfi);
 
 #endif
