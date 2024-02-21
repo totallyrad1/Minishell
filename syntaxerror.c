@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 15:22:16 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 16:29:44 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ int check_bracketssyntax(t_token *curr, t_syntax *vars)
 {
 	if((vars->initflag == 0 && curr->cmd[0] == ')') // closed bracket flowl
 		|| (isredirection(curr->cmd[0]) && curr->next && curr->next->cmd[0] == '(') //redirection moraha open bracket
-		|| (curr->cmd[0] == ')' && curr->next && islimiter1(curr->next->cmd[0]) == 0) // closed bracket mn mora word
+		|| (curr->cmd[0] == ')' && curr->next && islimiter2(curr->next->cmd[0]) == 0) // closed bracket mn mora word
 		|| (curr->cmd[0] == '(' && curr->next && islimiter2(curr->next->cmd[0])) // open bracket mn wraha limiter
-		|| (curr->cmd[0] == '(' && curr->next && curr->next->cmd[0] == ')')) // open bracket mn moraha closed bracket
+		|| (curr->cmd[0] == '(' && curr->next && curr->next->cmd[0] == ')') // open bracket mn moraha closed bracket
+		|| (islimiter2(curr->cmd[0]) == 0 && curr->next && curr->next->cmd[0] == '(')) //expression mn moraha bracket
 		{
 			exitstatus(258, 1);
 			printf("turboshell: syntax error near unexpected token `%s'\n", curr->cmd);

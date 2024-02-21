@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_spaces.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 17:44:50 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 16:38:01 by asnaji           ###   ########.fr       */
+/*   Created: 2024/02/21 16:34:01 by asnaji            #+#    #+#             */
+/*   Updated: 2024/02/21 16:35:58 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static size_t	wordscount(char const *s, char c)
+#include "../minishell.h"
+
+static size_t	wordscount(char const *s)
 {
 	size_t	i;
 	size_t	wc;
@@ -21,17 +23,17 @@ static size_t	wordscount(char const *s, char c)
 	wc = 0;
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && ft_isspace(s[i]))
 			i++;
 		if (s[i])
 			wc++;
-		while (s[i] && s[i] != c)
+		while (s[i] && ft_isspace(s[i]) == 0)
 			i++;
 	}
 	return (wc);
 }
 
-static char	*getword(size_t *i, char const *s, char c)
+static char	*getword(size_t *i, char const *s)
 {
 	size_t	j;
 	size_t	currwordsize;
@@ -39,10 +41,10 @@ static char	*getword(size_t *i, char const *s, char c)
 	char	*res;
 
 	j = 0;
-	while (s[*i] && s[*i] == c)
+	while (s[*i] && ft_isspace(s[*i]))
 		(*i)++;
 	tpos = *i;
-	while (s[*i] && s[*i] != c)
+	while (s[*i] && ft_isspace(s[*i]) == 0)
 		(*i)++;
 	currwordsize = *i - tpos;
 	res = (char *)rad_malloc((currwordsize + 1) * sizeof(char), 0, OTHERS);
@@ -57,7 +59,7 @@ static char	*getword(size_t *i, char const *s, char c)
 	return (res);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_spaces(char const *s)
 {
 	size_t	j;
 	size_t	wc;
@@ -68,13 +70,13 @@ char	**ft_split(char const *s, char c)
 	j = 0;
 	if (!s)
 		return (NULL);
-	wc = wordscount(s, c);
+	wc = wordscount(s);
 	res = (char **)rad_malloc((wc + 1) * sizeof(char *), 0, OTHERS);
 	if (!res)
 		return (ft_exit(NULL), NULL);
 	while (j < wc)
 	{
-		res[j] = getword(&i, s, c);
+		res[j] = getword(&i, s);
 		if (!res[j])
 			return (NULL);
 		j++;

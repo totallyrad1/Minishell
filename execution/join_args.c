@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 11:32:10 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 21:27:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 16:37:12 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**var_toarray(char *token, t_env *env)
 	key = ft_strdup(expand(env, &token[1]));
 	if (!key)
 		return (NULL);
-	res = ft_split(key, 32);
+	res = ft_split_spaces(key);
 	if (res[0])
 		return (res);
 	return (NULL);
@@ -50,7 +50,7 @@ int	count_var_args(char *token, t_env *env)
 	key = ft_strdup(expand(env, &token[1]));
 	if (!key)
 		return (1);
-	res = ft_split(key, 32);
+	res = ft_split_spaces(key);
 	i = 0;
 	while (res[i])
 		i++;

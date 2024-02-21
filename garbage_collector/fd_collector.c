@@ -6,14 +6,14 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 20:04:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/20 20:28:10 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 16:40:33 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <unistd.h>
 
-static void new_fd_list_node(t_fd_list **list, int *it, int fd)
+static void	new_fd_list_node(t_fd_list **list, int *it, int fd)
 {
 	t_fd_list	*curr;
 	t_fd_list	*new;
@@ -23,27 +23,27 @@ static void new_fd_list_node(t_fd_list **list, int *it, int fd)
 		ft_exit(NULL);
 	new->fd = fd;
 	new->next = NULL;
-	if(*it == 0)
+	if (*it == 0)
 	{
 		*list = new;
 		*it = 1;
 	}
-	else 
+	else
 	{
 		curr = *list;
-		while(curr->next)
+		while (curr->next)
 			curr = curr->next;
 		curr->next = new;
 	}
 }
 
-static void closefds(t_fd_list **fd_list)
+static void	closefds(t_fd_list **fd_list)
 {
-	t_fd_list *curr;
-	t_fd_list *tofree;
-	
+	t_fd_list	*curr;
+	t_fd_list	*tofree;
+
 	curr = *fd_list;
-	while(curr)
+	while (curr)
 	{
 		tofree = curr;
 		curr = curr->next;
@@ -54,7 +54,7 @@ static void closefds(t_fd_list **fd_list)
 	*fd_list = NULL;
 }
 
-void addfd(int fd, int flag)
+void	addfd(int fd, int flag)
 {
 	static int			firstit;
 	static t_fd_list	*fd_list;

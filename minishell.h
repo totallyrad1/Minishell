@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 15:22:29 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 16:36:08 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,7 @@ void changeoutfile(int fd);
 void changeinfile(int fd);
 //ft_split.c
 char	**ft_split(char const *s, char c);
+char	**ft_split_spaces(char const *s);
 //pipetools.c
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char *s1, char *s2);
@@ -355,6 +356,8 @@ char	*expand(t_env *env, char *key);
 
 int improvedpipeexecution(t_tree *node, t_env *env);
 int improvedpipeexecution1(t_tree *node, t_env *env, t_tree *save);
+int checkwritepermissions(char *str, int *outfile);
+int checkreadpermissions(char *str, int *infile);
 //ft_itoa.c
 char	*ft_itoa(int n);
 //QUOTE.C
@@ -410,6 +413,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 t_cmd	*joined_args(t_cmd *args);
 void	setvars_argsnode(t_margs **vars, t_cmd **newlst);
 void	setexit(int status);
+void	new_nodforquotes(t_token **cmd, t_vars *vars, char save);
 
 void addfd(int fd, int flag);
 
