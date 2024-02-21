@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:13:58 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:28:39 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:56:47 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,33 @@ char	*expand(t_env *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	new_node_heredoc(t_token **cmd, t_jnhargs **vars)
+{
+	t_token	*new;
+	t_token	*curr;
+
+	new = rad_malloc(sizeof(t_token), 0, COMMAND);
+	if (!new)
+		return (ft_exit(NULL));
+	curr = *cmd;
+	new->cmd = (*vars)->buffer;
+	new->spaceafter = (*vars)->spaceafter;
+	new->for_heredoc = (*vars)->forheredoc;
+	new->visited = 0;
+	new->next = NULL;
+	if ((*vars)->flag == 1)
+	{
+		new->prev = NULL;
+		*cmd = new;
+		(*vars)->flag = 0;
+	}
+	else
+	{
+		while (curr->next)
+			curr = curr->next;
+		new->prev = curr;
+		curr->next = new;
+	}
 }

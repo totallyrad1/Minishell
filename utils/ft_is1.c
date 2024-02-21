@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:02:47 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:31:15 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:59:24 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	islimiter2(int c)
 	return (0);
 }
 
-int onlyspaces(char *str)
+int	onlyspaces(char *str)
 {
 	int	i;
 

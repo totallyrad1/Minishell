@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 17:31:35 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:44:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,14 @@ typedef struct s_pattern
 	int	len_str;
 }				t_pattern;
 
+typedef struct s_jnhargs
+{
+	int		flag;
+	int		spaceafter;
+	char	*buffer;
+	int		forheredoc;
+}				t_jnhargs;
+
 enum e_garbagecollector
 {
 	EVERYTHING,
@@ -364,5 +372,8 @@ int		delimitercheck(char *token);
 int		check_limiterssyntax(t_token *curr, int initflag);
 void	init_vars(t_syntax **vars);
 int		onlyspaces(char *str);
+char	*removequotesfromheredocargs(char *str);
+void	new_node_heredoc(t_token **cmd, t_jnhargs **vars);
+t_token *join_heredocargs(t_token *curr);
 
 #endif
