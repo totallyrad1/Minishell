@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 18:30:59 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:31:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static void	print_export(t_env *env, t_env *head)
 
 static void	print_env_value(t_env **env)
 {
-	printf("%s=", env->key);
-	printf("%s\n", env->value);
-	env = env->next;
+	printf("%s=", (*env)->key);
+	printf("%s\n", (*env)->value);
+	(*env) = (*env)->next;
 }
 
 void	print_env(t_env *env, int flag)
