@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:33:29 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 20:42:57 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,26 @@ void	wrerror(char *str)
 {
 	if (str)
 		write(2, str, ft_strlen(str));
+}
+
+void	reset_terminal(void)
+{
+	struct termios	term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+	{
+		perror("tcgetattr");
+		ft_exit(NULL);
+	}
+	term.c_iflag = ICRNL;
+	term.c_oflag = OPOST | ONLCR;
+	term.c_cflag = CS8 | CREAD;
+	term.c_lflag = ISIG | ICANON | ECHO | ECHOE | ECHOK | ECHOCTL | ECHOKE;
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &term) == -1)
+	{
+		perror("tcsetattr");
+		ft_exit(NULL);
+	}
 }

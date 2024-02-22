@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 17:39:10 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 20:43:16 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,5 +341,6 @@ t_token	*join_heredocargs(t_token *curr);
 void	closeoutfile(int outfi);
 int		tokenizer(t_token **cmd, t_vars *vars);
 void	exit_with_value(int value);
+void	reset_terminal(void);
 
 #endif
