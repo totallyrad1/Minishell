@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 22:35:25 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 23:49:27 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,13 @@ int	dir_not_found(char **args)
 
 static int	dir_removed(char **args, t_env **env, char *dir)
 {
-	char	*points;
-
 	if (!dir)
 	{
 		wrerror("Turboshell: cd: getcwd: cannot access parent directories: ");
 		perror("");
 		exitstatus(1, 1);
 		dir = ft_strjoin(ft_strdup((*env)->pwd), "/");
-		points = get_points(args[1]);
-		dir = ft_strjoin(dir, points);
+		dir = ft_strjoin(dir, args[1]);
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
 		free((*env)->pwd);
 		(*env)->pwd = dir;

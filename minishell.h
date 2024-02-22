@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 21:10:43 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 23:51:12 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,6 @@ t_env	*sort_env(t_env *lst, int (*cmp)(const char *, const char *));
 char	*expand(t_env *env, char *key);
 int		unset(char **args, t_env **envp);
 int		ft_export(char **args, t_env **env);
-char	*get_points(char *str);
 int		chdir_home(char **args, t_env **env);
 int		dir_not_found(char **args);
 int		chdir_dash(char **args, t_env **env);
