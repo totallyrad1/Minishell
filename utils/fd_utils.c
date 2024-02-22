@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:04:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 22:47:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 08:03:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	throwerror_forin(t_cmd *curr, int infile)
 {
 	if (curr->next && ft_strchr(curr->next->cmd, '*')
-		&& array_len(wildcard(curr->next)))
+		&& (array_len(wildcard(curr->next)) != 1))
 	{
 		wrerror("turboshell: ");
 		wrerror(curr->next->cmd);
