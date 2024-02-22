@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 15:34:02 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 18:31:56 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 22:36:59 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	print_all(t_env *env)
 {
+	env = sort_env(env, ft_strcmp);
 	while (env)
 	{
 		printf("declare -x %s", env->key);

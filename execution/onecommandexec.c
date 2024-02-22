@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 20:41:46 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 20:59:00 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	one_command_execution(t_tree *node, t_env *env)
 	if (!args || !args[0])
 		return (0);
 	if (!ft_strcmp(args[0], "env") && args[1])
-		;
+		return (exitstatus(1, 1), 1);
 	else if (is_builtin(args[0]))
 		return (builtinexec(args, &env, infile, outfile));
 	return (exec_cmd1(infile, outfile, args, env));
