@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 08:37:59 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/22 17:39:10 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ typedef struct s_ncmdlst
 	t_cmd	*save;
 	int		ambiguous;
 	int		flag;
+	int		expandwildcard;
 	t_cmd	*save1;
 }				t_ncmdlst;
 
@@ -322,12 +323,12 @@ void	join_dirent(t_list *dirent);
 char	**args_to_arr(t_cmd *args);
 t_cmd	*make_args_lst(t_cmd *cmd, t_env *env);
 void	getfds(t_cmd *cmd, t_env *env, int *infile, int *outfile);
-void	make_args_node(t_cmd **args, t_margs **vars);
+void	make_args_node(t_cmd **args, t_margs **vars, t_cmd **cmd);
 void	skip_redirections(t_cmd **temp);
 void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env);
 t_cmd	*joined_args(t_cmd *args);
-void	setvars_argsnode(t_margs **vars, t_cmd **newlst);
+void	setvars_argsnode(t_margs **vars, t_cmd **newlst, t_cmd **cmd);
 void	setexit(int status);
 void	new_nodforquotes(t_token **cmd, t_vars *vars, char save);
 void	addfd(int fd, int flag);
@@ -339,5 +340,6 @@ void	new_node_heredoc(t_token **cmd, t_jnhargs **vars);
 t_token	*join_heredocargs(t_token *curr);
 void	closeoutfile(int outfi);
 int		tokenizer(t_token **cmd, t_vars *vars);
+void	exit_with_value(int value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:26:05 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:11:08 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:59:56 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	skip_redirections(t_cmd **temp)
 	}
 }
 
-void	make_args_node(t_cmd **args, t_margs **vars)
+void	make_args_node(t_cmd **args, t_margs **vars, t_cmd **cmd)
 {
 	t_cmd	*new;
 	t_cmd	*curr;
 
 	new = rad_malloc(sizeof(t_cmd), 0, COMMAND);
-	setvars_argsnode(vars, &new);
+	setvars_argsnode(vars, &new, cmd);
 	if ((*vars)->flag == 1)
 	{
 		*args = new;
@@ -60,7 +60,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 	(*vars)->ambiguos = (*cmd)->ambiguous;
 	(*vars)->word = (*cmd)->word;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
-	make_args_node(new_lst, vars);
+	make_args_node(new_lst, vars, cmd);
 	(*cmd) = (*cmd)->next;
 	(*vars)->buffer = ft_strdup((*cmd)->cmd);
 	if ((*cmd)->cmd[0] == '\'' || (*cmd)->cmd[0] == '\"')
@@ -72,7 +72,7 @@ void	makearpart1(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 	(*vars)->ambiguos = (*cmd)->ambiguous;
 	(*vars)->word = (*cmd)->word;
 	(*vars)->spaceafter = (*cmd)->spaceafter;
-	make_args_node(new_lst, vars);
+	make_args_node(new_lst, vars, cmd);
 	*cmd = (*cmd)->next;
 }
 
@@ -90,5 +90,5 @@ void	makea_part2_2(t_cmd **cmd, t_cmd **new_lst, t_margs **vars, t_env *env)
 		(*vars)->expand = 0;
 	else
 		(*vars)->expand = 1;
-	make_args_node(new_lst, vars);
+	make_args_node(new_lst, vars, cmd);
 }

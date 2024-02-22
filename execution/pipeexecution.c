@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:25:28 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:37:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ int	improvedpipeexecution(t_tree *node, t_env *env)
 	return (improvedpipeexecution1(node->right, env, save));
 }
 
-void	setvars_argsnode(t_margs **vars, t_cmd **newlst)
+void	setvars_argsnode(t_margs **vars, t_cmd **newlst, t_cmd **cmd)
 {
 	(*newlst)->spaceafter = (*vars)->spaceafter;
 	(*newlst)->cmd = (*vars)->buffer;
 	(*newlst)->word = (*vars)->word;
-	(*newlst)->expandwildcard = (*vars)->expand;
+	(*newlst)->expandwildcard = (*cmd)->expandwildcard;
 	(*newlst)->expandheredoc = (*vars)->heredocexpand;
 	(*newlst)->next = NULL;
 	(*newlst)->heredocfd = (*vars)->heredocfd;

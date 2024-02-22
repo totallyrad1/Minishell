@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 08:28:41 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/22 16:34:32 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	main(int ac, char **av, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	while (420)
 	{
-		command = readline(">_ Turboshell$ ");
+		command = readline("Turboshell:$ ");
 		if (!command)
-			exit_no_args();
+			exit_with_value(exitstatus(0, 0));
 		process(command, env_lst);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:00:00 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:47:05 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:00:15 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	new_cmd_node(t_cmd **cmd, t_ncmdlst **vars)
 	new->expandheredoc = (*vars)->save->expandheredoc;
 	new->spaceafter = (*vars)->save->spaceafter;
 	new->ambiguous = (*vars)->ambiguous;
+	new->expandwildcard = (*vars)->expandwildcard;
 	new->word = (*vars)->word;
 	if ((*vars)->flag == 1)
 	{
@@ -60,6 +61,10 @@ static void	new_cmdpart1_1(t_ncmdlst **vars, t_cmd **curr, t_env *env)
 	}
 	if ((*vars)->buffer == NULL)
 		(*vars)->buffer = ft_strdup("");
+	if ((*curr)->cmd[0] == '\'' || (*curr)->cmd[0] == '\"')
+		(*vars)->expandwildcard = 0;
+	else
+		(*vars)->expandwildcard = 1;
 	*curr = (*curr)->next;
 }
 
@@ -77,6 +82,10 @@ static void	new_cmd1(t_cmd **curr, t_ncmdlst **vars, t_cmd **new, t_env *env)
 	(*vars)->word = 1;
 	(*curr)->spaceafter = 0;
 	(*vars)->ambiguous = 0;
+	if ((*curr)->cmd[0] == '\'' || (*curr)->cmd[0] == '\"')
+		(*vars)->expandwildcard = 0;
+	else
+		(*vars)->expandwildcard = 1;
 	while (*curr && (*curr)->spaceafter != 1
 		&& (*curr)->cmd[0] != '>' && (*curr)->cmd[0] != '<')
 		new_cmdpart1_1(vars, curr, env);
@@ -106,6 +115,9 @@ t_cmd	*new_cmd_list(t_cmd *curr, t_env *env)
 			new_cmd1(&curr, &vars, &new, env);
 		else
 		{
+			(vars)->expandwildcard = 1;
+			if ((curr)->cmd[0] == '\'' || (curr)->cmd[0] == '\"')
+				(vars)->expandwildcard = 0;
 			vars->save = curr;
 			set_word(&vars, curr);
 			vars->buffer = ft_strdup(curr->cmd);

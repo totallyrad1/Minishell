@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:17:07 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 18:13:17 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,15 @@ static void	execute_cmd(char *abpath, char **envp, char **args)
 	signal(SIGQUIT, SIG_DFL);
 	if (execve(abpath, args, envp) != 0)
 	{
-		wrerror("turboshell: command not found: ");
+		wrerror("turboshell: ");
 		wrerror(args[0]);
+		if (((ft_strchr(args[0], '/') || ft_strchr(args[0], '\\'))
+				&& access(abpath, F_OK) != 0) || abpath == NULL)
+			wrerror(": no such file or directory");
+		else if (access(abpath, F_OK) == 0)
+			wrerror(": cant execute this file");
+		else
+			wrerror(": command not found");
 		wrerror("\n");
 		exit(127);
 	}
@@ -29,21 +36,18 @@ static int	getabpath(char **envp, char *command, char **abpath)
 {
 	struct stat	filestat;
 
-	if (access(command, F_OK) != 0)
-		*abpath = get_working_path(envp, command);
-	else
+	if (ft_strchr(command, '/') || ft_strchr(command, '\\'))
 	{
 		*abpath = ft_strdup(command);
-		if (stat(*abpath, &filestat) == 0)
+		if (stat(*abpath, &filestat) == 0 && S_ISDIR(filestat.st_mode))
 		{
-			if (S_ISDIR(filestat.st_mode))
-			{
-				wrerror(*abpath);
-				wrerror(" :is a Directory\n");
-				return (exitstatus(126, 1));
-			}
+			wrerror(*abpath);
+			wrerror(" :is a Directory\n");
+			return (exitstatus(126, 1));
 		}
 	}
+	else
+		*abpath = get_working_path(envp, command);
 	if (access(*abpath, F_OK) == 0 && access(*abpath, X_OK) != 0)
 	{
 		wrerror("permission denied: ");

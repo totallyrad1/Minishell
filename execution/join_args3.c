@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:50:15 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:45:53 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 17:40:50 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	make_args_3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 {
 	(*vars)->buffer = argextraction(*cmd, env);
-	(*vars)->expand = 1;
 	(*vars)->heredocfd = (*cmd)->heredocfd;
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
@@ -25,7 +24,7 @@ static void	make_args_3(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 		(*vars)->expand = 0;
 	else
 		(*vars)->expand = 1;
-	make_args_node(new, vars);
+	make_args_node(new, vars, cmd);
 	*cmd = (*cmd)->next;
 }
 
@@ -37,6 +36,10 @@ static void	set_varsforpart2_1(t_cmd **cmd, t_margs **vars, char *tmp)
 	(*vars)->heredocexpand = (*cmd)->expandheredoc;
 	(*vars)->ambiguos = (*cmd)->ambiguous;
 	(*vars)->word = (*cmd)->word;
+	if ((*cmd)->cmd[0] == '\'' || (*cmd)->cmd[0] == '\"')
+		(*vars)->expand = 0;
+	else
+		(*vars)->expand = 1;
 }
 
 static void	set_spaceafter(t_margs **vars, t_cmd **cmd, t_env *env)
@@ -62,12 +65,12 @@ static void	make_args_2_1(t_cmd **cmd, t_cmd **new, t_margs **vars, t_env *env)
 			if (j == 0)
 			{
 				set_spaceafter(vars, cmd, env);
-				make_args_node(new, vars);
+				make_args_node(new, vars, cmd);
 			}
 			else
 			{
 				(*vars)->spaceafter = 1;
-				make_args_node(new, vars);
+				make_args_node(new, vars, cmd);
 			}
 			(*vars)->buffer = NULL;
 		}
