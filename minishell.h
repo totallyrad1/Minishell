@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 22:41:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/22 08:37:59 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,7 @@ enum e_garbagecollector
 
 void	*rad_malloc(size_t size, int flag, int type);
 int		check_syntax_error(t_token **cmd);
-int		ft_bracket(t_token **cmd, t_vars *vars);
+int		ft_bracket(t_token **cmd, t_vars **vars);
 int		array_len(char **arr);
 size_t	ft_strlen(const char *s);
 char	*ft_substr(char *s, size_t start, size_t len);
@@ -227,14 +227,14 @@ int		ft_isalpha(int c);
 void	wrerror(char *str);
 int		ft_isalnum(int c);
 int		ft_atoi(const char *str);
-int		ft_char(t_token **cmd, t_vars *vars);
+int		ft_char(t_token **cmd, t_vars **vars);
 void	give_state_and_type(t_token **cmd);
 int		getlimitertoken(char c, char f);
 int		getlimitertoken1(char c, char f);
-int		ft_separator(t_token **cmd, t_vars *vars);
-int		ft_space(t_token **cmd, t_vars *vars);
-int		ft_quote(t_token **cmd, t_vars *vars);
-int		ft_switch(t_token **cmd, t_vars *vars);
+int		ft_separator(t_token **cmd, t_vars **vars);
+int		ft_space(t_vars **vars);
+int		ft_quote(t_token **cmd, t_vars **vars);
+int		ft_switch(t_token **cmd, t_vars **vars);
 int		hasspaceafter(char *str, int i);
 t_tree	*make_node(t_token **cmd, int flag);
 t_tree	*search_pipe(t_token *token);
@@ -338,5 +338,6 @@ int		onlyspaces(char *str);
 void	new_node_heredoc(t_token **cmd, t_jnhargs **vars);
 t_token	*join_heredocargs(t_token *curr);
 void	closeoutfile(int outfi);
+int		tokenizer(t_token **cmd, t_vars *vars);
 
 #endif

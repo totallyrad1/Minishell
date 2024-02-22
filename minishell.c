@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:23:42 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/22 08:28:41 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	handle_input(t_token **cmd, char *str, t_env *env)
 	vars = init_t_vars(env, str);
 	if (str[0])
 	{
-		if (ft_switch(cmd, vars) == 0)
+		if (tokenizer(cmd, vars) == 0)
 		{
 			free(str);
 			new = join_heredocargs(*cmd);
