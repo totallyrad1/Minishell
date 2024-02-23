@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:04:53 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 23:49:27 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:58:29 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static int	dir_removed(char **args, t_env **env, char *dir)
 		dir = ft_strjoin(ft_strdup((*env)->pwd), "/");
 		dir = ft_strjoin(dir, args[1]);
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
 		(*env)->pwd = dir;
 		change_value_env(env, "PWD", ft_strdup(dir));
 		return (1);
@@ -105,7 +104,6 @@ int	chdir_dash(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
 		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		get_pwd(*env);
@@ -129,7 +127,6 @@ int	ft_cd(char **args, t_env **env)
 		return (0);
 	}
 	change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-	free((*env)->pwd);
 	(*env)->pwd = dir;
 	change_value_env(env, "PWD", ft_strdup(dir));
 	return (0);

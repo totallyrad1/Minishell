@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:11:54 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 23:51:12 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:53:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,6 @@ char	**wildcard(t_cmd *args);
 char	**get_all_wildcards(t_cmd *args);
 int		is_match(char *str, char *pattern);
 t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *));
-void	free_list(t_list **lst);
 int		count_len_matching(char *str, t_list *dirent);
 t_list	*remove_hidden(t_list *dirent);
 void	join_dirent(t_list *dirent);

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 19:08:54 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/23 15:39:23 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 15:53:19 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,3 @@ t_list	*sort_list(t_list *lst, int (*cmp)(const char *, const char *))
 	}
 	return (lst);
 }
-
-// void	free_list(t_list **lst)
-// {
-// 	t_list	*tmp;
-
-// 	if (!lst)
-// 		return ;
-// 	if (!*lst)
-// 	{
-// 		free(*lst);
-// 		return ;
-// 	}
-// 	while (*lst)
-// 	{
-// 		tmp = *lst;
-// 		*lst = (*lst)->next;
-// 		free(tmp->data);
-// 		tmp->data = NULL;
-// 		free(tmp);
-// 		tmp = NULL;
-// 	}
-// }

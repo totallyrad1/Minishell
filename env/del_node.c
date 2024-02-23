@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   del_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:04:52 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 23:56:02 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:51:46 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,4 @@ void	del_node_env(t_env **env, char *key)
 		node_to_del->next->prev = node_to_del->prev;
 	if (node_to_del->prev)
 		node_to_del->prev->next = node_to_del->next;
-	free(node_to_del->key);
-	free(node_to_del->value);
-	free(node_to_del);
 }

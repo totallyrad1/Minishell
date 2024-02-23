@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 15:41:58 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:07:17 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,11 @@ static void	process(char *command, t_env *env_lst)
 	addfd(0, 0);
 }
 
-void f()
-{
-	system("leaks minishell > leaks");
-}
-
 int	main(int ac, char **av, char **env)
 {
 	char	*command;
 	t_env	*env_lst;
 
-	atexit(f);
 	(void)ac;
 	(void)av;
 	if (!isatty(ttyslot()))

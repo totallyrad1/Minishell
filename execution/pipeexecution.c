@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeexecution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 15:55:56 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 17:37:50 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:00:57 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	pipe_part2(t_tree *node, t_env *env, t_tree *save)
 	close(save->fd[0]);
 	while (waitpid(-1, &status, 0) != -1)
 		;
+	status = WEXITSTATUS(status);
 	setexit(status);
 	return (exitstatus(0, 0));
 }

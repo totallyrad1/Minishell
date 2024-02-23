@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 20:59:00 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:03:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	setexit(int status)
 		exitstatus(WTERMSIG(status) + 128, 1);
 	}
 	else
+	{
 		exitstatus(WEXITSTATUS(status), 1);
+	}
 }
 
 static int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
