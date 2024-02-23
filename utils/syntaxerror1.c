@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntaxerror1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:16:01 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 18:38:13 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 17:50:03 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	check_limiterssyntax(t_token *curr, int initflag)
 {
 	if ((islimiter1(curr->cmd[0]) && delimitercheck(curr->cmd) == 0)
 		|| (islimiter1(curr->cmd[0]) && !curr->next)
+		|| (isredirection(curr->cmd[0]) && curr->next->cmd == NULL)
 		|| (islimiter2(curr->cmd[0]) && initflag == 0)
 		|| (islimiter2(curr->cmd[0]) && islimiter2(curr->next->cmd[0]))
 		|| (isredirection(curr->cmd[0]) && isredirection(curr->next->cmd[0]))
