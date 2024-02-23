@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:33:31 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 21:19:19 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 19:20:54 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ static char	*joineexpandargs(char *str, t_env *env, int *i, int *tmp)
 	char	*new_str;
 	char	*key;
 
-	while (str[*i] && (ft_alphanum(str[*i]) == 1 || str[*i] == '?'))
+	if (str[*i] == '?')
 		(*i)++;
+	else
+		while (str[*i] && ft_alphanum(str[*i]) == 1)
+			(*i)++;
 	key = ft_substr(str, *tmp, *i - *tmp);
 	new_str = expand(env, key);
 	*tmp = *i;

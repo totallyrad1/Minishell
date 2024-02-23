@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 19:59:53 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 08:40:33 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 19:02:06 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ static int	ft_dollarsign(t_token **cmd, t_vars **vars)
 	(*vars)->tmp = (*vars)->i;
 	if ((*vars)->cmd[(*vars)->i] == '$')
 		(*vars)->i++;
-	while ((*vars)->cmd[(*vars)->i]
-		&& (ft_alphanum((*vars)->cmd[(*vars)->i]) == 1
-			|| (*vars)->cmd[(*vars)->i] == '?'))
+	if ((*vars)->cmd[(*vars)->i] == '?')
 		(*vars)->i++;
+	else
+		while ((*vars)->cmd[(*vars)->i]
+			&& (ft_alphanum((*vars)->cmd[(*vars)->i]) == 1))
+			(*vars)->i++;
 	if ((*vars)->flag == 1)
 	{
 		(*cmd)->cmd = ft_substr((*vars)->cmd,

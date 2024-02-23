@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 20:44:21 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 17:48:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 19:19:18 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,17 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	if (!isatty(ttyslot()))
+	if (!isatty(0))
 		return (printf("tty required!\n"), 1);
 	env_lst = arr_to_env(env);
 	rl_catch_signals = 0;
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	while (420)
+	while (667)
 	{
 		command = readline("Turboshell:$ ");
 		if (!command)
 			exit_with_value(exitstatus(0, 0));
 		process(command, env_lst);
 	}
-	return (0);
 }

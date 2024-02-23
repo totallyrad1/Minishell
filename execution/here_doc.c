@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 20:17:16 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/21 22:34:04 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 19:03:28 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	heredocshit(char *delimiter)
 	addfd(fd, 1);
 	addfd(fdtoreturn, 1);
 	unlink(filename);
-	signal(SIGINT, (void (*)(int))signal_handler_heredoc);
+	signal(SIGINT, signal_handler_heredoc);
 	ft_readheredoc(fd, delimiter);
 	signal(SIGINT, signal_handler);
 	close(fd);

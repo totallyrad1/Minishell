@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   onecommandexec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 16:24:22 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 19:11:49 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	execute_cmd(char *abpath, char **envp, char **args)
 	{
 		wrerror("turboshell: ");
 		wrerror(args[0]);
-		if (((ft_strchr(args[0], '/') || ft_strchr(args[0], '\\'))
+		if (((ft_strchr(args[0], '/'))
 				&& access(abpath, F_OK) != 0) || abpath == NULL)
 			wrerror(": no such file or directory");
 		else
