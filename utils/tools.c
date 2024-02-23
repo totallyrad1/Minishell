@@ -6,7 +6,7 @@
 /*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 20:42:57 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 00:40:55 by yzaazaa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ void	reset_terminal(void)
 	}
 	term.c_iflag = ICRNL;
 	term.c_oflag = OPOST | ONLCR;
-	term.c_cflag = CS8 | CREAD;
+	// term.c_cflag = CS8 | CREAD;
 	term.c_lflag = ISIG | ICANON | ECHO | ECHOE | ECHOK | ECHOCTL | ECHOKE;
-	term.c_cc[VMIN] = 1;
-	term.c_cc[VTIME] = 0;
+	// term.c_cc[VMIN] = 1;
+	// term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &term) == -1)
 	{
 		perror("tcsetattr");
