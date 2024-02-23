@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_wildcard.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 23:36:34 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/23 00:09:14 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:39:40 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_list	*remove_hidden(t_list *dirent)
 			lst_add_node(&new_list, ft_strdup((char *)dirent->data));
 		dirent = dirent->next;
 	}
-	free_list(&head);
+	// free_list(&head);
 	return (new_list);
 }
 

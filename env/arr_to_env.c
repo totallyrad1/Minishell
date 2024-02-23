@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arr_to_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 22:07:12 by yzaazaa           #+#    #+#             */
-/*   Updated: 2024/02/22 23:54:35 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:46:28 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static char	*check_shlvl(char *key, char *value)
 		if (is_number(value))
 		{
 			shlvl = ft_atoi(value);
-			free(value);
 			if (shlvl == 999)
 				value = NULL;
 			else if (shlvl > 999)
@@ -58,10 +57,7 @@ static char	*check_shlvl(char *key, char *value)
 				value = ft_itoa(shlvl + 1);
 		}
 		else
-		{
-			free(value);
 			value = ft_itoa(1);
-		}
 	}
 	return (value);
 }
@@ -81,7 +77,7 @@ t_env	*arr_to_env(char **env)
 	{
 		i = -1;
 		env_lst = make_env(NULL, NULL);
-		env_lst->pwd = getcwd(NULL, 0);
+		env_lst->pwd = ft_strdup_del(getcwd(NULL, 0));
 		env_lst->env_null = 0;
 		while (env[++i])
 		{

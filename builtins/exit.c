@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:32:41 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/22 18:13:42 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 15:47:26 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int	check_arg(char *str)
 void	exit_no_args(void)
 {
 	rl_clear_history();
+	addfd(0, 0);
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");
 	exit(0);
@@ -48,6 +49,7 @@ void	exit_no_args(void)
 static void	exit_failure(void)
 {
 	rl_clear_history();
+	addfd(0, 0);
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");
 	exit(1);
@@ -56,6 +58,7 @@ static void	exit_failure(void)
 void	exit_with_value(int value)
 {
 	rl_clear_history();
+	addfd(0, 0);
 	rad_malloc(0, 1, 0);
 	wrerror("exit\n");
 	exit(value);
