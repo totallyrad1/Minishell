@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yzaazaa <yzaazaa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:17:14 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 00:40:55 by yzaazaa          ###   ########.fr       */
+/*   Updated: 2024/02/23 16:16:52 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,8 @@ void	reset_terminal(void)
 		perror("tcgetattr");
 		ft_exit(NULL);
 	}
-	term.c_iflag = ICRNL;
 	term.c_oflag = OPOST | ONLCR;
-	// term.c_cflag = CS8 | CREAD;
 	term.c_lflag = ISIG | ICANON | ECHO | ECHOE | ECHOK | ECHOCTL | ECHOKE;
-	// term.c_cc[VMIN] = 1;
-	// term.c_cc[VTIME] = 0;
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &term) == -1)
 	{
 		perror("tcsetattr");

@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:57:36 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 16:05:45 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:13:06 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static int	check_bracketssyntax(t_token *curr, t_syntax *vars)
 		|| (isredirection(curr->cmd[0]) && curr->next
 			&& curr->next->cmd[0] == '(')
 		|| (curr->cmd[0] == ')' && curr->next
-			&& islimiter2(curr->next->cmd[0]) == 0)
+			&& curr->next->cmd[0] != ')' && islimiter2(curr->next->cmd[0]) == 0)
 		|| (curr->cmd[0] == '(' && curr->next
 			&& islimiter2(curr->next->cmd[0]))
 		|| (curr->cmd[0] == '(' && curr->next
 			&& curr->next->cmd[0] == ')')
-		|| (islimiter2(curr->cmd[0]) == 0
+		|| (curr->cmd[0] != '(' && islimiter2(curr->cmd[0]) == 0
 			&& curr->next && curr->next->cmd[0] == '('))
 	{
 		exitstatus(258, 1);
@@ -49,7 +49,7 @@ static int	check_bracketssyntax(t_token *curr, t_syntax *vars)
 
 static int	checkopenandclosed(t_syntax *vars)
 {
-	if (heredocendedwith_c(0, 0) == 1 && vars->openc != vars->closedc)
+	if (heredocendedwith_c(0, 0) == 0 && vars->openc != vars->closedc)
 	{
 		exitstatus(258, 1);
 		return (printf("brackets syntax error\n"), 0);
