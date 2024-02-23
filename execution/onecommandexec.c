@@ -6,7 +6,7 @@
 /*   By: asnaji <asnaji@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 17:07:34 by asnaji            #+#    #+#             */
-/*   Updated: 2024/02/23 16:03:28 by asnaji           ###   ########.fr       */
+/*   Updated: 2024/02/23 16:24:22 by asnaji           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static void	execute_cmd(char *abpath, char **envp, char **args)
 		if (((ft_strchr(args[0], '/') || ft_strchr(args[0], '\\'))
 				&& access(abpath, F_OK) != 0) || abpath == NULL)
 			wrerror(": no such file or directory");
-		else if (access(abpath, F_OK) == 0)
-			wrerror(": cant execute this file");
 		else
 			wrerror(": command not found");
 		wrerror("\n");
@@ -36,7 +34,7 @@ static int	getabpath(char **envp, char *command, char **abpath)
 {
 	struct stat	filestat;
 
-	if (ft_strchr(command, '/') || ft_strchr(command, '\\'))
+	if (ft_strchr(command, '/'))
 	{
 		*abpath = ft_strdup(command);
 		if (stat(*abpath, &filestat) == 0 && S_ISDIR(filestat.st_mode))
@@ -72,9 +70,7 @@ void	setexit(int status)
 		exitstatus(WTERMSIG(status) + 128, 1);
 	}
 	else
-	{
 		exitstatus(WEXITSTATUS(status), 1);
-	}
 }
 
 static int	exec_cmd1(int infile, int outfile, char **args, t_env *env)
