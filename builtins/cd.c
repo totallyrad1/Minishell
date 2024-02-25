@@ -32,7 +32,6 @@ int	chdir_home(char **args, t_env **env)
 			return (1);
 		}
 		change_value_env(env, "OLDPWD", ft_strdup((*env)->pwd));
-		free((*env)->pwd);
 		(*env)->pwd = ft_strdup_del(getcwd(NULL, 0));
 		change_value_env(env, "PWD", ft_strdup((*env)->pwd));
 		return (1);

@@ -49,6 +49,8 @@ static void	handle_input(t_token **cmd, char *str, t_env *env)
 				signal(SIGQUIT, SIG_IGN);
 			}
 		}
+		else
+			free(str);
 	}
 }
 

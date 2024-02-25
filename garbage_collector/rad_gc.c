@@ -38,7 +38,7 @@ static void	rad_free(t_gc **gc, int type)
 
 	if (!type)
 	{
-		while ((*gc)->next)
+		while (*gc && (*gc)->next)
 			*gc = (*gc)->next;
 		while ((*gc))
 		{
